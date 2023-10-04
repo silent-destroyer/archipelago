@@ -68,4 +68,9 @@ class TestHexQuestShuffle(TunicTestBase):
         self.assertTrue(self.can_reach_location("Fountain Cross Door - Page Pickup"))
 
 
+class TestStartWithSword(TunicTestBase):
+    options = {"start_with_sword": "true"}
 
+    # test if you can reach a location that logically requires just a sword
+    def test_start_with_sword(self):
+        self.assertTrue(self.can_reach_location("Swamp - [South Graveyard] 4 Orange Skulls"))
