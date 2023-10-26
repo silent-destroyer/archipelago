@@ -80,9 +80,10 @@ class TunicOptions(PerGameCommonOptions):
     start_with_sword: StartWithSword
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
+    entrance_rando: EntranceRando
     fool_traps: FoolTraps
     hexagon_quest: HexagonQuest
     hexagon_goal: HexagonGoal
     extra_hexagon_percentage: ExtraHexagonPercentage
     start_inventory_from_pool: StartInventoryPool
-    entrance_rando: EntranceRando
+    

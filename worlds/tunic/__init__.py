@@ -11,7 +11,7 @@ from .ER_Portals import pair_portals, create_randomized_entrances
 from .Options import TunicOptions
 from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
-# import Utils
+
 
 
 class TunicWeb(WebWorld):
@@ -163,8 +163,7 @@ class TunicWorld(World):
 
     def set_rules(self) -> None:
         self.ability_unlocks = randomize_ability_unlocks(self.random, self.options)
-        entrance_rando = self.options.entrance_rando.value
-        if entrance_rando:
+        if self.options.entrance_rando:
             create_static_cxns(self, self.ability_unlocks)
             set_er_location_rules(self, self.ability_unlocks)
         else:
@@ -175,10 +174,6 @@ class TunicWorld(World):
         return self.random.choice(filler_items)
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        # state = self.multiworld.get_all_state(False)
-        # state.update_reachable_regions(self.player)
-        # Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), "tunic.puml",
-        #                         show_entrance_names=True, highlight_regions=state.reachable_regions[self.player])
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword.value,

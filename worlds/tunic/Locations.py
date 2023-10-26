@@ -372,7 +372,6 @@ hexagon_locations: Dict[str, str] = {
 
 location_name_to_id: Dict[str, int] = {name: location_base_id + index for index, name in enumerate(location_table)}
 
-
 def get_loc_group(location_name: str) -> str:
     loc_group = location_table[location_name].location_group
     if loc_group == "region":
