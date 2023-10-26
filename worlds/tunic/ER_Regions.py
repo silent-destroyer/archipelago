@@ -372,6 +372,7 @@ er_static_cxns: List[StaticCxn] = [
   ]
 
 
+# todo: return dict[reigon_name, Region], add them to the multiworld after connections and rules are added
 def create_er_regions(player: int, multiworld: MultiWorld) -> None:
     for region_name in tunic_er_regions:
         region = Region(region_name, player, multiworld)
