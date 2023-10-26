@@ -1,6 +1,9 @@
 from typing import Dict, NamedTuple, List, Set, Tuple
 from .ER_Regions import tunic_er_regions, add_dependent_regions
-
+if TYPE_CHECKING:
+    from . import TunicWorld
+else:
+    TunicWorld = object
 
 class Portal(NamedTuple):
     name: str  # human-readable name
@@ -13,7 +16,7 @@ class Portal(NamedTuple):
     def scene(self) -> str:  # the actual scene name in Tunic
         return tunic_er_regions[self.region].game_scene
 
-    def scene_destination_tag(self) -> str:
+    def scene_destination_tag(self) -> str:  # full, nonchanging name to interpret by the mod
         return self.scene() + ", " + self.destination + "_" + self.tag
 
 
@@ -477,18 +480,12 @@ portal_mapping: List[Portal] = [
 ]
 
 
-# todo: fix world typing, make sure random is being done correctly
 # pairing off portals, starting with dead ends
-def pair_portals(world) -> Dict[Portal, Portal]:
-    # player = world.player
+def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     # separate the portals into dead ends and non-dead ends
     portal_pairs: Dict[Portal, Portal] = {}
     dead_ends: List[Portal] = []
     two_plus: List[Portal] = []
-    # plando_portals = {}
-
-    # if world.plando_connections[player]:
-    #     plando_portals, plando_names = plando_connect(world)
 
     # create separate lists for dead ends and non-dead ends
     for portal in portal_mapping:
@@ -498,7 +495,7 @@ def pair_portals(world) -> Dict[Portal, Portal]:
             two_plus.append(portal)
 
     connected_regions: Set[str] = set()
-    # todo: better start region stuff when actually doing random spawn location
+    # todo: better start region when/if implementing random start
     start_region = "Overworld"
     connected_regions.update(add_dependent_regions(start_region))
 
@@ -529,7 +526,7 @@ def pair_portals(world) -> Dict[Portal, Portal]:
         if check_success == 1:
             for portal in two_plus:
                 if portal.region in connected_regions:
-                    # if there's risk of self-locking, start over
+                    # if there's risk of self-locking, shuffle and try again
                     if lock_before_key(portal, two_plus):
                         world.random.shuffle(two_plus)
                         break
@@ -581,8 +578,8 @@ def pair_portals(world) -> Dict[Portal, Portal]:
     return portal_pairs
 
 
-# todo: figure out how the hell to get this to work
-def plando_connect(world) -> Tuple[Dict[Portal, Portal], Set[str]]:
+# todo: get this to work after 2170 is merged
+def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
     player = world.player
     plando_pairs = {}
     plando_names = set()
@@ -615,8 +612,7 @@ def plando_connect(world) -> Tuple[Dict[Portal, Portal], Set[str]]:
 
 
 # loop through our list of paired portals and make two-way connections
-# todo: fix typing on world
-def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], world) -> None:
+def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], world: TunicWorld) -> None:
     for portal1, portal2 in portal_pairs.items():
         region1 = world.multiworld.get_region(portal1.region, world.player)
         region2 = world.multiworld.get_region(portal2.region, world.player)
