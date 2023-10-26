@@ -1,4 +1,4 @@
-from typing import Dict, NamedTuple, List, Set, Tuple
+from typing import Dict, NamedTuple, List, Set, Tuple, TYPE_CHECKING
 from .ER_Regions import tunic_er_regions, add_dependent_regions
 if TYPE_CHECKING:
     from . import TunicWorld
