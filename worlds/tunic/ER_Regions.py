@@ -372,7 +372,6 @@ er_static_cxns: List[StaticCxn] = [
   ]
 
 
-# todo: return dict[reigon_name, Region], add them to the multiworld after connections and rules are added
 def create_er_regions(player: int, multiworld: MultiWorld) -> None:
     for region_name in tunic_er_regions:
         region = Region(region_name, player, multiworld)
@@ -382,7 +381,6 @@ def create_er_regions(player: int, multiworld: MultiWorld) -> None:
 # create the static connections between the more granular regions
 def create_static_cxns(world: TunicWorld, ability_unlocks: Dict[str, int]) -> None:
     for cxn in er_static_cxns:
-        # todo: figure out if there's a good way to keep the reference to the Regions to avoid get_region
         multiworld = world.multiworld
         player = world.player
         origin_region = multiworld.get_region(cxn.origin, player)

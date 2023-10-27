@@ -13,7 +13,6 @@ from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
 
 
-
 class TunicWeb(WebWorld):
     tutorials = [
         Tutorial(

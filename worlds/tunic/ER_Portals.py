@@ -5,6 +5,7 @@ if TYPE_CHECKING:
 else:
     TunicWorld = object
 
+
 class Portal(NamedTuple):
     name: str  # human-readable name
     region: str  # AP region
