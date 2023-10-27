@@ -576,6 +576,9 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     if len(two_plus) == 1:
         raise Exception("two plus had an odd number of portals, investigate this")
 
+    for portal1, portal2 in portal_pairs.items():
+        world.multiworld.spoiler.set_entrance(portal1.name, portal2.name, "both", world.player)
+    
     return portal_pairs
 
 
