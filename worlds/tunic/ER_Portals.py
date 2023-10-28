@@ -247,7 +247,7 @@ portal_mapping: List[Portal] = [
            destination="Transit", tag="teleporter_library teleporter"),
     Portal(name="Upper Library to Librarian", region="Library Lab",
            destination="Library Arena", tag=""),
-    Portal(name="Library Librarian Arena Exit", region="Library Arena",
+    Portal(name="Librarian Arena Exit", region="Library Arena",
            destination="Library Lab", tag="",
            dead_end=True),
     Portal(name="Forest to Belltower", region="East Forest",
