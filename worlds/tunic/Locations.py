@@ -88,7 +88,7 @@ location_table: Dict[str, TunicLocationData] = {
     "Forest Grave Path - Upper Walkway": TunicLocationData("East Forest", "Forest Grave Path Upper"),
     "Forest Grave Path - Sword Pickup": TunicLocationData("East Forest", "Forest Grave Path by Grave"),
     "Hero's Grave - Tooth Relic": TunicLocationData("East Forest", "Hero Relic - East Forest"),
-    "Fortress Courtyard - From East Belltower": TunicLocationData("East Forest", "Fortress Exterior from East Forest"),  # todo: fix name
+    "Fortress Courtyard - From East Belltower": TunicLocationData("East Forest", "Fortress Exterior from East Forest"),
     "Fortress Leaf Piles - Secret Chest": TunicLocationData("Eastern Vault Fortress", "Fortress Leaf Piles"),
     "Fortress Arena - Hexagon Red": TunicLocationData("Eastern Vault Fortress", "Fortress Arena"),
     "Fortress Arena - Siege Engine/Vault Key Pickup": TunicLocationData("Eastern Vault Fortress", "Fortress Arena"),
