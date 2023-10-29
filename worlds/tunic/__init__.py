@@ -10,7 +10,6 @@ from .ER_Scripts import create_er_regions
 from .Options import TunicOptions
 from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
-import Utils
 
 
 class TunicWeb(WebWorld):
@@ -161,10 +160,6 @@ class TunicWorld(World):
         return self.random.choice(filler_items)
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        state = self.multiworld.get_all_state(False)
-        state.update_reachable_regions(self.player)
-        Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), "tunic_er.puml",
-                                show_entrance_names=True, highlight_regions=state.reachable_regions[self.player])
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword.value,
