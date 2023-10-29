@@ -6,11 +6,11 @@ from .Locations import location_table, location_name_groups, location_name_to_id
 from .Rules import set_location_rules, set_region_rules, randomize_ability_unlocks, gold_hexagon
 from .ER_Rules import set_er_location_rules
 from .Regions import tunic_regions
-from .ER_Regions import tunic_er_regions, create_er_regions, create_static_cxns
-from .ER_Portals import pair_portals, create_randomized_entrances
+from .ER_Scripts import create_er_regions
 from .Options import TunicOptions
 from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
+import Utils
 
 
 class TunicWeb(WebWorld):
@@ -45,7 +45,7 @@ class TunicWorld(World):
     game = "Tunic"
     web = TunicWeb()
 
-    data_version = 1
+    data_version = 2
     options: TunicOptions
     options_dataclass = TunicOptions
     item_name_groups = item_name_groups
@@ -127,11 +127,9 @@ class TunicWorld(World):
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}
-        entrance_rando = self.options.entrance_rando.value
-        if entrance_rando:
-            portal_pairs = pair_portals(self)
-            create_er_regions(self.player, self.multiworld)
-            create_randomized_entrances(portal_pairs, self)
+        self.ability_unlocks = randomize_ability_unlocks(self.random, self.options)
+        if self.options.entrance_rando:
+            portal_pairs = create_er_regions(self)
             for portal1, portal2 in portal_pairs.items():
                 self.tunic_portal_pairs[portal1.scene_destination_tag()] = portal2.scene_destination_tag()
         else:
@@ -143,29 +141,19 @@ class TunicWorld(World):
                 region = self.multiworld.get_region(region_name, self.player)
                 region.add_exits(exits)
 
-        for location_name, location_id in self.location_name_to_id.items():
-            if entrance_rando:
-                region = self.multiworld.get_region(location_table[location_name].er_region, self.player)
-            else:
+            for location_name, location_id in self.location_name_to_id.items():
                 region = self.multiworld.get_region(location_table[location_name].region, self.player)
-            location = TunicLocation(self.player, location_name, location_id, region)
-            region.locations.append(location)
+                location = TunicLocation(self.player, location_name, location_id, region)
+                region.locations.append(location)
 
-        if entrance_rando:
-            victory_region = self.multiworld.get_region("Spirit Arena Victory", self.player)
-        else:
             victory_region = self.multiworld.get_region("Spirit Arena", self.player)
-        victory_location = TunicLocation(self.player, "The Heir", None, victory_region)
-        victory_location.place_locked_item(TunicItem("Victory", ItemClassification.progression, None, self.player))
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
-        victory_region.locations.append(victory_location)
+            victory_location = TunicLocation(self.player, "The Heir", None, victory_region)
+            victory_location.place_locked_item(TunicItem("Victory", ItemClassification.progression, None, self.player))
+            self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+            victory_region.locations.append(victory_location)
 
     def set_rules(self) -> None:
-        self.ability_unlocks = randomize_ability_unlocks(self.random, self.options)
-        if self.options.entrance_rando:
-            create_static_cxns(self, self.ability_unlocks)
-            set_er_location_rules(self, self.ability_unlocks)
-        else:
+        if not self.options.entrance_rando:
             set_region_rules(self, self.options, self.ability_unlocks)
             set_location_rules(self, self.options, self.ability_unlocks)
 
@@ -173,6 +161,10 @@ class TunicWorld(World):
         return self.random.choice(filler_items)
 
     def fill_slot_data(self) -> Dict[str, Any]:
+        state = self.multiworld.get_all_state(False)
+        state.update_reachable_regions(self.player)
+        Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), "tunic_er.puml",
+                                show_entrance_names=True, highlight_regions=state.reachable_regions[self.player])
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword.value,
