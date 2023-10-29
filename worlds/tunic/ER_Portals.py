@@ -545,12 +545,12 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
 
     # add 6 shops, connect them to unique scenes
     # this is due to a limitation in Tunic -- you wrong warp if there's multiple shops
+    shop_scenes: Set[str] = set()
     for i in range(6):
         portal1 = None
-        shop_scenes = set()
         for portal in two_plus:
-            if portal.scene not in shop_scenes:
-                shop_scenes.add(portal.scene)
+            if portal.scene() not in shop_scenes:
+                shop_scenes.add(portal.scene())
                 portal1 = portal
                 two_plus.remove(portal)
                 break
