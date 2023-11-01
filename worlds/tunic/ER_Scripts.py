@@ -154,7 +154,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
             for portal in two_plus:
                 if portal.region not in connected_regions:
                     # if there's risk of self-locking, start over
-                    if lock_before_key(portal, two_plus):
+                    if gate_before_switch(portal, two_plus):
                         world.random.shuffle(two_plus)
                         break
                     portal1 = portal
@@ -167,7 +167,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
             for portal in two_plus:
                 if portal.region in connected_regions:
                     # if there's risk of self-locking, shuffle and try again
-                    if lock_before_key(portal, two_plus):
+                    if gate_before_switch(portal, two_plus):
                         world.random.shuffle(two_plus)
                         break
                     portal2 = portal
@@ -199,14 +199,14 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
         portal_pairs[portal1] = portal2
 
     # connect dead ends to random non-dead ends
-    # none of the key events are in dead ends, so we don't need to do lock_before_key
+    # none of the key events are in dead ends, so we don't need to do gate_before_switch
     while len(dead_ends) > 0:
         portal1 = two_plus.pop()
         portal2 = dead_ends.pop()
         portal_pairs[portal1] = portal2
 
     # then randomly connect the remaining portals to each other
-    # every region is accessible, so lock_before_key is not necessary
+    # every region is accessible, so gate_before_switch is not necessary
     while len(two_plus) > 1:
         portal1 = two_plus.pop()
         portal2 = two_plus.pop()
@@ -247,7 +247,7 @@ def add_dependent_regions(region_name: str) -> Set[str]:
 
 # we're checking if an event-locked portal is being placed before the regions where its key(s) is/are
 # doing this ensures the keys will not be locked behind the event-locked portal
-def lock_before_key(check_portal: Portal, two_plus: List[Portal]) -> bool:
+def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     # the western belltower cannot be locked since you can access it with laurels
     # so we only need to make sure the forest belltower isn't locked
     if check_portal.scene_destination_tag == "Overworld Redux, Temple_main":
