@@ -195,7 +195,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
                 break
         if portal1 is None:
             raise Exception("Too many shops in the pool, or something else went wrong")
-        portal2 = Portal(name="Shop Portal", region="Shop", destination="Previous Region", tag="")
+        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance {i + 1}", destination="Previous Region", tag="")
         portal_pairs[portal1] = portal2
 
     # connect dead ends to random non-dead ends

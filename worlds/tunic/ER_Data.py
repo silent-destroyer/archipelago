@@ -628,6 +628,12 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Hero Relic - Library": RegionInfo("RelicVoid", True),
     "Hero Relic - Swamp": RegionInfo("RelicVoid", True),
     "Purgatory": RegionInfo("Purgatory"),
+    "Shop Entrance 1": RegionInfo("Shop", True),
+    "Shop Entrance 2": RegionInfo("Shop", True),
+    "Shop Entrance 3": RegionInfo("Shop", True),
+    "Shop Entrance 4": RegionInfo("Shop", True),
+    "Shop Entrance 5": RegionInfo("Shop", True),
+    "Shop Entrance 6": RegionInfo("Shop", True),
     "Shop": RegionInfo("Shop", True),
     "Spirit Arena": RegionInfo("Spirit Arena", True),
     "Spirit Arena Victory": RegionInfo("Spirit Arena", True)
@@ -836,6 +842,12 @@ er_static_cxns: List[StaticCxn] = [
               reqs=[["Prayer"]],
               region_reqs=["Library Lab"]),
     StaticCxn(origin="Far Shore to Library", destination="Far Shore"),
+    StaticCxn(origin="Shop Entrance 1", destination="Shop"),
+    StaticCxn(origin="Shop Entrance 2", destination="Shop"),
+    StaticCxn(origin="Shop Entrance 3", destination="Shop"),
+    StaticCxn(origin="Shop Entrance 4", destination="Shop"),
+    StaticCxn(origin="Shop Entrance 5", destination="Shop"),
+    StaticCxn(origin="Shop Entrance 6", destination="Shop"),
 ]
 
 
