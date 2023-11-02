@@ -1,9 +1,9 @@
 from typing import Dict, List, Callable, Set, Tuple, TYPE_CHECKING
-from BaseClasses import CollectionState, Region, MultiWorld, ItemClassification, Item, Location
+from BaseClasses import CollectionState, Region, ItemClassification, Item, Location
 from .Locations import location_table
 from .Rules import prayer, holy_cross, has_sword, has_ability, red_hexagon, blue_hexagon, green_hexagon, gold_hexagon
 from .Options import TunicOptions
-from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, dependent_regions, Portal
+from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -94,7 +94,7 @@ def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], wor
         requirements[items_required] = helpers_required
 
     return lambda state: any(all((state.has_all(items_req, player), *[helper for helper in helpers_req],
-                                  *[lambda: er_can_reach(world, region, regions) for region in region_reqs]))
+                                  *[lambda: er_can_reach(region, regions) for region in region_reqs]))
                              for items_req, helpers_req in requirements.items())
 
 
@@ -128,7 +128,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
 
     # create separate lists for dead ends and non-dead ends
     for portal in portal_mapping:
-        if portal.dead_end:
+        if tunic_er_regions[portal.region].dead_end:
             dead_ends.append(portal)
         else:
             two_plus.append(portal)
@@ -139,16 +139,16 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     connected_regions.update(add_dependent_regions(start_region))
 
     # we want to start by making sure every region is accessible
-    non_isolated_regions = set()
+    non_dead_end_regions = set()
     for region_name, region_info in tunic_er_regions.items():
-        if not region_info.isolated:
-            non_isolated_regions.add(region_name)
+        if not region_info.dead_end:
+            non_dead_end_regions.add(region_name)
 
     world.random.shuffle(two_plus)
     check_success = 0
     portal1 = None
     portal2 = None
-    while len(connected_regions) < len(non_isolated_regions):
+    while len(connected_regions) < len(non_dead_end_regions):
         # find a portal in an inaccessible region
         if check_success == 0:
             for portal in two_plus:
@@ -233,15 +233,12 @@ def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dic
             region2.connect(region1, f"{portal2.name} -> {portal1.name}")
 
 
+# loop through the static connections, return regions you can reach from this region
 def add_dependent_regions(region_name: str) -> Set[str]:
-    region_set = set()
-    for origin_regions, destination_regions in dependent_regions.items():
-        if region_name in origin_regions:
-            # if you matched something in the first set, you get the regions in its paired set
-            region_set.update(destination_regions)
-            return region_set
-    # if you didn't match anything in the first sets, just gives you the region
     region_set = {region_name}
+    for cxn in er_static_cxns:
+        if cxn.origin == region_name or (cxn.destination == region_name and cxn.reverse):
+            region_set.add(cxn.destination)
     return region_set
 
 
