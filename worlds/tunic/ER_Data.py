@@ -810,7 +810,7 @@ er_static_cxns: List[StaticCxn] = [
               reqs=[["Prayer"]]),
     StaticCxn(origin="Swamp", destination="Swamp to Cathedral Main Entrance",
               reqs=[["Prayer"]],
-              region_reqs=["Overworld Laurels", "Swamp"], reverse=True),
+              region_reqs=["Overworld Laurels", "Swamp"]),
     StaticCxn(origin="Swamp", destination="Swamp to Cathedral Treasure Room",
               reqs=[["Holy Cross"]]),
     StaticCxn(origin="Swamp to Cathedral Treasure Room", destination="Swamp"),
