@@ -3,7 +3,7 @@ from BaseClasses import CollectionState, Region, MultiWorld, ItemClassification,
 from .Locations import location_table
 from .Rules import prayer, holy_cross, has_sword, has_ability, red_hexagon, blue_hexagon, green_hexagon, gold_hexagon
 from .Options import TunicOptions
-from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, dependent_regions, Portal
+from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal
 
 if TYPE_CHECKING:
     from . import TunicWorld
