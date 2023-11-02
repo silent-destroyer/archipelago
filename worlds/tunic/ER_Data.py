@@ -1,4 +1,4 @@
-from typing import Dict, NamedTuple, List, Tuple
+from typing import Dict, NamedTuple, List
 
 
 class Portal(NamedTuple):

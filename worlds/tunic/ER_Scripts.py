@@ -1,5 +1,5 @@
 from typing import Dict, List, Callable, Set, Tuple, TYPE_CHECKING
-from BaseClasses import CollectionState, Region, MultiWorld, ItemClassification, Item, Location
+from BaseClasses import CollectionState, Region, ItemClassification, Item, Location
 from .Locations import location_table
 from .Rules import prayer, holy_cross, has_sword, has_ability, red_hexagon, blue_hexagon, green_hexagon, gold_hexagon
 from .Options import TunicOptions
@@ -94,7 +94,7 @@ def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], wor
         requirements[items_required] = helpers_required
 
     return lambda state: any(all((state.has_all(items_req, player), *[helper for helper in helpers_req],
-                                  *[lambda: er_can_reach(world, region, regions) for region in region_reqs]))
+                                  *[lambda: er_can_reach(region, regions) for region in region_reqs]))
                              for items_req, helpers_req in requirements.items())
 
 
@@ -235,7 +235,7 @@ def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dic
 
 # loop through the static connections, return regions you can reach from this region
 def add_dependent_regions(region_name: str) -> Set[str]:
-    region_set = {region_name,}
+    region_set = {region_name}
     for cxn in er_static_cxns:
         if cxn.origin == region_name or (cxn.destination == region_name and cxn.reverse):
             region_set.add(cxn.destination)
