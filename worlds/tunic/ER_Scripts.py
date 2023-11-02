@@ -128,7 +128,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
 
     # create separate lists for dead ends and non-dead ends
     for portal in portal_mapping:
-        if portal.dead_end:
+        if tunic_er_regions[portal.region].dead_end:
             dead_ends.append(portal)
         else:
             two_plus.append(portal)
@@ -139,16 +139,16 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     connected_regions.update(add_dependent_regions(start_region))
 
     # we want to start by making sure every region is accessible
-    non_isolated_regions = set()
+    non_dead_end_regions = set()
     for region_name, region_info in tunic_er_regions.items():
-        if not region_info.isolated:
-            non_isolated_regions.add(region_name)
+        if not region_info.dead_end:
+            non_dead_end_regions.add(region_name)
 
     world.random.shuffle(two_plus)
     check_success = 0
     portal1 = None
     portal2 = None
-    while len(connected_regions) < len(non_isolated_regions):
+    while len(connected_regions) < len(non_dead_end_regions):
         # find a portal in an inaccessible region
         if check_success == 0:
             for portal in two_plus:
