@@ -250,7 +250,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     if check_portal.scene_destination_tag == "Overworld Redux, Temple_main":
         i = 0
         for portal in two_plus:
-            if portal.scene_destination_tag == "Forest Belltower, Forest Boss Room_":
+            if portal.region == "Forest Belltower Upper":
                 i += 1
                 break
         if i == 1:
@@ -260,8 +260,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     elif check_portal.scene_destination_tag == "Fortress Main, Fortress Arena_":
         i = j = k = 0
         for portal in two_plus:
-            if portal.scene_destination_tag in {"Fortress Courtyard, Fortress Reliquary_upper",
-                                                "Fortress Courtyard, Fortress East_"}:
+            if portal.region == "Forest Courtyard Upper":
                 i += 1
             if portal.scene == "Fortress Basement":
                 j += 1
