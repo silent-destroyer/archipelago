@@ -3,7 +3,7 @@ from BaseClasses import CollectionState, Region, ItemClassification, Item, Locat
 from .Locations import location_table
 from .Rules import prayer, holy_cross, has_sword, has_ability, red_hexagon, blue_hexagon, green_hexagon, gold_hexagon
 from .Options import TunicOptions
-from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal
+from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal, dependent_regions
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -235,10 +235,14 @@ def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dic
 
 # loop through the static connections, return regions you can reach from this region
 def add_dependent_regions(region_name: str) -> Set[str]:
+    region_set = set()
+    for origin_regions, destination_regions in dependent_regions.items():
+        if region_name in origin_regions:
+            # if you matched something in the first set, you get the regions in its paired set
+            region_set.update(destination_regions)
+            return region_set
+    # if you didn't match anything in the first sets, just gives you the region
     region_set = {region_name}
-    for cxn in er_static_cxns:
-        if cxn.origin == region_name or (cxn.destination == region_name and cxn.reverse):
-            region_set.add(cxn.destination)
     return region_set
 
 

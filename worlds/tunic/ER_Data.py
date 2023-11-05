@@ -1,4 +1,4 @@
-from typing import Dict, NamedTuple, List
+from typing import Dict, NamedTuple, List, Tuple
 
 
 class Portal(NamedTuple):
@@ -818,3 +818,76 @@ er_static_cxns: List[StaticCxn] = [
     StaticCxn(origin="Shop Entrance 5", destination="Shop"),
     StaticCxn(origin="Shop Entrance 6", destination="Shop"),
 ]
+
+
+# key is the region you have, value is the regions you get for having it
+# so that we aren't being excessively careful with the granular regions
+dependent_regions: Dict[Tuple[str, ...], List[str]] = {
+    ("Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Southeast Cross Door", "Overworld Temple Door",
+     "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"):
+         ["Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Ruined Hall Door",
+          "Overworld Southeast Cross Door", "Overworld Old House Door", "Overworld Temple Door",
+          "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"],
+    ("Old House Front",): ["Old House Front", "Old House Back"],
+    ("Furnace Fuse", "Furnace Ladder Area", "Furnace Walking Path"):
+        ["Furnace Fuse", "Furnace Ladder Area", "Furnace Walking Path"],
+    ("Sealed Temple", "Sealed Temple Rafters"): ["Sealed Temple", "Sealed Temple Rafters"],
+    ("Forest Belltower Upper",): ["Forest Belltower Upper", "Forest Belltower Main", "Forest Belltower Lower"],
+    ("Forest Belltower Main",): ["Forest Belltower Main", "Forest Belltower Lower"],
+    ("East Forest", "East Forest Dance Fox Spot", "East Forest Portal"):
+        ["East Forest", "East Forest Dance Fox Spot", "East Forest Portal"],
+    ("Forest Grave Path Main", "Forest Grave Path Upper"):
+        ["Forest Grave Path Main", "Forest Grave Path Upper",
+         "Forest Grave Path by Grave", "Forest Hero's Grave"],
+    ("Forest Grave Path by Grave", "Forest Hero's Grave"):
+        ["Forest Grave Path by Grave", "Forest Hero's Grave"],
+    ("Bottom of the Well Front", "Bottom of the Well Back"): ["Bottom of the Well Front", "Bottom of the Well Back"],
+    ("Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"):
+        ["Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"],
+    ("Dark Tomb Checkpoint", "Well Boss"): ["Dark Tomb Checkpoint", "Well Boss"],
+    ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"):
+        ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"],
+    ("Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"):
+        ["Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"],
+    ("Frog's Domain",): ["Frog's Domain", "Frog's Domain Back"],
+    ("Library Exterior Ladder", "Library Exterior Tree"):
+        ["Library Exterior Ladder", "Library Exterior Tree"],
+    ("Library Hall", "Library Hero's Grave"): ["Library Hall", "Library Hero's Grave"],
+    ("Library Lab", "Library Lab Lower", "Library Portal"): ["Library Lab", "Library Lab Lower", "Library Portal"],
+    ("Fortress Courtyard Upper",):
+        ["Fortress Courtyard Upper", "Fortress Exterior from East Forest", "Fortress Exterior from Overworld",
+         "Fortress Exterior near cave", "Fortress Courtyard"],
+    ("Fortress Exterior from East Forest", "Fortress Exterior from Overworld",
+     "Fortress Exterior near cave", "Fortress Courtyard"):
+        ["Fortress Exterior from East Forest", "Fortress Exterior from Overworld",
+         "Fortress Exterior near cave", "Fortress Courtyard"],
+    ("Beneath the Vault Front", "Beneath the Vault Back"): ["Beneath the Vault Front", "Beneath the Vault Back"],
+    ("Fortress East Shortcut Upper",): ["Fortress East Shortcut Upper", "Fortress East Shortcut Lower"],
+    ("Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"):
+        ["Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"],
+    ("Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"):
+        ["Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
+    ("Fortress Arena", "Fortress Arena Portal"): ["Fortress Arena", "Fortress Arena Portal"],
+    ("Lower Mountain", "Lower Mountain Stairs"): ["Lower Mountain", "Lower Mountain Stairs"],
+    ("Monastery Front", "Monastery Back", "Monastery Hero's Grave"):
+        ["Monastery Front", "Monastery Back", "Monastery Hero's Grave"],
+    ("Quarry", "Quarry Portal", "Lower Quarry"): ["Quarry", "Quarry Portal", "Lower Quarry", "Lower Quarry Zig Door"],
+    ("Monastery Rope",): ["Monastery Rope", "Quarry", "Quarry Portal", "Lower Quarry", "Lower Quarry Zig Door"],
+    ("Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"):
+        ["Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"],
+    ("Rooted Ziggurat Middle Top",): ["Rooted Ziggurat Middle Top", "Rooted Ziggurat Middle Bottom"],
+    ("Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"):
+        ["Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"],
+    ("Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"):
+        ["Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"],
+    ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"):
+        ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"],
+    ("Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
+        ["Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"],
+    ("Cathedral Gauntlet Checkpoint",):
+        ["Cathedral Gauntlet Checkpoint", "Cathedral Gauntlet Exit", "Cathedral Gauntlet"],
+    ("Far Shore", "Far Shore to Spawn", "Far Shore to East Forest", "Far Shore to Quarry",
+     "Far Shore to Fortress", "Far Shore to Library", "Far Shore to West Garden"):
+        ["Far Shore", "Far Shore to Spawn", "Far Shore to East Forest", "Far Shore to Quarry",
+         "Far Shore to Fortress", "Far Shore to Library", "Far Shore to West Garden"]
+}
