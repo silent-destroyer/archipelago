@@ -477,17 +477,17 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Overworld Spawn Portal": RegionInfo("Overworld Redux"),
     "Stick House": RegionInfo("Sword Cave", dead_end=True, hint=Hint.region),
     "Windmill": RegionInfo("Windmill"),
-    "Old House Back": RegionInfo("Overworld Interiors", hint=Hint.scene),  # part with the hc door
-    "Old House Front": RegionInfo("Overworld Interiors", hint=Hint.region),  # part with the bedroom
+    "Old House Back": RegionInfo("Overworld Interiors"),  # part with the hc door
+    "Old House Front": RegionInfo("Overworld Interiors"),  # part with the bedroom
     "Relic Tower": RegionInfo("g_elements", dead_end=True),
-    "Furnace Fuse": RegionInfo("Furnace", hint=Hint.scene),  # top of the furnace
-    "Furnace Ladder Area": RegionInfo("Furnace", hint=Hint.scene),  # the two portals accessible by the ladder
-    "Furnace Walking Path": RegionInfo("Furnace", hint=Hint.scene),  # dark tomb to west garden
+    "Furnace Fuse": RegionInfo("Furnace"),  # top of the furnace
+    "Furnace Ladder Area": RegionInfo("Furnace"),  # the two portals accessible by the ladder
+    "Furnace Walking Path": RegionInfo("Furnace"),  # dark tomb to west garden
     "Secret Gathering Place": RegionInfo("Waterfall", dead_end=True, hint=Hint.region),
     "Changing Room": RegionInfo("Changing Room", dead_end=True, hint=Hint.region),
     "Patrol Cave": RegionInfo("PatrolCave", dead_end=True, hint=Hint.region),
     "Ruined Shop": RegionInfo("Ruined Shop", dead_end=True, hint=Hint.region),
-    "Ruined Passage": RegionInfo("Ruins Passage", hint=Hint.region),
+    "Ruined Passage": RegionInfo("Ruins Passage"),
     "Special Shop": RegionInfo("ShopSpecial", dead_end=True, hint=Hint.region),
     "Caustic Light Cave": RegionInfo("Overworld Cave", dead_end=True, hint=Hint.region),
     "Maze Cave": RegionInfo("Maze Room", dead_end=True, hint=Hint.region),
@@ -498,26 +498,26 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Sealed Temple": RegionInfo("Temple", hint=Hint.scene),
     "Sealed Temple Rafters": RegionInfo("Temple", hint=Hint.scene),
     "Forest Belltower Upper": RegionInfo("Forest Belltower", hint=Hint.region),
-    "Forest Belltower Main": RegionInfo("Forest Belltower", hint=Hint.special),
-    "Forest Belltower Lower": RegionInfo("Forest Belltower", hint=Hint.scene),
+    "Forest Belltower Main": RegionInfo("Forest Belltower"),
+    "Forest Belltower Lower": RegionInfo("Forest Belltower"),
     "East Forest": RegionInfo("East Forest Redux"),
     "East Forest Dance Fox Spot": RegionInfo("East Forest Redux"),
     "East Forest Portal": RegionInfo("East Forest Redux"),
-    "Guard House 1 East": RegionInfo("East Forest Redux Laddercave", hint=Hint.scene),
-    "Guard House 1 West": RegionInfo("East Forest Redux Laddercave", hint=Hint.scene),
-    "Guard House 2": RegionInfo("East Forest Redux Interior", hint=Hint.region),
+    "Guard House 1 East": RegionInfo("East Forest Redux Laddercave"),
+    "Guard House 1 West": RegionInfo("East Forest Redux Laddercave"),
+    "Guard House 2": RegionInfo("East Forest Redux Interior"),
     "Forest Boss Room": RegionInfo("Forest Boss Room"),
-    "Forest Grave Path Main": RegionInfo("Sword Access", hint=Hint.special),
-    "Forest Grave Path Upper": RegionInfo("Sword Access", hint=Hint.special),
-    "Forest Grave Path by Grave": RegionInfo("Sword Access", hint=Hint.scene),
+    "Forest Grave Path Main": RegionInfo("Sword Access"),
+    "Forest Grave Path Upper": RegionInfo("Sword Access"),
+    "Forest Grave Path by Grave": RegionInfo("Sword Access"),
     "Forest Hero's Grave": RegionInfo("Sword Access"),
-    "Dark Tomb Entry Point": RegionInfo("Crypt Redux", hint=Hint.scene),  # both upper exits
-    "Dark Tomb Main": RegionInfo("Crypt Redux", hint=Hint.scene),
+    "Dark Tomb Entry Point": RegionInfo("Crypt Redux"),  # both upper exits
+    "Dark Tomb Main": RegionInfo("Crypt Redux"),
     "Dark Tomb Dark Exit": RegionInfo("Crypt Redux"),
-    "Dark Tomb Checkpoint": RegionInfo("Sewer_Boss", hint=Hint.scene),  # can laurels backwards
-    "Well Boss": RegionInfo("Sewer_Boss", hint=Hint.scene),  # can walk through (with bombs at least)
-    "Bottom of the Well Front": RegionInfo("Sewer", hint=Hint.scene),
-    "Bottom of the Well Back": RegionInfo("Sewer", hint=Hint.scene),
+    "Dark Tomb Checkpoint": RegionInfo("Sewer_Boss"),  # can laurels backwards
+    "Well Boss": RegionInfo("Sewer_Boss"),  # can walk through (with bombs at least)
+    "Bottom of the Well Front": RegionInfo("Sewer"),
+    "Bottom of the Well Back": RegionInfo("Sewer"),
     "West Garden": RegionInfo("Archipelagos Redux"),
     "Magic Dagger House": RegionInfo("archipelagos_house", dead_end=True, hint=Hint.region),
     "West Garden Portal Area": RegionInfo("Archipelagos Redux", dead_end=True, hint=Hint.region),
@@ -533,10 +533,10 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Frog's Domain Back": RegionInfo("frog cave main", hint=Hint.scene),
     "Library Exterior Tree": RegionInfo("Library Exterior"),
     "Library Exterior Ladder": RegionInfo("Library Exterior"),
-    "Library Hall": RegionInfo("Library Hall", hint=Hint.scene),
+    "Library Hall": RegionInfo("Library Hall"),
     "Library Hero's Grave": RegionInfo("Library Hall"),
     "Library Rotunda": RegionInfo("Library Rotunda"),
-    "Library Lab": RegionInfo("Library Lab", hint=Hint.scene),
+    "Library Lab": RegionInfo("Library Lab"),
     "Library Lab Lower": RegionInfo("Library Lab"),
     "Library Portal": RegionInfo("Library Lab"),
     "Library Arena": RegionInfo("Library Arena", dead_end=True, hint=Hint.region),
@@ -550,46 +550,46 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Eastern Vault Fortress": RegionInfo("Fortress Main"),
     "Eastern Vault Fortress Gold Door": RegionInfo("Fortress Main"),
     "Fortress East Shortcut Upper": RegionInfo("Fortress East"),
-    "Fortress East Shortcut Lower": RegionInfo("Fortress East", hint=Hint.scene),
-    "Fortress Grave Path": RegionInfo("Fortress Reliquary", hint=Hint.region),
+    "Fortress East Shortcut Lower": RegionInfo("Fortress East"),
+    "Fortress Grave Path": RegionInfo("Fortress Reliquary"),
     "Fortress Grave Path Upper": RegionInfo("Fortress Reliquary", dead_end=True, hint=Hint.region),
     "Fortress Grave Path Dusty Entrance": RegionInfo("Fortress Reliquary"),
     "Fortress Hero's Grave": RegionInfo("Fortress Reliquary"),
     "Fortress Leaf Piles": RegionInfo("Dusty", dead_end=True, hint=Hint.region),
-    "Fortress Arena": RegionInfo("Fortress Arena", hint=Hint.scene),
+    "Fortress Arena": RegionInfo("Fortress Arena"),
     "Fortress Arena Portal": RegionInfo("Fortress Arena"),
-    "Lower Mountain": RegionInfo("Mountain", hint=Hint.scene),
+    "Lower Mountain": RegionInfo("Mountain"),
     "Lower Mountain Stairs": RegionInfo("Mountain"),
     "Top of the Mountain": RegionInfo("Mountaintop", dead_end=True, hint=Hint.region),
     "Quarry Connector": RegionInfo("Darkwoods Tunnel"),
     "Quarry": RegionInfo("Quarry Redux"),
     "Quarry Portal": RegionInfo("Quarry Redux"),
     "Monastery Front": RegionInfo("Monastery"),
-    "Monastery Back": RegionInfo("Monastery", hint=Hint.scene),
+    "Monastery Back": RegionInfo("Monastery"),
     "Monastery Hero's Grave": RegionInfo("Monastery"),
     "Monastery Rope": RegionInfo("Quarry Redux"),
     "Lower Quarry": RegionInfo("Quarry Redux"),
     "Lower Quarry Zig Door": RegionInfo("Quarry Redux"),
     "Rooted Ziggurat Entry": RegionInfo("ziggurat2020_0"),
-    "Rooted Ziggurat Upper Front": RegionInfo("ziggurat2020_1", hint=Hint.scene),
-    "Rooted Ziggurat Upper Back": RegionInfo("ziggurat2020_1", hint=Hint.scene),  # after the administrator
-    "Rooted Ziggurat Middle Top": RegionInfo("ziggurat2020_2", hint=Hint.region),
+    "Rooted Ziggurat Upper Front": RegionInfo("ziggurat2020_1"),
+    "Rooted Ziggurat Upper Back": RegionInfo("ziggurat2020_1"),  # after the administrator
+    "Rooted Ziggurat Middle Top": RegionInfo("ziggurat2020_2"),
     "Rooted Ziggurat Middle Bottom": RegionInfo("ziggurat2020_2"),
-    "Rooted Ziggurat Lower Front": RegionInfo("ziggurat2020_3", hint=Hint.scene),  # the vanilla entry point side
-    "Rooted Ziggurat Lower Back": RegionInfo("ziggurat2020_3", hint=Hint.scene),  # the boss side
+    "Rooted Ziggurat Lower Front": RegionInfo("ziggurat2020_3"),  # the vanilla entry point side
+    "Rooted Ziggurat Lower Back": RegionInfo("ziggurat2020_3"),  # the boss side
     "Rooted Ziggurat Portal Room Entrance": RegionInfo("ziggurat2020_3"),  # the door itself on the zig 3 side
     "Rooted Ziggurat Portal": RegionInfo("ziggurat2020_FTRoom"),
     "Rooted Ziggurat Portal Room Exit": RegionInfo("ziggurat2020_FTRoom"),
-    "Swamp": RegionInfo("Swamp Redux 2", hint=Hint.special),
+    "Swamp": RegionInfo("Swamp Redux 2"),
     "Swamp to Cathedral Treasure Room": RegionInfo("Swamp Redux 2"),
     "Swamp to Cathedral Main Entrance": RegionInfo("Swamp Redux 2"),
-    "Back of Swamp": RegionInfo("Swamp Redux 2", hint=Hint.special),  # the area with hero grave and gauntlet entrance
+    "Back of Swamp": RegionInfo("Swamp Redux 2"),  # the area with hero grave and gauntlet entrance
     "Swamp Hero's Grave": RegionInfo("Swamp Redux 2"),
-    "Back of Swamp Laurels Area": RegionInfo("Swamp Redux 2", hint=Hint.special),  # the spots you need laurels to traverse
-    "Cathedral": RegionInfo("Cathedral Redux", hint=Hint.region),
+    "Back of Swamp Laurels Area": RegionInfo("Swamp Redux 2"),  # the spots you need laurels to traverse
+    "Cathedral": RegionInfo("Cathedral Redux"),
     "Cathedral Secret Legend Room": RegionInfo("Cathedral Redux", dead_end=True, hint=Hint.region),
     "Cathedral Gauntlet Checkpoint": RegionInfo("Cathedral Arena"),
-    "Cathedral Gauntlet": RegionInfo("Cathedral Arena", hint=Hint.scene),
+    "Cathedral Gauntlet": RegionInfo("Cathedral Arena"),
     "Cathedral Gauntlet Exit": RegionInfo("Cathedral Arena"),
     "Far Shore": RegionInfo("Transit"),
     "Far Shore to Spawn": RegionInfo("Transit"),
