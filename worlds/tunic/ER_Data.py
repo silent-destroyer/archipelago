@@ -1,4 +1,5 @@
-from typing import Dict, NamedTuple, List, Tuple, IntEnum
+from typing import Dict, NamedTuple, List, Tuple
+from enum import IntEnum
 
 
 class Portal(NamedTuple):
