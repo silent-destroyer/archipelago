@@ -21,16 +21,33 @@ class TunicERLocation(Location):
 
 def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
     regions: Dict[str, Region] = {}
-    for region_name in tunic_er_regions:
-        regions[region_name] = Region(region_name, world.player, world.multiworld)
+    portal_pairs: Dict[Portal, Portal] = pair_portals(world)
+
+    # create our regions, give them hint text if they're in a spot where it makes sense to
+    # todo: maybe pick a specific entrance for certain regions?
+    for region_name, region_data in tunic_er_regions.items():
+        if region_data.hint:
+            hint_text = "error"
+            for portal1, portal2 in portal_pairs.items():
+                if portal1.region == region_name:
+                    hint_text = portal2.name
+                    break
+                if portal2.region == region_name:
+                    hint_text = portal1.name
+                    break
+            regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+            if hint_text == "error":
+                print("hint text is error, something went wrong with " + region_name)
+        else:
+            regions[region_name] = Region(region_name, world.player, world.multiworld)
+            
     create_static_cxns(world, regions, world.ability_unlocks)
 
     for location_name, location_id in world.location_name_to_id.items():
         region = regions[location_table[location_name].er_region]
         location = TunicERLocation(world.player, location_name, location_id, region)
         region.locations.append(location)
-
-    portal_pairs = pair_portals(world)
+    
     create_randomized_entrances(portal_pairs, regions)
 
     for region in regions.values():
