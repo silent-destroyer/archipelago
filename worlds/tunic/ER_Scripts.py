@@ -24,7 +24,9 @@ def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
     portal_pairs: Dict[Portal, Portal] = pair_portals(world)
 
     # create our regions, give them hint text if they're in a spot where it makes sense to
-    # todo: maybe pick a specific entrance for certain regions?
+    # todo: special behavior for certain portals, ie: if it's a dead end continue
+    # or if it's like, sealed temple front door is a dead end, use the rafters
+    # maybe like an intenum or w/e it's called for if you use the region or scene?
     for region_name, region_data in tunic_er_regions.items():
         if region_data.hint:
             hint_text = "error"
