@@ -130,7 +130,7 @@ class TunicWorld(World):
         if self.options.entrance_rando:
             portal_pairs = create_er_regions(self)
             for portal1, portal2 in portal_pairs.items():
-                self.tunic_portal_pairs[portal1.scene_destination_tag()] = portal2.scene_destination_tag()
+                self.tunic_portal_pairs[portal1.scene_destination()] = portal2.scene_destination()
         else:
             for region_name in tunic_regions:
                 region = Region(region_name, self.player, self.multiworld)
