@@ -28,7 +28,7 @@ def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
     # or if it's like, sealed temple front door is a dead end, use the rafters
     # maybe like an intenum or w/e it's called for if you use the region or scene?
     for region_name, region_data in tunic_er_regions.items():
-        if region_data.hint:
+        if region_data.hint == 1:
             hint_text = "error"
             for portal1, portal2 in portal_pairs.items():
                 if portal1.region == region_name:
@@ -40,15 +40,29 @@ def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
             if hint_text == "error":
                 print("hint text is error, something went wrong with " + region_name)
+        elif region_data.hint == 2:
+            hint_text = "error 2"
+            for portal1, portal2 in portal_pairs.items():
+                if portal1.scene == tunic_er_regions[region_name].game_scene:
+                    hint_text = portal2.name
+                    break
+                if portal2.region == tunic_er_regions[region_name].game_scene:
+                    hint_text = portal1.name
+                    break
+            regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+            if hint_text == "error 2":
+                print("hint text is error 2, something went wrong with " + region_name)
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
             
     create_static_cxns(world, regions, world.ability_unlocks)
 
+    er_hint_data: Dict[int, str] = {}
     for location_name, location_id in world.location_name_to_id.items():
         region = regions[location_table[location_name].er_region]
         location = TunicERLocation(world.player, location_name, location_id, region)
         region.locations.append(location)
+        er_hint_data[location.address] = region.hint
     
     create_randomized_entrances(portal_pairs, regions)
 
