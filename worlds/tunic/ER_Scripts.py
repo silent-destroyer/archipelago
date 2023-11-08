@@ -195,7 +195,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
                 break
         if portal1 is None:
             raise Exception("Too many shops in the pool, or something else went wrong")
-        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance {i + 1}", destination="Previous Region", tag="")
+        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance {i + 1}", destination="Previous Region_")
         portal_pairs[portal1] = portal2
 
     # connect dead ends to random non-dead ends
@@ -251,7 +251,7 @@ def add_dependent_regions(region_name: str) -> Set[str]:
 def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     # the western belltower cannot be locked since you can access it with laurels
     # so we only need to make sure the forest belltower isn't locked
-    if check_portal.scene_destination_tag == "Overworld Redux, Temple_main":
+    if check_portal.scene_destination == "Overworld Redux, Temple_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Forest Belltower Upper":
@@ -261,7 +261,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress big gold door needs 2 scenes and one of the two upper portals of the courtyard
-    elif check_portal.scene_destination_tag == "Fortress Main, Fortress Arena_":
+    elif check_portal.scene_destination == "Fortress Main, Fortress Arena_":
         i = j = k = 0
         for portal in two_plus:
             if portal.region == "Forest Courtyard Upper":
@@ -274,7 +274,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress teleporter needs only the left fuses
-    elif check_portal.scene_destination_tag in {"Fortress Arena, Transit_teleporter_spidertank",
+    elif check_portal.scene_destination in {"Fortress Arena, Transit_teleporter_spidertank",
                                                 "Transit, Fortress Arena_teleporter_spidertank"}:
         i = j = k = 0
         for portal in two_plus:
@@ -289,7 +289,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Cathedral door needs Overworld and the front of Swamp
     # Overworld is currently guaranteed, so no need to check it
-    elif check_portal.scene_destination_tag == "Swamp Redux 2, Cathedral Redux_main":
+    elif check_portal.scene_destination == "Swamp Redux 2, Cathedral Redux_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Swamp":
@@ -298,7 +298,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Zig portal room exit needs Zig 3 to be accessible to hit the fuse
-    elif check_portal.scene_destination_tag == "ziggurat2020_FTRoom, ziggurat2020_3":
+    elif check_portal.scene_destination == "ziggurat2020_FTRoom, ziggurat2020_3":
         i = 0
         for portal in two_plus:
             if portal.scene == "ziggurat2020_3":
@@ -308,7 +308,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Quarry teleporter needs you to hit the Darkwoods fuse
     # Since it's physically in Quarry, we don't need to check for it
-    elif check_portal.scene_destination_tag == "Quarry Redux, Transit_teleporter_quarry teleporter":
+    elif check_portal.scene_destination == "Quarry Redux, Transit_teleporter_quarry teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Darkwoods Tunnel":
@@ -317,7 +317,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Same as above, but Quarry isn't guaranteed here
-    elif check_portal.scene_destination_tag == "Transit, Quarry Redux_teleporter_quarry teleporter":
+    elif check_portal.scene_destination == "Transit, Quarry Redux_teleporter_quarry teleporter":
         i = j = 0
         for portal in two_plus:
             if portal.scene == "Darkwoods Tunnel":
@@ -328,7 +328,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Need Library fuse to use this teleporter
-    elif check_portal.scene_destination_tag == "Transit, Library Lab_teleporter_library teleporter":
+    elif check_portal.scene_destination == "Transit, Library Lab_teleporter_library teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Library Lab":
@@ -337,7 +337,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Need West Garden fuse to use this teleporter
-    elif check_portal.scene_destination_tag == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
+    elif check_portal.scene_destination == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Archipelagos Redux":
