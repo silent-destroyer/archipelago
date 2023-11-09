@@ -56,6 +56,7 @@ class TunicWorld(World):
     ability_unlocks: Dict[str, int]
     slot_data_items: List[TunicItem]
     tunic_portal_pairs: Dict[str, str]
+    er_portal_hints: Dict[int, str]
 
     def generate_early(self) -> None:
         if self.options.start_with_sword.value and "Sword" not in self.options.start_inventory:
@@ -126,11 +127,14 @@ class TunicWorld(World):
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}
+        self.er_portal_hints = {}
         self.ability_unlocks = randomize_ability_unlocks(self.random, self.options)
         if self.options.entrance_rando:
-            portal_pairs = create_er_regions(self)
+            portal_pairs, portal_hints = create_er_regions(self)
             for portal1, portal2 in portal_pairs.items():
-                self.tunic_portal_pairs[portal1.scene_destination_tag()] = portal2.scene_destination_tag()
+                self.tunic_portal_pairs[portal1.scene_destination()] = portal2.scene_destination()
+            self.er_portal_hints = portal_hints
+
         else:
             for region_name in tunic_regions:
                 region = Region(region_name, self.player, self.multiworld)
@@ -158,6 +162,10 @@ class TunicWorld(World):
 
     def get_filler_item_name(self) -> str:
         return self.random.choice(filler_items)
+
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
+        if self.options.entrance_rando:
+            hint_data[self.player] = self.er_portal_hints
 
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data: Dict[str, Any] = {

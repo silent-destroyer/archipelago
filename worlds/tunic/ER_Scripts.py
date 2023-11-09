@@ -19,24 +19,52 @@ class TunicERLocation(Location):
     game: str = "Tunic"
 
 
-def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
+def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int, str]]:
     regions: Dict[str, Region] = {}
-    for region_name in tunic_er_regions:
-        regions[region_name] = Region(region_name, world.player, world.multiworld)
+    portal_pairs: Dict[Portal, Portal] = pair_portals(world)
+
+    # create our regions, give them hint text if they're in a spot where it makes sense to
+    for region_name, region_data in tunic_er_regions.items():
+        if region_data.hint:
+            hint_text = "error"
+            if region_data.hint == 1:
+                for portal1, portal2 in portal_pairs.items():
+                    if portal1.region == region_name:
+                        hint_text = portal2.name
+                        break
+                    if portal2.region == region_name:
+                        hint_text = portal1.name
+                        break
+            elif region_data.hint == 2:
+                hint_text = "error 2"
+                for portal1, portal2 in portal_pairs.items():
+                    if portal1.scene() == tunic_er_regions[region_name].game_scene:
+                        hint_text = portal2.name
+                        break
+                    if portal2.scene() == tunic_er_regions[region_name].game_scene:
+                        hint_text = portal1.name
+                        break
+            regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+        else:
+            regions[region_name] = Region(region_name, world.player, world.multiworld)
+            
     create_static_cxns(world, regions, world.ability_unlocks)
 
+    er_hint_data: Dict[int, str] = {}
     for location_name, location_id in world.location_name_to_id.items():
         region = regions[location_table[location_name].er_region]
         location = TunicERLocation(world.player, location_name, location_id, region)
         region.locations.append(location)
-
-    portal_pairs = pair_portals(world)
+        er_hint_data[location.address] = region.hint_text
+    
     create_randomized_entrances(portal_pairs, regions)
 
     for region in regions.values():
         world.multiworld.regions.append(region)
 
-    return portal_pairs
+    portals_and_hints = (portal_pairs, er_hint_data)
+
+    return portals_and_hints
 
 ######################
 # Static Connections #
@@ -134,7 +162,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
             two_plus.append(portal)
 
     connected_regions: Set[str] = set()
-    # todo: better start region when/if implementing random start
+    # make better start region stuff when/if implementing random start
     start_region = "Overworld"
     connected_regions.update(add_dependent_regions(start_region))
 
@@ -195,7 +223,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
                 break
         if portal1 is None:
             raise Exception("Too many shops in the pool, or something else went wrong")
-        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance {i + 1}", destination="Previous Region", tag="")
+        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance {i + 1}", destination="Previous Region_")
         portal_pairs[portal1] = portal2
 
     # connect dead ends to random non-dead ends
@@ -251,7 +279,7 @@ def add_dependent_regions(region_name: str) -> Set[str]:
 def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     # the western belltower cannot be locked since you can access it with laurels
     # so we only need to make sure the forest belltower isn't locked
-    if check_portal.scene_destination_tag == "Overworld Redux, Temple_main":
+    if check_portal.scene_destination == "Overworld Redux, Temple_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Forest Belltower Upper":
@@ -261,7 +289,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress big gold door needs 2 scenes and one of the two upper portals of the courtyard
-    elif check_portal.scene_destination_tag == "Fortress Main, Fortress Arena_":
+    elif check_portal.scene_destination == "Fortress Main, Fortress Arena_":
         i = j = k = 0
         for portal in two_plus:
             if portal.region == "Forest Courtyard Upper":
@@ -274,8 +302,8 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress teleporter needs only the left fuses
-    elif check_portal.scene_destination_tag in {"Fortress Arena, Transit_teleporter_spidertank",
-                                                "Transit, Fortress Arena_teleporter_spidertank"}:
+    elif check_portal.scene_destination in {"Fortress Arena, Transit_teleporter_spidertank",
+                                            "Transit, Fortress Arena_teleporter_spidertank"}:
         i = j = k = 0
         for portal in two_plus:
             if portal.scene == "Fortress Courtyard":
@@ -289,7 +317,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Cathedral door needs Overworld and the front of Swamp
     # Overworld is currently guaranteed, so no need to check it
-    elif check_portal.scene_destination_tag == "Swamp Redux 2, Cathedral Redux_main":
+    elif check_portal.scene_destination == "Swamp Redux 2, Cathedral Redux_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Swamp":
@@ -298,7 +326,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Zig portal room exit needs Zig 3 to be accessible to hit the fuse
-    elif check_portal.scene_destination_tag == "ziggurat2020_FTRoom, ziggurat2020_3":
+    elif check_portal.scene_destination == "ziggurat2020_FTRoom, ziggurat2020_3":
         i = 0
         for portal in two_plus:
             if portal.scene == "ziggurat2020_3":
@@ -308,7 +336,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Quarry teleporter needs you to hit the Darkwoods fuse
     # Since it's physically in Quarry, we don't need to check for it
-    elif check_portal.scene_destination_tag == "Quarry Redux, Transit_teleporter_quarry teleporter":
+    elif check_portal.scene_destination == "Quarry Redux, Transit_teleporter_quarry teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Darkwoods Tunnel":
@@ -317,7 +345,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Same as above, but Quarry isn't guaranteed here
-    elif check_portal.scene_destination_tag == "Transit, Quarry Redux_teleporter_quarry teleporter":
+    elif check_portal.scene_destination == "Transit, Quarry Redux_teleporter_quarry teleporter":
         i = j = 0
         for portal in two_plus:
             if portal.scene == "Darkwoods Tunnel":
@@ -328,7 +356,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Need Library fuse to use this teleporter
-    elif check_portal.scene_destination_tag == "Transit, Library Lab_teleporter_library teleporter":
+    elif check_portal.scene_destination == "Transit, Library Lab_teleporter_library teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Library Lab":
@@ -337,7 +365,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Need West Garden fuse to use this teleporter
-    elif check_portal.scene_destination_tag == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
+    elif check_portal.scene_destination == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
         i = 0
         for portal in two_plus:
             if portal.scene == "Archipelagos Redux":
@@ -350,33 +378,33 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
 
 # todo: get this to work after 2170 is merged
-def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
-    player = world.player
-    plando_pairs = {}
-    plando_names = set()
-    for plando_cxn in world.plando_connections[player]:
-        print(type(plando_cxn))
-        print(type(plando_cxn.entrance))
-        print(plando_cxn.entrance)
-        print(plando_cxn.exit)
-        portal1_name = plando_cxn.entrance
-        portal2_name = plando_cxn.exit
-        plando_names.add(plando_cxn.entrance)
-        plando_names.add(plando_cxn.exit)
-        portal1 = None
-        portal2 = None
-        for portal in portal_mapping:
-            if portal1_name == portal.name:
-                portal1 = portal
-            if portal2_name == portal.name:
-                portal2 = portal
-        if portal1 is None and portal2 is None:
-            raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name}, "
-                            "please double-check their names.")
-        if portal1 is None:
-            raise Exception(f"Could not find entrance named {portal1_name}, please double-check its name.")
-        if portal2 is None:
-            raise Exception(f"Could not find entrance named {portal2_name}, please double-check its name.")
-        plando_pairs[portal1] = portal2
-    plando_info = (plando_pairs, plando_names)
-    return plando_info
+# def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
+#     player = world.player
+#     plando_pairs = {}
+#     plando_names = set()
+#     for plando_cxn in world.plando_connections[player]:
+#         print(type(plando_cxn))
+#         print(type(plando_cxn.entrance))
+#         print(plando_cxn.entrance)
+#         print(plando_cxn.exit)
+#         portal1_name = plando_cxn.entrance
+#         portal2_name = plando_cxn.exit
+#         plando_names.add(plando_cxn.entrance)
+#         plando_names.add(plando_cxn.exit)
+#         portal1 = None
+#         portal2 = None
+#         for portal in portal_mapping:
+#             if portal1_name == portal.name:
+#                 portal1 = portal
+#             if portal2_name == portal.name:
+#                 portal2 = portal
+#         if portal1 is None and portal2 is None:
+#             raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name}, "
+#                             "please double-check their names.")
+#         if portal1 is None:
+#             raise Exception(f"Could not find entrance named {portal1_name}, please double-check its name.")
+#         if portal2 is None:
+#             raise Exception(f"Could not find entrance named {portal2_name}, please double-check its name.")
+#         plando_pairs[portal1] = portal2
+#     plando_info = (plando_pairs, plando_names)
+#     return plando_info
