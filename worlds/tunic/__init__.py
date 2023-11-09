@@ -60,7 +60,7 @@ class TunicWorld(World):
 
     def generate_early(self) -> None:
         if self.options.start_with_sword and "Sword" not in self.options.start_inventory:
-            self.options.start_inventory["Sword"] = 1
+            self.options.start_inventory.value["Sword"] = 1
 
     def create_item(self, name: str) -> TunicItem:
         item_data = item_table[name]
