@@ -59,24 +59,24 @@ class TunicWorld(World):
     er_portal_hints: Dict[int, str]
 
     def generate_early(self) -> None:
-        if self.options.start_with_sword.value and "Sword" not in self.options.start_inventory:
-            self.options.start_inventory.value["Sword"] = 1
+        if self.options.start_with_sword and "Sword" not in self.options.start_inventory:
+            self.options.start_inventory["Sword"] = 1
 
     def create_item(self, name: str) -> TunicItem:
         item_data = item_table[name]
         return TunicItem(name, item_data.classification, self.item_name_to_id[name], self.player)
 
     def create_items(self) -> None:
-        keys_behind_bosses = self.options.keys_behind_bosses.value
-        hexagon_quest = self.options.hexagon_quest.value
-        sword_progression = self.options.sword_progression.value
+        keys_behind_bosses = self.options.keys_behind_bosses
+        hexagon_quest = self.options.hexagon_quest
+        sword_progression = self.options.sword_progression
 
         items: List[TunicItem] = []
         self.slot_data_items = []
 
         items_to_create: Dict[str, int] = {item: data.quantity_in_item_pool for item, data in item_table.items()}
 
-        for money_fool in fool_tiers[self.options.fool_traps.value]:
+        for money_fool in fool_tiers[self.options.fool_traps]:
             items_to_create["Fool Trap"] += items_to_create[money_fool]
             items_to_create[money_fool] = 0
 
@@ -96,8 +96,8 @@ class TunicWorld(World):
 
         if hexagon_quest:
             # Calculate number of hexagons in item pool
-            hexagon_goal = self.options.hexagon_goal.value
-            extra_hexagons = self.options.extra_hexagon_percentage.value
+            hexagon_goal = self.options.hexagon_goal
+            extra_hexagons = self.options.extra_hexagon_percentage
             items_to_create[gold_hexagon] += int((Decimal(100 + extra_hexagons) / 100 * hexagon_goal).to_integral_value(rounding=ROUND_HALF_UP))
 
             # Replace pages and normal hexagons with filler
@@ -170,17 +170,17 @@ class TunicWorld(World):
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
-            "start_with_sword": self.options.start_with_sword.value,
-            "keys_behind_bosses": self.options.keys_behind_bosses.value,
-            "sword_progression": self.options.sword_progression.value,
-            "ability_shuffling": self.options.ability_shuffling.value,
-            "hexagon_quest": self.options.hexagon_quest.value,
-            "fool_traps": self.options.fool_traps.value,
-            "entrance_rando": self.options.entrance_rando.value,
+            "start_with_sword": self.options.start_with_sword,
+            "keys_behind_bosses": self.options.keys_behind_bosses,
+            "sword_progression": self.options.sword_progression,
+            "ability_shuffling": self.options.ability_shuffling,
+            "hexagon_quest": self.options.hexagon_quest,
+            "fool_traps": self.options.fool_traps,
+            "entrance_rando": self.options.entrance_rando,
             "Hexagon Quest Prayer": self.ability_unlocks["Pages 24-25 (Prayer)"],
             "Hexagon Quest Holy Cross": self.ability_unlocks["Pages 42-43 (Holy Cross)"],
             "Hexagon Quest Ice Rod": self.ability_unlocks["Pages 52-53 (Ice Rod)"],
-            "Hexagon Quest Goal": self.options.hexagon_goal.value,
+            "Hexagon Quest Goal": self.options.hexagon_goal,
             "Entrance Rando": self.tunic_portal_pairs
         }
 
