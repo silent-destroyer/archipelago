@@ -19,39 +19,32 @@ class TunicERLocation(Location):
     game: str = "Tunic"
 
 
-def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
+def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int, str]]:
     regions: Dict[str, Region] = {}
     portal_pairs: Dict[Portal, Portal] = pair_portals(world)
 
     # create our regions, give them hint text if they're in a spot where it makes sense to
-    # todo: special behavior for certain portals, ie: if it's a dead end continue
-    # or if it's like, sealed temple front door is a dead end, use the rafters
-    # maybe like an intenum or w/e it's called for if you use the region or scene?
     for region_name, region_data in tunic_er_regions.items():
-        if region_data.hint == 1:
+        if region_data.hint:
             hint_text = "error"
-            for portal1, portal2 in portal_pairs.items():
-                if portal1.region == region_name:
-                    hint_text = portal2.name
-                    break
-                if portal2.region == region_name:
-                    hint_text = portal1.name
-                    break
+            if region_data.hint == 1:
+                for portal1, portal2 in portal_pairs.items():
+                    if portal1.region == region_name:
+                        hint_text = portal2.name
+                        break
+                    if portal2.region == region_name:
+                        hint_text = portal1.name
+                        break
+            elif region_data.hint == 2:
+                hint_text = "error 2"
+                for portal1, portal2 in portal_pairs.items():
+                    if portal1.scene() == tunic_er_regions[region_name].game_scene:
+                        hint_text = portal2.name
+                        break
+                    if portal2.scene() == tunic_er_regions[region_name].game_scene:
+                        hint_text = portal1.name
+                        break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
-            if hint_text == "error":
-                print("hint text is error, something went wrong with " + region_name)
-        elif region_data.hint == 2:
-            hint_text = "error 2"
-            for portal1, portal2 in portal_pairs.items():
-                if portal1.scene == tunic_er_regions[region_name].game_scene:
-                    hint_text = portal2.name
-                    break
-                if portal2.region == tunic_er_regions[region_name].game_scene:
-                    hint_text = portal1.name
-                    break
-            regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
-            if hint_text == "error 2":
-                print("hint text is error 2, something went wrong with " + region_name)
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
             
@@ -62,14 +55,16 @@ def create_er_regions(world: TunicWorld) -> Dict[Portal, Portal]:
         region = regions[location_table[location_name].er_region]
         location = TunicERLocation(world.player, location_name, location_id, region)
         region.locations.append(location)
-        er_hint_data[location.address] = region.hint
+        er_hint_data[location.address] = region.hint_text
     
     create_randomized_entrances(portal_pairs, regions)
 
     for region in regions.values():
         world.multiworld.regions.append(region)
 
-    return portal_pairs
+    portals_and_hints = (portal_pairs, er_hint_data)
+
+    return portals_and_hints
 
 ######################
 # Static Connections #
@@ -167,7 +162,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
             two_plus.append(portal)
 
     connected_regions: Set[str] = set()
-    # todo: better start region when/if implementing random start
+    # make better start region stuff when/if implementing random start
     start_region = "Overworld"
     connected_regions.update(add_dependent_regions(start_region))
 
@@ -308,7 +303,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # fortress teleporter needs only the left fuses
     elif check_portal.scene_destination in {"Fortress Arena, Transit_teleporter_spidertank",
-                                                "Transit, Fortress Arena_teleporter_spidertank"}:
+                                            "Transit, Fortress Arena_teleporter_spidertank"}:
         i = j = k = 0
         for portal in two_plus:
             if portal.scene == "Fortress Courtyard":
@@ -383,33 +378,33 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
 
 # todo: get this to work after 2170 is merged
-def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
-    player = world.player
-    plando_pairs = {}
-    plando_names = set()
-    for plando_cxn in world.plando_connections[player]:
-        print(type(plando_cxn))
-        print(type(plando_cxn.entrance))
-        print(plando_cxn.entrance)
-        print(plando_cxn.exit)
-        portal1_name = plando_cxn.entrance
-        portal2_name = plando_cxn.exit
-        plando_names.add(plando_cxn.entrance)
-        plando_names.add(plando_cxn.exit)
-        portal1 = None
-        portal2 = None
-        for portal in portal_mapping:
-            if portal1_name == portal.name:
-                portal1 = portal
-            if portal2_name == portal.name:
-                portal2 = portal
-        if portal1 is None and portal2 is None:
-            raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name}, "
-                            "please double-check their names.")
-        if portal1 is None:
-            raise Exception(f"Could not find entrance named {portal1_name}, please double-check its name.")
-        if portal2 is None:
-            raise Exception(f"Could not find entrance named {portal2_name}, please double-check its name.")
-        plando_pairs[portal1] = portal2
-    plando_info = (plando_pairs, plando_names)
-    return plando_info
+# def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
+#     player = world.player
+#     plando_pairs = {}
+#     plando_names = set()
+#     for plando_cxn in world.plando_connections[player]:
+#         print(type(plando_cxn))
+#         print(type(plando_cxn.entrance))
+#         print(plando_cxn.entrance)
+#         print(plando_cxn.exit)
+#         portal1_name = plando_cxn.entrance
+#         portal2_name = plando_cxn.exit
+#         plando_names.add(plando_cxn.entrance)
+#         plando_names.add(plando_cxn.exit)
+#         portal1 = None
+#         portal2 = None
+#         for portal in portal_mapping:
+#             if portal1_name == portal.name:
+#                 portal1 = portal
+#             if portal2_name == portal.name:
+#                 portal2 = portal
+#         if portal1 is None and portal2 is None:
+#             raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name}, "
+#                             "please double-check their names.")
+#         if portal1 is None:
+#             raise Exception(f"Could not find entrance named {portal1_name}, please double-check its name.")
+#         if portal2 is None:
+#             raise Exception(f"Could not find entrance named {portal2_name}, please double-check its name.")
+#         plando_pairs[portal1] = portal2
+#     plando_info = (plando_pairs, plando_names)
+#     return plando_info
