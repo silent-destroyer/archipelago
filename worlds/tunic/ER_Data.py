@@ -456,7 +456,6 @@ class Hint(IntEnum):
     none = 0  # big areas, empty hallways, etc.
     region = 1  # at least one of the portals must not be a dead end
     scene = 2  # multiple regions in the scene, so using region could mean no valid hints
-    special = 3  # special consideration needs to happen here
 
 
 # first string is the AP Region name, second string is the Scene name in-game
