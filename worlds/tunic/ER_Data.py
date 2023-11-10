@@ -41,9 +41,9 @@ portal_mapping: List[Portal] = [
            destination="Swamp Redux 2_wall"),
     Portal(name="Swamp Lower Entrance", region="Overworld",
            destination="Swamp Redux 2_conduit"),
-    Portal(name="Ruined Hall Entrance Not-Door", region="Overworld",
+    Portal(name="Ruined Passage Entrance Not-Door", region="Overworld",
            destination="Ruins Passage_east"),
-    Portal(name="Ruined Hall Entrance Door", region="Overworld Ruined Hall Door",
+    Portal(name="Ruined Passage Entrance Door", region="Overworld Ruined Passage Door",
            destination="Ruins Passage_west"),
     Portal(name="Upper Atoll Entrance", region="Overworld",
            destination="Atoll Redux_upper"),
@@ -467,7 +467,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Overworld Laurels": RegionInfo("Overworld Redux"),  # all spots in Overworld that you need laurels to reach
     "Overworld to West Garden from Furnace": RegionInfo("Overworld Redux"),  # that little connector after Dark Tomb
     "Overworld Well to Furnace Rail": RegionInfo("Overworld Redux"),  # the tiny rail passageway
-    "Overworld Ruined Hall Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
+    "Overworld Ruined Passage Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
     "Overworld Old House Door": RegionInfo("Overworld Redux"),  # the too-small space between the door and the portal
     "Overworld Southeast Cross Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
     "Overworld Fountain Cross Door": RegionInfo("Overworld Redux"),
@@ -631,7 +631,7 @@ er_static_cxns: List[StaticCxn] = [
               reqs=[["Hero's Laurels"]]),
     StaticCxn(origin="Overworld", destination="Overworld Holy Cross",
               reqs=[["Holy Cross"]]),
-    StaticCxn(origin="Overworld", destination="Overworld Ruined Hall Door",
+    StaticCxn(origin="Overworld", destination="Overworld Ruined Passage Door",
               reqs=[["Key"]]),  # one-way because the reverse isn't necessary
     StaticCxn(origin="Overworld Laurels", destination="Overworld",
               reqs=[["Hero's Laurels"]], reverse=True),
@@ -834,7 +834,7 @@ er_static_cxns: List[StaticCxn] = [
 dependent_regions: Dict[Tuple[str, ...], List[str]] = {
     ("Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Southeast Cross Door", "Overworld Temple Door",
      "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"):
-         ["Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Ruined Hall Door",
+         ["Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Ruined Passage Door",
           "Overworld Southeast Cross Door", "Overworld Old House Door", "Overworld Temple Door",
           "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"],
     ("Old House Front",): ["Old House Front", "Old House Back"],
