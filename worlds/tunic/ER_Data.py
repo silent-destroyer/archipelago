@@ -35,7 +35,7 @@ portal_mapping: List[Portal] = [
            destination="Furnace_gyro_west"),
     Portal(name="Entrance to Furnace from Beach", region="Overworld",
            destination="Furnace_gyro_lower"),
-    Portal(name="Rotating Lights Entrance", region="Overworld",
+    Portal(name="Caustic Light Cave Entrance", region="Overworld",
            destination="Overworld Cave_"),
     Portal(name="Swamp Upper Entrance", region="Overworld Laurels",
            destination="Swamp Redux 2_wall"),
