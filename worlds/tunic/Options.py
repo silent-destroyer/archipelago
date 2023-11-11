@@ -71,7 +71,15 @@ class ExtraHexagonPercentage(Range):
 class EntranceRando(Toggle):
     """Randomize the connections between scenes.
     A small, very lost fox on a big adventure."""
+    internal_name = "entrance_rando"
     display_name = "Entrance Rando"
+
+
+class FixedShop(Toggle):
+    """Forces the Windmill entrance to lead to a shop, and places only one other shop in the pool.
+    Has no effect if Entrance Rando is not enabled."""
+    internal_name = "fixed_shop"
+    display_name = "ER Fixed Shop"
 
 
 @dataclass
@@ -81,6 +89,7 @@ class TunicOptions(PerGameCommonOptions):
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
     entrance_rando: EntranceRando
+    fixed_shop: FixedShop
     fool_traps: FoolTraps
     hexagon_quest: HexagonQuest
     hexagon_goal: HexagonGoal

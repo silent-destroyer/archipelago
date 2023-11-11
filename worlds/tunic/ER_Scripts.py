@@ -153,6 +153,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     portal_pairs: Dict[Portal, Portal] = {}
     dead_ends: List[Portal] = []
     two_plus: List[Portal] = []
+    fixed_shop = False
 
     # create separate lists for dead ends and non-dead ends
     for portal in portal_mapping:
@@ -171,6 +172,17 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     for region_name, region_info in tunic_er_regions.items():
         if not region_info.dead_end:
             non_dead_end_regions.add(region_name)
+
+    if world.options.fixed_shop:
+        fixed_shop = True
+        portal1 = None
+        for item in two_plus:
+            if item.scene_destination() == "Overworld Redux, Windmill_":
+                portal1 = item
+                break
+        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance 2", destination="Previous Region_")
+        portal_pairs[portal1] = portal2
+        two_plus.remove(portal1)
 
     world.random.shuffle(two_plus)
     check_success = 0
@@ -213,7 +225,13 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
     # add 6 shops, connect them to unique scenes
     # this is due to a limitation in Tunic -- you wrong warp if there's multiple shops
     shop_scenes: Set[str] = set()
-    for i in range(6):
+    shop_count = 6
+
+    if fixed_shop:
+        shop_count = 1
+        shop_scenes.add("Overworld Redux")
+
+    for i in range(shop_count):
         portal1 = None
         for portal in two_plus:
             if portal.scene() not in shop_scenes:
