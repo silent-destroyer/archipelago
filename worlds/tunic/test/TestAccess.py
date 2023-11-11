@@ -40,9 +40,8 @@ class TestNormalGoal(TunicTestBase):
 
 class TestER(TunicTestBase):
     options = {Options.EntranceRando.internal_name: Options.EntranceRando.option_true,
-               Options.StartWithSword.internal_name: Options.StartWithSword.option_false,
                Options.AbilityShuffling.internal_name: Options.AbilityShuffling.option_true,
-               Options.SwordProgression.internal_name: Options.SwordProgression.option_true}
+               Options.HexagonQuest.internal_name: Options.HexagonQuest.option_false}
 
     def test_wells(self):
         # re-testing to make sure the logic is still working with ER on
@@ -51,9 +50,8 @@ class TestER(TunicTestBase):
         items = [["Golden Coin"]]
         self.assertAccessDependency(locations, items)
 
-    def test_quarry_chest(self):
+    def test_overworld_hc_chest(self):
         # test to see that static connections are working properly -- most quarry chests require a sword or wand
-        # self.collect_all_but(["Magic Wand", "Sword", "Sword Upgrade"])
-        self.assertFalse(self.can_reach_location("Quarry - [East] Obscured Beneath Scaffolding"))
+        self.assertFalse(self.can_reach_location("Overworld - [Southwest] Flowers Holy Cross"))
         self.collect_by_name(["Magic Wand"])
-        self.assertTrue(self.can_reach_location("Quarry - [East] Obscured Beneath Scaffolding"))
+        self.assertTrue(self.can_reach_location("Overworld - [Southwest] Flowers Holy Cross"))
