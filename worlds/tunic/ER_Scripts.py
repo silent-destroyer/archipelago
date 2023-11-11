@@ -123,7 +123,7 @@ def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], wor
 
     return lambda state: any(all((
         state.has_all(items_req, player),
-        *[lambda: helper for helper in helpers_req],
+        *[helper for helper in helpers_req],
         *[lambda: er_can_reach(region, regions) for region in region_reqs]
     ))
                              for items_req, helpers_req in requirements.items())
