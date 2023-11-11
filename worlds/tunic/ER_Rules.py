@@ -137,8 +137,6 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
              lambda state: state.has_any({grapple, laurels}, player))
 
     # Eastern Vault Fortress
-    set_rule(multiworld.get_location("Fortress Arena - Siege Engine/Vault Key Pickup", player),
-             lambda state: has_sword(state, player))
     set_rule(multiworld.get_location("Fortress Arena - Hexagon Red", player),
              lambda state: state.has(vault_key, player))
 
@@ -149,6 +147,18 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
              lambda state: state.has(laurels, player))
+
+    # Ziggurat
+    set_rule(multiworld.get_location("Rooted Ziggurat Lower - After Guarded Fuse", player),
+             lambda state: has_sword(state, player) and has_ability(state, player, prayer, options, ability_unlocks))
+
+    # Bosses
+    set_rule(multiworld.get_location("Fortress Arena - Siege Engine/Vault Key Pickup", player),
+             lambda state: has_sword(state, player))
+    set_rule(multiworld.get_location("Librarian - Hexagon Green", player),
+             lambda state: has_sword(state, player))
+    set_rule(multiworld.get_location("Rooted Ziggurat Lower - Hexagon Blue", player),
+             lambda state: has_sword(state, player))
 
     # Swamp
     set_rule(multiworld.get_location("Cathedral Gauntlet - Gauntlet Reward", player),

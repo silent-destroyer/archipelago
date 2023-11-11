@@ -121,8 +121,11 @@ def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], wor
         helpers_required = tuple(helpers[item] for item in and_reqs if item in helpers)
         requirements[items_required] = helpers_required
 
-    return lambda state: any(all((state.has_all(items_req, player), *[helper for helper in helpers_req],
-                                  *[lambda: er_can_reach(region, regions) for region in region_reqs]))
+    return lambda state: any(all((
+        state.has_all(items_req, player),
+        *[lambda: helper for helper in helpers_req],
+        *[lambda: er_can_reach(region, regions) for region in region_reqs]
+    ))
                              for items_req, helpers_req in requirements.items())
 
 

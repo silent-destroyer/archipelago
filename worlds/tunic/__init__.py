@@ -156,7 +156,9 @@ class TunicWorld(World):
             victory_region.locations.append(victory_location)
 
     def set_rules(self) -> None:
-        if not self.options.entrance_rando:
+        if self.options.entrance_rando:
+            set_er_location_rules(self, self.ability_unlocks)
+        else:
             set_region_rules(self, self.options, self.ability_unlocks)
             set_location_rules(self, self.options, self.ability_unlocks)
 
@@ -168,6 +170,10 @@ class TunicWorld(World):
             hint_data[self.player] = self.er_portal_hints
 
     def fill_slot_data(self) -> Dict[str, Any]:
+        reachable_locs = self.multiworld.get_reachable_locations(player=self.player)
+        print("test message")
+        for item in reachable_locs:
+            print(item.name)
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword,

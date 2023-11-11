@@ -210,6 +210,8 @@ def set_location_rules(world: TunicWorld, options: TunicOptions, ability_unlocks
              lambda state: state.has_any({laurels, key}, player))
     set_rule(multiworld.get_location("Ruined Atoll - [East] Locked Room Upper Chest", player),
              lambda state: state.has_any({laurels, key}, player))
+    set_rule(multiworld.get_location("Librarian - Hexagon Green", player),
+             lambda state: has_sword(state, player))
 
     # Frog's Domain
     set_rule(multiworld.get_location("Frog's Domain - Side Room Grapple Secret", player),
@@ -235,6 +237,8 @@ def set_location_rules(world: TunicWorld, options: TunicOptions, ability_unlocks
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
              lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Rooted Ziggurat Lower - Hexagon Blue", player),
+             lambda state: has_sword(state, player))
 
     # Swamp
     set_rule(multiworld.get_location("Cathedral Gauntlet - Gauntlet Reward", player),
