@@ -51,7 +51,7 @@ class TestER(TunicTestBase):
         self.assertAccessDependency(locations, items)
 
     def test_overworld_hc_chest(self):
-        # test to see that static connections are working properly -- most quarry chests require a sword or wand
+        # test to see that static connections are working properly -- this chest requires holy cross and is in Overworld
         self.assertFalse(self.can_reach_location("Overworld - [Southwest] Flowers Holy Cross"))
         self.collect_by_name(["Pages 42-43 (Holy Cross)"])
         self.assertTrue(self.can_reach_location("Overworld - [Southwest] Flowers Holy Cross"))
