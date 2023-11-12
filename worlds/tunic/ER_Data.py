@@ -683,7 +683,8 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
     ("Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry"):
         ["Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry",
          "Lower Quarry Zig Door"],
-    ("Monastery Rope",): ["Monastery Rope", "Quarry", "Quarry Portal", "Lower Quarry", "Lower Quarry Zig Door"],
+    ("Monastery Rope",): ["Monastery Rope", "Quarry", "Quarry Entry", "Quarry Back", "Quarry Portal", "Lower Quarry",
+                          "Lower Quarry Zig Door"],
     ("Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"):
         ["Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"],
     ("Rooted Ziggurat Middle Top",): ["Rooted Ziggurat Middle Top", "Rooted Ziggurat Middle Bottom"],

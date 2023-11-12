@@ -170,23 +170,19 @@ class TunicWorld(World):
             hint_data[self.player] = self.er_portal_hints
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        reachable_locs = self.multiworld.get_reachable_locations(player=self.player)
-        print("test message")
-        for item in reachable_locs:
-            print(item.name)
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
-            "start_with_sword": self.options.start_with_sword,
-            "keys_behind_bosses": self.options.keys_behind_bosses,
-            "sword_progression": self.options.sword_progression,
-            "ability_shuffling": self.options.ability_shuffling,
-            "hexagon_quest": self.options.hexagon_quest,
-            "fool_traps": self.options.fool_traps,
-            "entrance_rando": self.options.entrance_rando,
+            "start_with_sword": self.options.start_with_sword.value,
+            "keys_behind_bosses": self.options.keys_behind_bosses.value,
+            "sword_progression": self.options.sword_progression.value,
+            "ability_shuffling": self.options.ability_shuffling.value,
+            "hexagon_quest": self.options.hexagon_quest.value,
+            "fool_traps": self.options.fool_traps.value,
+            "entrance_rando": self.options.entrance_rando.value,
             "Hexagon Quest Prayer": self.ability_unlocks["Pages 24-25 (Prayer)"],
             "Hexagon Quest Holy Cross": self.ability_unlocks["Pages 42-43 (Holy Cross)"],
             "Hexagon Quest Ice Rod": self.ability_unlocks["Pages 52-53 (Ice Rod)"],
-            "Hexagon Quest Goal": self.options.hexagon_goal,
+            "Hexagon Quest Goal": self.options.hexagon_goal.value,
             "Entrance Rando": self.tunic_portal_pairs
         }
 
