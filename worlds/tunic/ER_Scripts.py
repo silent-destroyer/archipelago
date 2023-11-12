@@ -1,9 +1,10 @@
 from typing import Dict, List, Callable, Set, Tuple, TYPE_CHECKING
 from BaseClasses import CollectionState, Region, ItemClassification, Item, Location
 from .Locations import location_table
-from .Rules import prayer, holy_cross, has_sword, has_ability, red_hexagon, blue_hexagon, green_hexagon, gold_hexagon
+from .Rules import prayer, holy_cross, has_sword, has_ability
 from .Options import TunicOptions
 from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal, dependent_regions
+from .ER_Rules import set_er_region_rules
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -48,7 +49,8 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
             
-    create_static_cxns(world, regions, world.ability_unlocks)
+    # create_static_cxns(world, regions, world.ability_unlocks)
+    set_er_region_rules(world, world.ability_unlocks, regions)
 
     er_hint_data: Dict[int, str] = {}
     for location_name, location_id in world.location_name_to_id.items():
@@ -61,6 +63,12 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
 
     for region in regions.values():
         world.multiworld.regions.append(region)
+
+    victory_region = regions["Spirit Arena Victory"]
+    victory_location = TunicERLocation(world.player, "The Heir", None, victory_region)
+    victory_location.place_locked_item(TunicERItem("Victory", ItemClassification.progression, None, world.player))
+    world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
+    victory_region.locations.append(victory_location)
 
     portals_and_hints = (portal_pairs, er_hint_data)
 
@@ -79,11 +87,11 @@ def create_static_cxns(world: TunicWorld, regions: Dict[str, Region], ability_un
         dest_region = regions[cxn.destination]
         if cxn.reqs:
             origin_region.connect(dest_region, f"{cxn.origin} -> {cxn.destination}",
-                                  create_static_cxn_rule(cxn.reqs, cxn.region_reqs,
+                                  create_static_cxn_rule(origin_region, dest_region, cxn.reqs, cxn.region_reqs,
                                                          world, player, ability_unlocks, regions))
             if cxn.reverse:
                 dest_region.connect(origin_region, f"{cxn.destination} -> {cxn.origin}",
-                                    create_static_cxn_rule(cxn.reqs, cxn.region_reqs,
+                                    create_static_cxn_rule(origin_region, dest_region, cxn.reqs, cxn.region_reqs,
                                                            world, player, ability_unlocks, regions))
         # if there's no requirements, just create the connection without the rules field
         else:
@@ -92,20 +100,19 @@ def create_static_cxns(world: TunicWorld, regions: Dict[str, Region], ability_un
                 dest_region.connect(origin_region, f"{cxn.destination} -> {cxn.origin}")
 
     # create and connect to the victory spot manually for finer control over the victory condition
-    spirit_arena = regions["Spirit Arena"]
     victory_region = regions["Spirit Arena Victory"]
     victory_location = TunicERLocation(world.player, "The Heir", None, victory_region)
     victory_location.place_locked_item(TunicERItem("Victory", ItemClassification.progression, None, world.player))
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
     victory_region.locations.append(victory_location)
-    spirit_arena.connect(victory_region, "Overcome the Heir",
-                         lambda state: (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if
-                                        world.options.hexagon_quest else
-                                        state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)))
+    # spirit_arena.connect(victory_region, "Overcome the Heir",
+    #                      lambda state: (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if
+    #                                     world.options.hexagon_quest else
+    #                                     state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)))
 
 
-def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], world: TunicWorld, player: int,
-                           ability_unlocks: Dict[str, int], regions: Dict[str, Region]) \
+def create_static_cxn_rule(origin: Region, dest: Region, or_reqs: List[List[str]], region_reqs: List[str],
+                           world: TunicWorld, player: int, ability_unlocks: Dict[str, int], regions: Dict[str, Region])\
         -> Callable[[CollectionState], bool]:
     # items where we want to use a function instead of the name
     helpers: Dict[str, Callable[[CollectionState], bool]] = {
@@ -120,6 +127,11 @@ def create_static_cxn_rule(or_reqs: List[List[str]], region_reqs: List[str], wor
         items_required = tuple(item for item in and_reqs if item not in helpers)
         helpers_required = tuple(helpers[item] for item in and_reqs if item in helpers)
         requirements[items_required] = helpers_required
+
+    print_string = f"regions[\"{origin.name}\"].connect(connecting_region=regions[\"{dest.name}\"], " \
+                   f"rule=lambda state: "
+
+    print(print_string)
 
     return lambda state: any(all((
         state.has_all(items_req, player),
