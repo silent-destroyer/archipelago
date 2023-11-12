@@ -171,10 +171,17 @@ def set_er_region_rules(world: TunicWorld, ability_unlocks: Dict[str, int], regi
 
     # Bottom of the Well and Dark Tomb
     regions["Bottom of the Well Front"].connect(
-        connecting_region=regions["Bottom of the Well Back"],
+        connecting_region=regions["Bottom of the Well Main"],
         rule=lambda state: has_stick(state, player))
-    regions["Bottom of the Well Back"].connect(
+    regions["Bottom of the Well Main"].connect(
         connecting_region=regions["Bottom of the Well Front"],
+        rule=lambda state: has_stick(state, player))
+
+    regions["Bottom of the Well Back"].connect(
+        connecting_region=regions["Bottom of the Well Main"],
+        rule=lambda state: has_stick(state, player))
+    regions["Bottom of the Well Main"].connect(
+        connecting_region=regions["Bottom of the Well Back"],
         rule=lambda state: has_stick(state, player))
 
     regions["Well Boss"].connect(
@@ -569,7 +576,13 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
              lambda state: state.has_any({grapple, laurels}, player))
     set_rule(multiworld.get_location("Overworld - [Southwest] West Beach Guarded By Turret 2", player),
              lambda state: state.has_any({grapple, laurels}, player))
-    set_rule(multiworld.get_location("Far Shore - Secret Chest", player),
+    set_rule(multiworld.get_location("Overworld - [Southwest] From West Garden", player),
+             lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Overworld - [Southeast] Page on Pillar by Swamp", player),
+             lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Overworld - [Southwest] Fountain Page", player),
+             lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Overworld - [Northwest] Page on Pillar by Dark Tomb", player),
              lambda state: state.has(laurels, player))
     set_rule(multiworld.get_location("Old House - Holy Cross Chest", player),
              lambda state: has_ability(state, player, holy_cross, options, ability_unlocks))
@@ -651,12 +664,16 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
     # Beneath the Vault
     set_rule(multiworld.get_location("Beneath the Fortress - Bridge", player),
              lambda state: state.has_group("melee weapons", player, 1) or state.has_any({laurels, fire_wand}, player))
+    set_rule(multiworld.get_location("Beneath the Fortress - Obscured Behind Waterfall", player),
+             lambda state: state.has(lantern, player))
 
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
              lambda state: state.has(laurels, player))
 
     # Ziggurat
+    set_rule(multiworld.get_location("Rooted Ziggurat Upper - Near Bridge Switch", player),
+             lambda state: has_sword(state, player) or state.has(fire_wand, player))
     set_rule(multiworld.get_location("Rooted Ziggurat Lower - After Guarded Fuse", player),
              lambda state: has_sword(state, player) and has_ability(state, player, prayer, options, ability_unlocks))
 
@@ -678,7 +695,7 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
     set_rule(multiworld.get_location("Swamp - [South Graveyard] 4 Orange Skulls", player),
              lambda state: has_sword(state, player))
 
-    # Hero's Grave
+    # Hero's Grave and Far Shore
     set_rule(multiworld.get_location("Hero's Grave - Tooth Relic", player),
              lambda state: state.has(laurels, player))
     set_rule(multiworld.get_location("Hero's Grave - Mushroom Relic", player),
@@ -690,4 +707,6 @@ def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) ->
     set_rule(multiworld.get_location("Hero's Grave - Effigy Relic", player),
              lambda state: state.has(laurels, player))
     set_rule(multiworld.get_location("Hero's Grave - Feathers Relic", player),
+             lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Far Shore - Secret Chest", player),
              lambda state: state.has(laurels, player))

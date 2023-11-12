@@ -1,9 +1,7 @@
-from typing import Dict, List, Callable, Set, Tuple, TYPE_CHECKING
-from BaseClasses import CollectionState, Region, ItemClassification, Item, Location
+from typing import Dict, List, Set, Tuple, TYPE_CHECKING
+from BaseClasses import Region, ItemClassification, Item, Location
 from .Locations import location_table
-from .Rules import prayer, holy_cross, has_sword, has_ability
-from .Options import TunicOptions
-from .ER_Data import tunic_er_regions, portal_mapping, er_static_cxns, Portal, dependent_regions
+from .ER_Data import Portal, tunic_er_regions, portal_mapping, dependent_regions
 from .ER_Rules import set_er_region_rules
 
 if TYPE_CHECKING:
@@ -48,8 +46,7 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
-            
-    # create_static_cxns(world, regions, world.ability_unlocks)
+
     set_er_region_rules(world, world.ability_unlocks, regions)
 
     er_hint_data: Dict[int, str] = {}
@@ -74,93 +71,6 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
 
     return portals_and_hints
 
-######################
-# Static Connections #
-######################
-
-
-# create the static connections between the more granular regions
-def create_static_cxns(world: TunicWorld, regions: Dict[str, Region], ability_unlocks: Dict[str, int]) -> None:
-    for cxn in er_static_cxns:
-        player = world.player
-        origin_region = regions[cxn.origin]
-        dest_region = regions[cxn.destination]
-        if cxn.reqs:
-            origin_region.connect(dest_region, f"{cxn.origin} -> {cxn.destination}",
-                                  create_static_cxn_rule(origin_region, dest_region, cxn.reqs, cxn.region_reqs,
-                                                         world, player, ability_unlocks, regions))
-            if cxn.reverse:
-                dest_region.connect(origin_region, f"{cxn.destination} -> {cxn.origin}",
-                                    create_static_cxn_rule(origin_region, dest_region, cxn.reqs, cxn.region_reqs,
-                                                           world, player, ability_unlocks, regions))
-        # if there's no requirements, just create the connection without the rules field
-        else:
-            origin_region.connect(dest_region, f"{cxn.origin} -> {cxn.destination}")
-            if cxn.reverse:
-                dest_region.connect(origin_region, f"{cxn.destination} -> {cxn.origin}")
-
-    # create and connect to the victory spot manually for finer control over the victory condition
-    victory_region = regions["Spirit Arena Victory"]
-    victory_location = TunicERLocation(world.player, "The Heir", None, victory_region)
-    victory_location.place_locked_item(TunicERItem("Victory", ItemClassification.progression, None, world.player))
-    world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
-    victory_region.locations.append(victory_location)
-    # spirit_arena.connect(victory_region, "Overcome the Heir",
-    #                      lambda state: (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if
-    #                                     world.options.hexagon_quest else
-    #                                     state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)))
-
-
-def create_static_cxn_rule(origin: Region, dest: Region, or_reqs: List[List[str]], region_reqs: List[str],
-                           world: TunicWorld, player: int, ability_unlocks: Dict[str, int], regions: Dict[str, Region])\
-        -> Callable[[CollectionState], bool]:
-    # items where we want to use a function instead of the name
-    helpers: Dict[str, Callable[[CollectionState], bool]] = {
-        "Stick": lambda state: has_stick(state, player),
-        "Sword": lambda state: has_sword(state, player),
-        "Prayer": lambda state: has_prayer(state, player, world.options, ability_unlocks),
-        "Holy Cross": lambda state: has_hc(state, player, world.options, ability_unlocks),
-    }
-
-    requirements = {}
-    for and_reqs in or_reqs:
-        items_required = tuple(item for item in and_reqs if item not in helpers)
-        helpers_required = tuple(helpers[item] for item in and_reqs if item in helpers)
-        requirements[items_required] = helpers_required
-
-    print_string = f"regions[\"{origin.name}\"].connect(connecting_region=regions[\"{dest.name}\"], " \
-                   f"rule=lambda state: "
-
-    print(print_string)
-
-    return lambda state: any(all((
-        state.has_all(items_req, player),
-        *[helper for helper in helpers_req],
-        *[lambda: er_can_reach(region, regions) for region in region_reqs]
-    ))
-                             for items_req, helpers_req in requirements.items())
-
-
-def has_prayer(state: CollectionState, player: int, options: TunicOptions, ability_unlocks: Dict[str, int]) -> bool:
-    return has_ability(state, player, prayer, options, ability_unlocks)
-
-
-def has_hc(state: CollectionState, player: int, options: TunicOptions, ability_unlocks: Dict[str, int]) -> bool:
-    return has_ability(state, player, holy_cross, options, ability_unlocks)
-
-
-def has_stick(state: CollectionState, player: int) -> bool:
-    return state.has("Stick", player, 1) or state.has("Sword Upgrade", player, 1)
-
-
-def er_can_reach(region_name: str, regions: Dict[str, Region]) -> Callable[[CollectionState], bool]:
-    region = regions[region_name]
-    return lambda state: state.can_reach(region)
-
-
-##################
-# Portal Pairing #
-##################
 
 # pairing off portals, starting with dead ends
 def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
