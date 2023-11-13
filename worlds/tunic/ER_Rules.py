@@ -409,6 +409,9 @@ def set_er_region_rules(world: TunicWorld, ability_unlocks: Dict[str, int], regi
         connecting_region=regions["Monastery Back"])
 
     # Ziggurat
+    regions["Rooted Ziggurat Upper Entry"].connect(
+        connecting_region=regions["Rooted Ziggurat Upper Front"])
+
     regions["Rooted Ziggurat Upper Front"].connect(
         connecting_region=regions["Rooted Ziggurat Upper Back"],
         rule=lambda state: state.has(laurels, player) or has_sword(state, player))

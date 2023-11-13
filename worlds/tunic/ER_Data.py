@@ -363,7 +363,7 @@ portal_mapping: List[Portal] = [
            destination="ziggurat2020_1_"),
     Portal(name="Ziggurat Entry Hallway to Quarry", region="Rooted Ziggurat Entry",
            destination="Quarry Redux_"),
-    Portal(name="Rooted Ziggurat Upper to Ziggurat Entry Hallway", region="Rooted Ziggurat Upper Front",
+    Portal(name="Rooted Ziggurat Upper to Ziggurat Entry Hallway", region="Rooted Ziggurat Upper Entry",
            destination="ziggurat2020_0_"),
     Portal(name="Rooted Ziggurat Upper to Rooted Ziggurat Tower", region="Rooted Ziggurat Upper Back",
            destination="ziggurat2020_2_"),
@@ -574,6 +574,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Lower Quarry": RegionInfo("Quarry Redux"),
     "Lower Quarry Zig Door": RegionInfo("Quarry Redux"),
     "Rooted Ziggurat Entry": RegionInfo("ziggurat2020_0"),
+    "Rooted Ziggurat Upper Entry": RegionInfo("ziggurat2020_1"),
     "Rooted Ziggurat Upper Front": RegionInfo("ziggurat2020_1"),
     "Rooted Ziggurat Upper Back": RegionInfo("ziggurat2020_1"),  # after the administrator
     "Rooted Ziggurat Middle Top": RegionInfo("ziggurat2020_2"),
@@ -672,8 +673,7 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
          "Fortress Exterior near cave", "Fortress Courtyard"],
     ("Beneath the Vault Front", "Beneath the Vault Back"): ["Beneath the Vault Front", "Beneath the Vault Back"],
     ("Fortress East Shortcut Upper",): ["Fortress East Shortcut Upper", "Fortress East Shortcut Lower"],
-    ("Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"):
-        ["Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"],
+    ("Eastern Vault Fortress",): ["Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"],
     ("Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"):
         ["Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
     ("Fortress Arena", "Fortress Arena Portal"): ["Fortress Arena", "Fortress Arena Portal"],
@@ -685,8 +685,8 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
          "Lower Quarry Zig Door"],
     ("Monastery Rope",): ["Monastery Rope", "Quarry", "Quarry Entry", "Quarry Back", "Quarry Portal", "Lower Quarry",
                           "Lower Quarry Zig Door"],
-    ("Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"):
-        ["Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"],
+    ("Rooted Ziggurat Upper Entry", "Rooted Ziggurat Upper Front"):
+        ["Rooted Ziggurat Upper Entry", "Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"],
     ("Rooted Ziggurat Middle Top",): ["Rooted Ziggurat Middle Top", "Rooted Ziggurat Middle Bottom"],
     ("Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"):
         ["Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"],
