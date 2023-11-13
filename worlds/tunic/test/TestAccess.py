@@ -12,10 +12,10 @@ class TestAccess(TunicTestBase):
 
     def test_wells(self):
         # test that the wells function properly. Since fairies is written the same way, that should succeed too
-        locations = ["Coins in the Well - 3 Coins", "Coins in the Well - 6 Coins", "Coins in the Well - 10 Coins",
-                     "Coins in the Well - 15 Coins"]
-        items = [["Golden Coin"]]
-        self.assertAccessDependency(locations, items)
+        self.collect_all_but(["Golden Coin"])
+        self.assertFalse(self.can_reach_location("Coins in the Well - 3 Coins"))
+        self.collect_by_name(["Golden Coin"])
+        self.assertTrue(self.can_reach_location("Coins in the Well - 3 Coins"))
 
 
 class TestHexQuest(TunicTestBase):
