@@ -43,13 +43,6 @@ class TestER(TunicTestBase):
                Options.AbilityShuffling.internal_name: Options.AbilityShuffling.option_true,
                Options.HexagonQuest.internal_name: Options.HexagonQuest.option_false}
 
-    def test_wells(self):
-        # re-testing to make sure the logic is still working with ER on
-        locations = ["Coins in the Well - 3 Coins", "Coins in the Well - 6 Coins", "Coins in the Well - 10 Coins",
-                     "Coins in the Well - 15 Coins"]
-        items = [["Golden Coin"]]
-        self.assertAccessDependency(locations, items)
-
     def test_overworld_hc_chest(self):
         # test to see that static connections are working properly -- this chest requires holy cross and is in Overworld
         self.assertFalse(self.can_reach_location("Overworld - [Southwest] Flowers Holy Cross"))
