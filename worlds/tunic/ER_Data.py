@@ -429,7 +429,7 @@ portal_mapping: List[Portal] = [
            destination="Fortress Arena_teleporter_spidertank"),
     Portal(name="Far Shore to Atoll", region="Far Shore",
            destination="Atoll Redux_teleporter_atoll"),
-    Portal(name="Far Shore to Zig", region="Far Shore",
+    Portal(name="Far Shore to Ziggurat", region="Far Shore",
            destination="ziggurat2020_FTRoom_teleporter_ziggurat teleporter"),
     Portal(name="Far Shore to Heir", region="Far Shore",
            destination="Spirit Arena_teleporter_spirit arena"),
