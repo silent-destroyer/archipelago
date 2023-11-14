@@ -299,7 +299,7 @@ portal_mapping: List[Portal] = [
            destination="Fortress Courtyard_Big Door"),
     Portal(name="Fortress Interior to Beneath the Earth", region="Eastern Vault Fortress",
            destination="Fortress Basement_"),
-    Portal(name="Fortress Interior to Siege Engine", region="Eastern Vault Fortress Gold Door",
+    Portal(name="Fortress Interior to Siege Engine Arena", region="Eastern Vault Fortress Gold Door",
            destination="Fortress Arena_"),
     Portal(name="Fortress Interior Shop", region="Eastern Vault Fortress",
            destination="Shop_"),
