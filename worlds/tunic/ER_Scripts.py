@@ -61,6 +61,55 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
     for region in regions.values():
         world.multiworld.regions.append(region)
 
+    # can reach didn't work in the rules file before loading them in, so I guess we're doing this now
+    world.multiworld.register_indirect_condition(
+        regions["Overworld Belltower"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Forest Belltower Upper"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Fortress Exterior from Overworld"],
+        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Eastern Vault Fortress"],
+        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Beneath the Vault Back"],
+        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Fortress Exterior from Overworld"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Fortress Courtyard Upper"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Beneath the Vault Back"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Quarry Portal", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Zig Door", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Rooted Ziggurat Lower Back"], world.multiworld.get_entrance("Zig Portal Room Exit", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["West Garden"], world.multiworld.get_entrance("Far Shore to West Garden", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Quarry Connector"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Quarry"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Fortress Exterior from Overworld"],
+        world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Beneath the Vault Back"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Eastern Vault Fortress"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+
+    world.multiworld.register_indirect_condition(
+        regions["Library Lab"], world.multiworld.get_entrance("Far Shore to Library", world.player))
+
     victory_region = regions["Spirit Arena Victory"]
     victory_location = TunicERLocation(world.player, "The Heir", None, victory_region)
     victory_location.place_locked_item(TunicERItem("Victory", ItemClassification.progression, None, world.player))
@@ -117,7 +166,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
         # find a portal in an inaccessible region
         if check_success == 0:
             for portal in two_plus:
-                if portal.region not in connected_regions:
+                if portal.region in connected_regions:
                     # if there's risk of self-locking, start over
                     if gate_before_switch(portal, two_plus):
                         world.random.shuffle(two_plus)
@@ -130,7 +179,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
         # then we find a portal in a connected region
         if check_success == 1:
             for portal in two_plus:
-                if portal.region in connected_regions:
+                if portal.region not in connected_regions:
                     # if there's risk of self-locking, shuffle and try again
                     if gate_before_switch(portal, two_plus):
                         world.random.shuffle(two_plus)
@@ -142,7 +191,7 @@ def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
 
         # once we have both portals, connect them and add the new region(s) to connected_regions
         if check_success == 2:
-            connected_regions.update(add_dependent_regions(portal1.region))
+            connected_regions.update(add_dependent_regions(portal2.region))
             portal_pairs[portal1] = portal2
             check_success = 0
             world.random.shuffle(two_plus)
@@ -222,7 +271,7 @@ def add_dependent_regions(region_name: str) -> Set[str]:
 def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
     # the western belltower cannot be locked since you can access it with laurels
     # so we only need to make sure the forest belltower isn't locked
-    if check_portal.scene_destination == "Overworld Redux, Temple_main":
+    if check_portal.scene_destination() == "Overworld Redux, Temple_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Forest Belltower Upper":
@@ -232,35 +281,35 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress big gold door needs 2 scenes and one of the two upper portals of the courtyard
-    elif check_portal.scene_destination == "Fortress Main, Fortress Arena_":
+    elif check_portal.scene_destination() == "Fortress Main, Fortress Arena_":
         i = j = k = 0
         for portal in two_plus:
-            if portal.region == "Forest Courtyard Upper":
+            if portal.region == "Fortress Courtyard Upper":
                 i += 1
-            if portal.scene == "Fortress Basement":
+            if portal.scene() == "Fortress Basement":
                 j += 1
-            if portal.scene == "Fortress Main":
+            if portal.region == "Eastern Vault Fortress":
                 k += 1
-        if i == 2 or j == 2 or k == 6:
+        if i == 2 or j == 2 or k == 5:
             return True
 
     # fortress teleporter needs only the left fuses
-    elif check_portal.scene_destination in {"Fortress Arena, Transit_teleporter_spidertank",
-                                            "Transit, Fortress Arena_teleporter_spidertank"}:
+    elif check_portal.scene_destination() in {"Fortress Arena, Transit_teleporter_spidertank",
+                                              "Transit, Fortress Arena_teleporter_spidertank"}:
         i = j = k = 0
         for portal in two_plus:
-            if portal.scene == "Fortress Courtyard":
+            if portal.scene() == "Fortress Courtyard":
                 i += 1
-            if portal.scene == "Fortress Basement":
+            if portal.scene() == "Fortress Basement":
                 j += 1
-            if portal.scene == "Fortress Main":
+            if portal.region == "Eastern Vault Fortress":
                 k += 1
-        if i == 8 or j == 2 or k == 6:
+        if i == 8 or j == 2 or k == 5:
             return True
 
     # Cathedral door needs Overworld and the front of Swamp
     # Overworld is currently guaranteed, so no need to check it
-    elif check_portal.scene_destination == "Swamp Redux 2, Cathedral Redux_main":
+    elif check_portal.scene_destination() == "Swamp Redux 2, Cathedral Redux_main":
         i = 0
         for portal in two_plus:
             if portal.region == "Swamp":
@@ -269,49 +318,50 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # Zig portal room exit needs Zig 3 to be accessible to hit the fuse
-    elif check_portal.scene_destination == "ziggurat2020_FTRoom, ziggurat2020_3":
+    elif check_portal.scene_destination() == "ziggurat2020_FTRoom, ziggurat2020_3_":
         i = 0
         for portal in two_plus:
-            if portal.scene == "ziggurat2020_3":
+            if portal.scene() == "ziggurat2020_3":
                 i += 1
         if i == 2:
             return True
 
     # Quarry teleporter needs you to hit the Darkwoods fuse
     # Since it's physically in Quarry, we don't need to check for it
-    elif check_portal.scene_destination == "Quarry Redux, Transit_teleporter_quarry teleporter":
+    elif check_portal.scene_destination() in {"Quarry Redux, Transit_teleporter_quarry teleporter"
+                                              "Quarry Redux, ziggurat2020_0_"}:
         i = 0
         for portal in two_plus:
-            if portal.scene == "Darkwoods Tunnel":
+            if portal.scene() == "Darkwoods Tunnel":
                 i += 1
         if i == 2:
             return True
 
     # Same as above, but Quarry isn't guaranteed here
-    elif check_portal.scene_destination == "Transit, Quarry Redux_teleporter_quarry teleporter":
+    elif check_portal.scene_destination() == "Transit, Quarry Redux_teleporter_quarry teleporter":
         i = j = 0
         for portal in two_plus:
-            if portal.scene == "Darkwoods Tunnel":
+            if portal.scene() == "Darkwoods Tunnel":
                 i += 1
-            if portal.scene == "Quarry Redux":
+            if portal.scene() == "Quarry Redux":
                 j += 1
         if i == 2 or j == 7:
             return True
 
     # Need Library fuse to use this teleporter
-    elif check_portal.scene_destination == "Transit, Library Lab_teleporter_library teleporter":
+    elif check_portal.scene_destination() == "Transit, Library Lab_teleporter_library teleporter":
         i = 0
         for portal in two_plus:
-            if portal.scene == "Library Lab":
+            if portal.scene() == "Library Lab":
                 i += 1
         if i == 3:
             return True
 
     # Need West Garden fuse to use this teleporter
-    elif check_portal.scene_destination == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
+    elif check_portal.scene_destination() == "Transit, Archipelagos Redux_teleporter_archipelagos_teleporter":
         i = 0
         for portal in two_plus:
-            if portal.scene == "Archipelagos Redux":
+            if portal.scene() == "Archipelagos Redux":
                 i += 1
         if i == 7:
             return True
