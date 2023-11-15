@@ -376,21 +376,19 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
 # check if a portal leads to a hallway. if it does, update the hint text accordingly
 def hallway_hint(portal_sd: str, hint_text: str, portal_pairs: Dict[Portal, Portal]) -> str:
-    paired_portal = hallway_helper[portal_sd]
-    if paired_portal:
+    if hallway_helper[portal_sd]:
         for portal1, portal2 in portal_pairs.items():
-            if portal1.scene_destination() == paired_portal:
+            if portal1.scene_destination() == hallway_helper[portal_sd]:
                 hint_text = portal2.name + " to " + hint_text
                 if hallway_helper[portal2.scene_destination()]:
                     hint_text = hallway_hint(hallway_helper[portal2.scene_destination()], hint_text, portal_pairs)
                 return hint_text
-            if portal2.scene_destination() == paired_portal:
+            if portal2.scene_destination() == hallway_helper[portal_sd]:
                 hint_text = portal1.name + " to " + hint_text
                 if hallway_helper[portal1.scene_destination()]:
                     hint_text = hallway_hint(hallway_helper[portal1.scene_destination()], hint_text, portal_pairs)
                 return hint_text
-    else:
-        return hint_text
+    return hint_text
 
 
 # todo: get this to work after 2170 is merged
