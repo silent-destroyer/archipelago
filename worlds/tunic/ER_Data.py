@@ -634,7 +634,7 @@ hallway_helper: Dict[str, str] = {
     "ziggurat2020_0, Quarry Redux_": "ziggurat2020_0, ziggurat2020_1_",
     "Purgatory, Purgatory_bottom": "Purgatory, Purgatory_top",
 }
-for p1, p2 in hallway_helper:
+for p1, p2 in hallway_helper.items():
     hallway_helper[p2] = p1
 
 
