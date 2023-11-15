@@ -1,8 +1,8 @@
 from typing import Dict, List, Set, Tuple, TYPE_CHECKING
 from BaseClasses import Region, ItemClassification, Item, Location
-from .Locations import location_table
-from .ER_Data import Portal, tunic_er_regions, portal_mapping, dependent_regions, hallway_helper
-from .ER_Rules import set_er_region_rules
+from .locations import location_table
+from .er_data import Portal, tunic_er_regions, portal_mapping, dependent_regions, hallway_helper
+from .er_rules import set_er_region_rules
 
 if TYPE_CHECKING:
     from . import TunicWorld
