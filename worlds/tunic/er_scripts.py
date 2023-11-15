@@ -29,23 +29,19 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
             if region_data.hint == 1:
                 for portal1, portal2 in portal_pairs.items():
                     if portal1.region == region_name:
-                        hint_text = portal2.name
-                        hint_text = hallway_hint(portal2.scene_destination(), hint_text, portal_pairs)
+                        hint_text = hallway_hint(portal2, portal_pairs)
                         break
                     if portal2.region == region_name:
-                        hint_text = portal1.name
-                        hint_text = hallway_hint(portal1.scene_destination(), hint_text, portal_pairs)
+                        hint_text = hallway_hint(portal1, portal_pairs)
                         break
             elif region_data.hint == 2:
                 hint_text = "error 2"
                 for portal1, portal2 in portal_pairs.items():
                     if portal1.scene() == tunic_er_regions[region_name].game_scene:
-                        hint_text = portal2.name
-                        hint_text = hallway_hint(portal2.scene_destination(), hint_text, portal_pairs)
+                        hint_text = hallway_hint(portal2, portal_pairs)
                         break
                     if portal2.scene() == tunic_er_regions[region_name].game_scene:
-                        hint_text = portal1.name
-                        hint_text = hallway_hint(portal1.scene_destination(), hint_text, portal_pairs)
+                        hint_text = hallway_hint(portal1, portal_pairs)
                         break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         else:
@@ -375,19 +371,21 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
 
 # check if a portal leads to a hallway. if it does, update the hint text accordingly
-def hallway_hint(portal_sd: str, hint_text: str, portal_pairs: Dict[Portal, Portal]) -> str:
-    if portal_sd in hallway_helper:
+def hallway_hint(portal: Portal, portal_pairs: Dict[Portal, Portal]) -> str:
+    if portal.scene_destination() in hallway_helper:
+        hint_text = portal.region
         for portal1, portal2 in portal_pairs.items():
-            if portal1.scene_destination() == hallway_helper[portal_sd]:
-                hint_text = portal2.name + " to " + hint_text
+            if portal1.scene_destination() == hallway_helper[portal.scene_destination()]:
+                hint_text = portal2.name + " then " + hint_text
                 if portal2.scene_destination() in hallway_helper:
-                    hint_text = hallway_hint(portal2.scene_destination(), hint_text, portal_pairs)
+                    hint_text = hallway_hint(portal2, portal_pairs)
                 return hint_text
-            if portal2.scene_destination() == hallway_helper[portal_sd]:
-                hint_text = portal1.name + " to " + hint_text
+            if portal2.scene_destination() == hallway_helper[portal.scene_destination()]:
+                hint_text = portal1.name + " then " + hint_text
                 if portal1.scene_destination() in hallway_helper:
-                    hint_text = hallway_hint(portal1.scene_destination(), hint_text, portal_pairs)
+                    hint_text = hallway_hint(portal1, portal_pairs)
                 return hint_text
+    hint_text = portal.name
     return hint_text
 
 
