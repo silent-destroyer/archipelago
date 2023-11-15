@@ -1,5 +1,5 @@
 from . import TunicTestBase
-from .. import Options
+from .. import options
 
 
 class TestAccess(TunicTestBase):
@@ -19,7 +19,7 @@ class TestAccess(TunicTestBase):
 
 
 class TestHexQuest(TunicTestBase):
-    options = {Options.HexagonQuest.internal_name: Options.HexagonQuest.option_true}
+    options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_true}
 
     # test that you need the gold hexes to reach the Heir in Hex Quest
     def test_hexquest_victory(self):
@@ -29,7 +29,7 @@ class TestHexQuest(TunicTestBase):
 
 
 class TestNormalGoal(TunicTestBase):
-    options = {Options.HexagonQuest.internal_name: Options.HexagonQuest.option_false}
+    options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_false}
 
     # test that you need the three colored hexes to reach the Heir in standard
     def test_normal_goal(self):
@@ -39,9 +39,9 @@ class TestNormalGoal(TunicTestBase):
 
 
 class TestER(TunicTestBase):
-    options = {Options.EntranceRando.internal_name: Options.EntranceRando.option_true,
-               Options.AbilityShuffling.internal_name: Options.AbilityShuffling.option_true,
-               Options.HexagonQuest.internal_name: Options.HexagonQuest.option_false}
+    options = {options.EntranceRando.internal_name: options.EntranceRando.option_true,
+               options.AbilityShuffling.internal_name: options.AbilityShuffling.option_true,
+               options.HexagonQuest.internal_name: options.HexagonQuest.option_false}
 
     def test_overworld_hc_chest(self):
         # test to see that static connections are working properly -- this chest requires holy cross and is in Overworld
