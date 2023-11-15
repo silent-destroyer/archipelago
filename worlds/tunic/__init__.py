@@ -71,7 +71,7 @@ class TunicWorld(World):
         hexagon_quest = self.options.hexagon_quest
         sword_progression = self.options.sword_progression
 
-        items: List[TunicItem] = []
+        tunic_items: List[TunicItem] = []
         self.slot_data_items = []
 
         items_to_create: Dict[str, int] = {item: data.quantity_in_item_pool for item, data in item_table.items()}
@@ -121,9 +121,9 @@ class TunicWorld(World):
                 tunic_item: TunicItem = self.create_item(item)
                 if item in slot_data_item_names:
                     self.slot_data_items.append(tunic_item)
-                items.append(tunic_item)
+                tunic_items.append(tunic_item)
 
-        self.multiworld.itempool += items
+        self.multiworld.itempool += tunic_items
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}
