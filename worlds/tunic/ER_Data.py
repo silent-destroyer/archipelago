@@ -623,17 +623,19 @@ tunic_er_regions: Dict[str, RegionInfo] = {
 
 
 # so we can just loop over this instead of doing some complicated thing to deal with hallways in the hints
-hallway_helper: Dict[str, Tuple[str, str]] = {
-    "Overworld to West Garden from Furnace": ("Overworld Redux, Furnace_gyro_west", "Overworld Redux, Archipelagos Redux_lower"),
-    "Overworld Well to Furnace Rail": ("Overworld Redux, Furnace_gyro_upper_north", "Overworld Redux, Sewer_west_aqueduct"),
-    "Forest Boss Room": ("Forest Boss Room, East Forest Redux Laddercave_", "Forest Boss Room, Forest Belltower_"),
-    "Library Exterior Tree": ("Library Exterior, Atoll Redux_", "Library Exterior, Library Hall_"),
-    "Library Exterior Ladder": ("Library Exterior, Atoll Redux_", "Library Exterior, Library Hall_"),
-    "Library Rotunda": ("Library Rotunda, Library Lab_", "Library Rotunda, Library Hall_"),
-    "Quarry Connector": ("Darkwoods Tunnel, Quarry Redux_", "Darkwoods Tunnel, Overworld Redux_"),
-    "Rooted Ziggurat Entry": ("ziggurat2020_0, Quarry Redux_", "ziggurat2020_0, ziggurat2020_1_"),
-    "Purgatory": ("Purgatory, Purgatory_bottom", "Purgatory, Purgatory_top")
+hallway_helper: Dict[str, str] = {
+    "Overworld Redux, Furnace_gyro_west": "Overworld Redux, Archipelagos Redux_lower",
+    "Overworld Redux, Furnace_gyro_upper_north": "Overworld Redux, Sewer_west_aqueduct",
+    "Forest Boss Room, East Forest Redux Laddercave_": "Forest Boss Room, Forest Belltower_",
+    "Library Exterior, Atoll Redux_": "Library Exterior, Library Hall_",
+    "Library Exterior, Atoll Redux_": "Library Exterior, Library Hall_",
+    "Library Rotunda, Library Lab_": "Library Rotunda, Library Hall_",
+    "Darkwoods Tunnel, Quarry Redux_": "Darkwoods Tunnel, Overworld Redux_",
+    "ziggurat2020_0, Quarry Redux_": "ziggurat2020_0, ziggurat2020_1_",
+    "Purgatory, Purgatory_bottom": "Purgatory, Purgatory_top",
 }
+for p1, p2 in hallway_helper:
+    hallway_helper[p2] = p1
 
 
 class StaticCxn(NamedTuple):
