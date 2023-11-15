@@ -381,12 +381,12 @@ def hallway_hint(portal_sd: str, hint_text: str, portal_pairs: Dict[Portal, Port
             if portal1.scene_destination() == hallway_helper[portal_sd]:
                 hint_text = portal2.name + " to " + hint_text
                 if portal2.scene_destination() in hallway_helper:
-                    hint_text = hallway_hint(hallway_helper[portal2.scene_destination()], hint_text, portal_pairs)
+                    hint_text = hallway_hint(portal2.scene_destination(), hint_text, portal_pairs)
                 return hint_text
             if portal2.scene_destination() == hallway_helper[portal_sd]:
                 hint_text = portal1.name + " to " + hint_text
                 if portal1.scene_destination() in hallway_helper:
-                    hint_text = hallway_hint(hallway_helper[portal1.scene_destination()], hint_text, portal_pairs)
+                    hint_text = hallway_hint(portal1.scene_destination(), hint_text, portal_pairs)
                 return hint_text
     return hint_text
 
