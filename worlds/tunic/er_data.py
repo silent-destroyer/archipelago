@@ -623,7 +623,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
 
 
 # so we can just loop over this instead of doing some complicated thing to deal with hallways in the hints
-hallway_helper: Dict[str, str] = {
+hallways: Dict[str, str] = {
     "Overworld Redux, Furnace_gyro_west": "Overworld Redux, Archipelagos Redux_lower",
     "Overworld Redux, Furnace_gyro_upper_north": "Overworld Redux, Sewer_west_aqueduct",
     "Forest Boss Room, East Forest Redux Laddercave_": "Forest Boss Room, Forest Belltower_",
@@ -634,7 +634,9 @@ hallway_helper: Dict[str, str] = {
     "ziggurat2020_0, Quarry Redux_": "ziggurat2020_0, ziggurat2020_1_",
     "Purgatory, Purgatory_bottom": "Purgatory, Purgatory_top",
 }
-for p1, p2 in hallway_helper.items():
+hallway_helper: Dict[str, str] = {}
+for p1, p2 in hallways.items():
+    hallway_helper[p1] = p2
     hallway_helper[p2] = p1
 
 
