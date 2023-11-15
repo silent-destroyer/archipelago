@@ -1,6 +1,6 @@
 from typing import Dict, TYPE_CHECKING
 from worlds.generic.Rules import set_rule, forbid_item
-from .Rules import has_ability, has_sword
+from .rules import has_ability, has_sword
 from BaseClasses import Region, CollectionState
 
 if TYPE_CHECKING:
