@@ -3,29 +3,55 @@ from .. import options
 
 
 class TestAccess(TunicTestBase):
+    # test whether you can get into the temple without laurels
     def test_temple_access(self):
-        # test whether you can get into the temple without laurels
         self.collect_all_but(["Hero's Laurels", "Lantern"])
         self.assertFalse(self.can_reach_location("Sealed Temple - Page Pickup"))
         self.collect_by_name(["Lantern"])
         self.assertTrue(self.can_reach_location("Sealed Temple - Page Pickup"))
 
+    # test that the wells function properly. Since fairies is written the same way, that should succeed too
     def test_wells(self):
-        # test that the wells function properly. Since fairies is written the same way, that should succeed too
         self.collect_all_but(["Golden Coin"])
         self.assertFalse(self.can_reach_location("Coins in the Well - 3 Coins"))
         self.collect_by_name(["Golden Coin"])
         self.assertTrue(self.can_reach_location("Coins in the Well - 3 Coins"))
 
 
-class TestHexQuest(TunicTestBase):
-    options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_true}
+class TestStandardShuffle(TunicTestBase):
+    options = {options.AbilityShuffling.internal_name: options.AbilityShuffling.option_true}
+
+    # test that you need to get holy cross to open the hc door in overworld
+    def test_hc_door(self):
+        self.assertFalse(self.can_reach_location("Fountain Cross Door - Page Pickup"))
+        self.collect_by_name("Pages 42-43 (Holy Cross)")
+        self.assertTrue(self.can_reach_location("Fountain Cross Door - Page Pickup"))
+
+
+class TestHexQuestShuffle(TunicTestBase):
+    options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_true,
+               options.AbilityShuffling.internal_name: options.AbilityShuffling.option_true}
 
     # test that you need the gold hexes to reach the Heir in Hex Quest
     def test_hexquest_victory(self):
         location = ["The Heir"]
         item = [["Gold Questagon"]]
         self.assertAccessDependency(location, item)
+
+    # test that you need the gold questagons to open the hc door in overworld
+    def test_hc_door_hex_shuffle(self):
+        self.assertFalse(self.can_reach_location("Fountain Cross Door - Page Pickup"))
+        self.collect_by_name("Gold Questagon")
+        self.assertTrue(self.can_reach_location("Fountain Cross Door - Page Pickup"))
+
+
+class TestHexQuestNoShuffle(TunicTestBase):
+    options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_true,
+               options.AbilityShuffling.internal_name: options.AbilityShuffling.option_false}
+
+    # test that you can get the item behind the overworld hc door with nothing and no ability shuffle
+    def test_hc_door_no_shuffle(self):
+        self.assertTrue(self.can_reach_location("Fountain Cross Door - Page Pickup"))
 
 
 class TestNormalGoal(TunicTestBase):
