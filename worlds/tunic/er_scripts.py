@@ -397,7 +397,6 @@ def hint_helper(portal: Portal, portal_pairs: Dict[Portal, Portal], hint_text: s
                 else:
                     # if we didn't find a chain, get the portal name for the end of the chain
                     hint_text = portal2.name + " then " + hint_text
-                    print(hint_text)
                     return hint_text
             # and then the same thing for the other portal, since we have to check each separately
             if portal2.scene_destination() == hallway_helper[portal.scene_destination()]:
@@ -409,7 +408,6 @@ def hint_helper(portal: Portal, portal_pairs: Dict[Portal, Portal], hint_text: s
                     hint_text = hint_helper(portal1, portal_pairs, hint_text)
                 else:
                     hint_text = portal1.name + " then " + hint_text
-                    print(hint_text)
                     return hint_text
     return hint_text
 
