@@ -44,8 +44,8 @@ class FoolTraps(Choice):
 
 
 class HexagonQuest(Toggle):
-    """An alternate goal that shuffles Gold "Questagon" items into the item pool and allows the game to be completed
-    after collecting the required number of them."""
+    """An alternate goal that shuffles Gold "Questagon" items into the item pool and allows the game to be completed after
+    collecting the required number of them."""
     internal_name = "hexagon_quest"
     display_name = "Hexagon Quest"
 
@@ -95,4 +95,4 @@ class TunicOptions(PerGameCommonOptions):
     hexagon_goal: HexagonGoal
     extra_hexagon_percentage: ExtraHexagonPercentage
     start_inventory_from_pool: StartInventoryPool
-    
+
