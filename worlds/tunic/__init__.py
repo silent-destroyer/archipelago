@@ -1,13 +1,13 @@
 from typing import Dict, List, Any
 
 from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
-from .Items import item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names
-from .Locations import location_table, location_name_groups, location_name_to_id, hexagon_locations
-from .Rules import set_location_rules, set_region_rules, randomize_ability_unlocks, gold_hexagon
-from .ER_Rules import set_er_location_rules
-from .Regions import tunic_regions
-from .ER_Scripts import create_er_regions
-from .Options import TunicOptions
+from .items import item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names
+from .locations import location_table, location_name_groups, location_name_to_id, hexagon_locations
+from .rules import set_location_rules, set_region_rules, randomize_ability_unlocks, gold_hexagon
+from .er_rules import set_er_location_rules
+from .regions import tunic_regions
+from .er_scripts import create_er_regions
+from .options import TunicOptions
 from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -71,7 +71,7 @@ class TunicWorld(World):
         hexagon_quest = self.options.hexagon_quest
         sword_progression = self.options.sword_progression
 
-        items: List[TunicItem] = []
+        tunic_items: List[TunicItem] = []
         self.slot_data_items = []
 
         items_to_create: Dict[str, int] = {item: data.quantity_in_item_pool for item, data in item_table.items()}
@@ -121,9 +121,9 @@ class TunicWorld(World):
                 tunic_item: TunicItem = self.create_item(item)
                 if item in slot_data_item_names:
                     self.slot_data_items.append(tunic_item)
-                items.append(tunic_item)
+                tunic_items.append(tunic_item)
 
-        self.multiworld.itempool += items
+        self.multiworld.itempool += tunic_items
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}

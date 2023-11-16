@@ -3,7 +3,7 @@ from typing import Dict, TYPE_CHECKING
 
 from worlds.generic.Rules import set_rule, forbid_item
 from BaseClasses import CollectionState
-from .Options import TunicOptions
+from .options import TunicOptions
 if TYPE_CHECKING:
     from . import TunicWorld
 else:
