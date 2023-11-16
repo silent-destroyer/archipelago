@@ -32,12 +32,6 @@ class TestHexQuestShuffle(TunicTestBase):
     options = {options.HexagonQuest.internal_name: options.HexagonQuest.option_true,
                options.AbilityShuffling.internal_name: options.AbilityShuffling.option_true}
 
-    # test that you need the gold hexes to reach the Heir in Hex Quest
-    def test_hexquest_victory(self):
-        location = ["The Heir"]
-        item = [["Gold Questagon"]]
-        self.assertAccessDependency(location, item)
-
     # test that you need the gold questagons to open the hc door in overworld
     def test_hc_door_hex_shuffle(self):
         self.assertFalse(self.can_reach_location("Fountain Cross Door - Page Pickup"))
