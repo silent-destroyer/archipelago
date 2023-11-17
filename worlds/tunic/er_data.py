@@ -449,7 +449,6 @@ portal_mapping: List[Portal] = [
 class RegionInfo(NamedTuple):
     game_scene: str  # the name of the scene in the actual game
     dead_end: bool = False  # if the region only has one exit
-    hallway: bool = False  # if the area is a hallway (excluding any with the hint tag)
     hint: int = 0  # what kind of hint text you should have
 
 
@@ -459,15 +458,15 @@ class Hint(IntEnum):
     scene = 2  # multiple regions in the scene, so using region could mean no valid hints
 
 
-# first string is the AP Region name, second string is the Scene name in-game
+# key is the AP region name. "Fake" in region info just means the mod won't receive that info at all
 tunic_er_regions: Dict[str, RegionInfo] = {
     "Menu": RegionInfo("Fake", dead_end=True),
     "Overworld": RegionInfo("Overworld Redux"),
     "Overworld Holy Cross": RegionInfo("Fake", dead_end=True),
     "Overworld Belltower": RegionInfo("Overworld Redux"),  # the area with the belltower and chest
     "Overworld Laurels": RegionInfo("Overworld Redux"),  # all spots in Overworld that you need laurels to reach
-    "Overworld to West Garden from Furnace": RegionInfo("Overworld Redux", hallway=True),  # the tiny spot with a sign
-    "Overworld Well to Furnace Rail": RegionInfo("Overworld Redux", hallway=True),  # the tiny rail passageway
+    "Overworld to West Garden from Furnace": RegionInfo("Overworld Redux"),  # the tiny spot with a sign
+    "Overworld Well to Furnace Rail": RegionInfo("Overworld Redux"),  # the tiny rail passageway
     "Overworld Ruined Passage Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
     "Overworld Old House Door": RegionInfo("Overworld Redux"),  # the too-small space between the door and the portal
     "Overworld Southeast Cross Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
@@ -506,7 +505,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Guard House 1 East": RegionInfo("East Forest Redux Laddercave"),
     "Guard House 1 West": RegionInfo("East Forest Redux Laddercave"),
     "Guard House 2": RegionInfo("East Forest Redux Interior"),
-    "Forest Boss Room": RegionInfo("Forest Boss Room", hallway=True),
+    "Forest Boss Room": RegionInfo("Forest Boss Room"),
     "Forest Grave Path Main": RegionInfo("Sword Access"),
     "Forest Grave Path Upper": RegionInfo("Sword Access"),
     "Forest Grave Path by Grave": RegionInfo("Sword Access"),
@@ -532,11 +531,11 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Frog's Domain Entry": RegionInfo("Frog Stairs"),
     "Frog's Domain": RegionInfo("frog cave main", hint=Hint.region),
     "Frog's Domain Back": RegionInfo("frog cave main", hint=Hint.scene),
-    "Library Exterior Tree": RegionInfo("Library Exterior", hallway=True),
-    "Library Exterior Ladder": RegionInfo("Library Exterior", hallway=True),
+    "Library Exterior Tree": RegionInfo("Library Exterior"),
+    "Library Exterior Ladder": RegionInfo("Library Exterior"),
     "Library Hall": RegionInfo("Library Hall"),
     "Library Hero's Grave": RegionInfo("Library Hall"),
-    "Library Rotunda": RegionInfo("Library Rotunda", hallway=True),
+    "Library Rotunda": RegionInfo("Library Rotunda"),
     "Library Lab": RegionInfo("Library Lab"),
     "Library Lab Lower": RegionInfo("Library Lab"),
     "Library Portal": RegionInfo("Library Lab"),
@@ -562,7 +561,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Lower Mountain": RegionInfo("Mountain"),
     "Lower Mountain Stairs": RegionInfo("Mountain"),
     "Top of the Mountain": RegionInfo("Mountaintop", dead_end=True, hint=Hint.region),
-    "Quarry Connector": RegionInfo("Darkwoods Tunnel", hallway=True),
+    "Quarry Connector": RegionInfo("Darkwoods Tunnel"),
     "Quarry Entry": RegionInfo("Quarry Redux"),
     "Quarry": RegionInfo("Quarry Redux"),
     "Quarry Portal": RegionInfo("Quarry Redux"),
@@ -574,7 +573,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Monastery Rope": RegionInfo("Quarry Redux"),
     "Lower Quarry": RegionInfo("Quarry Redux"),
     "Lower Quarry Zig Door": RegionInfo("Quarry Redux"),
-    "Rooted Ziggurat Entry": RegionInfo("ziggurat2020_0", hallway=True),
+    "Rooted Ziggurat Entry": RegionInfo("ziggurat2020_0"),
     "Rooted Ziggurat Upper Entry": RegionInfo("ziggurat2020_1"),
     "Rooted Ziggurat Upper Front": RegionInfo("ziggurat2020_1"),
     "Rooted Ziggurat Upper Back": RegionInfo("ziggurat2020_1"),  # after the administrator
@@ -609,7 +608,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Hero Relic - East Forest": RegionInfo("RelicVoid", dead_end=True, hint=Hint.region),
     "Hero Relic - Library": RegionInfo("RelicVoid", dead_end=True, hint=Hint.region),
     "Hero Relic - Swamp": RegionInfo("RelicVoid", dead_end=True, hint=Hint.region),
-    "Purgatory": RegionInfo("Purgatory", hallway=True),
+    "Purgatory": RegionInfo("Purgatory"),
     "Shop Entrance 1": RegionInfo("Shop", dead_end=True),
     "Shop Entrance 2": RegionInfo("Shop", dead_end=True),
     "Shop Entrance 3": RegionInfo("Shop", dead_end=True),
@@ -648,8 +647,8 @@ class StaticCxn(NamedTuple):
     reverse: bool = False  # if the reverse connection has the same requirements
 
 
-# key is the region you have, value is the regions you get for having it
-# so that we aren't being excessively careful with the granular regions
+# the key is the region you have, the value is the regions you get for having that region
+# this is mostly so we don't have to do something overly complex to get this information
 dependent_regions: Dict[Tuple[str, ...], List[str]] = {
     ("Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Southeast Cross Door", "Overworld Temple Door",
      "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"):
