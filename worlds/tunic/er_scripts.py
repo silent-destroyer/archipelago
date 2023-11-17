@@ -35,7 +35,6 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
                         hint_text = hint_helper(portal1, portal_pairs)
                         break
             elif region_data.hint == 2:
-                hint_text = "error 2"
                 for portal1, portal2 in portal_pairs.items():
                     if portal1.scene() == tunic_er_regions[region_name].game_scene:
                         hint_text = hint_helper(portal2, portal_pairs)
