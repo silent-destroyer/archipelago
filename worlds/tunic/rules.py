@@ -6,8 +6,6 @@ from BaseClasses import CollectionState
 from .options import TunicOptions
 if TYPE_CHECKING:
     from . import TunicWorld
-else:
-    TunicWorld = object
 
 laurels = "Hero's Laurels"
 grapple = "Magic Orb"
@@ -53,7 +51,7 @@ def has_sword(state: CollectionState, player: int) -> bool:
     return state.has("Sword", player) or state.has("Sword Upgrade", player, 2)
 
 
-def set_region_rules(world: TunicWorld, options: TunicOptions, ability_unlocks: Dict[str, int]) -> None:
+def set_region_rules(world: "TunicWorld", options: TunicOptions, ability_unlocks: Dict[str, int]) -> None:
     multiworld = world.multiworld
     player = world.player
 
@@ -96,7 +94,7 @@ def set_region_rules(world: TunicWorld, options: TunicOptions, ability_unlocks: 
         lambda state: state.has(mask, player)
 
 
-def set_location_rules(world: TunicWorld, options: TunicOptions, ability_unlocks: Dict[str, int]) -> None:
+def set_location_rules(world: "TunicWorld", options: TunicOptions, ability_unlocks: Dict[str, int]) -> None:
     multiworld = world.multiworld
     player = world.player
     forbid_item(multiworld.get_location("Secret Gathering Place - 20 Fairy Reward", player), fairies, player)

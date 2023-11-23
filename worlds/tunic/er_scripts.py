@@ -6,8 +6,6 @@ from .er_rules import set_er_region_rules
 
 if TYPE_CHECKING:
     from . import TunicWorld
-else:
-    TunicWorld = object
 
 
 class TunicERItem(Item):
@@ -18,7 +16,7 @@ class TunicERLocation(Location):
     game: str = "Tunic"
 
 
-def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int, str]]:
+def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[int, str]]:
     regions: Dict[str, Region] = {}
     portal_pairs: Dict[Portal, Portal] = pair_portals(world)
 
@@ -121,7 +119,7 @@ def create_er_regions(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Dict[int
 
 
 # pairing off portals, starting with dead ends
-def pair_portals(world: TunicWorld) -> Dict[Portal, Portal]:
+def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     # separate the portals into dead ends and non-dead ends
     portal_pairs: Dict[Portal, Portal] = {}
     dead_ends: List[Portal] = []
@@ -412,7 +410,7 @@ def hint_helper(portal: Portal, portal_pairs: Dict[Portal, Portal], hint_text: s
 
 
 # todo: get this to work after 2170 is merged
-# def plando_connect(world: TunicWorld) -> Tuple[Dict[Portal, Portal], Set[str]]:
+# def plando_connect(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Set[str]]:
 #     player = world.player
 #     plando_pairs = {}
 #     plando_names = set()

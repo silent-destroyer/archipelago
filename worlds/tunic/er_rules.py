@@ -5,8 +5,6 @@ from BaseClasses import Region, CollectionState
 
 if TYPE_CHECKING:
     from . import TunicWorld
-else:
-    TunicWorld = object
 
 laurels = "Hero's Laurels"
 grapple = "Magic Orb"
@@ -32,7 +30,7 @@ def has_stick(state: CollectionState, player: int) -> bool:
     return state.has("Stick", player) or state.has("Sword Upgrade", player, 1) or state.has("Sword", player)
 
 
-def set_er_region_rules(world: TunicWorld, ability_unlocks: Dict[str, int], regions: Dict[str, Region]) -> None:
+def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], regions: Dict[str, Region]) -> None:
     player = world.player
     options = world.options
 
@@ -537,7 +535,7 @@ def set_er_region_rules(world: TunicWorld, ability_unlocks: Dict[str, int], regi
                             state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)))
 
 
-def set_er_location_rules(world: TunicWorld, ability_unlocks: Dict[str, int]) -> None:
+def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) -> None:
     player = world.player
     multiworld = world.multiworld
     options = world.options
