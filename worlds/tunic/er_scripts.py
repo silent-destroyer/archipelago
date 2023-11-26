@@ -22,24 +22,24 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
 
     # create our regions, give them hint text if they're in a spot where it makes sense to
     for region_name, region_data in tunic_er_regions.items():
-        if region_data.hint:
-            hint_text = "error"
-            if region_data.hint == 1:
-                for portal1, portal2 in portal_pairs.items():
-                    if portal1.region == region_name:
-                        hint_text = hint_helper(portal2, portal_pairs)
-                        break
-                    if portal2.region == region_name:
-                        hint_text = hint_helper(portal1, portal_pairs)
-                        break
-            elif region_data.hint == 2:
-                for portal1, portal2 in portal_pairs.items():
-                    if portal1.scene() == tunic_er_regions[region_name].game_scene:
-                        hint_text = hint_helper(portal2, portal_pairs)
-                        break
-                    if portal2.scene() == tunic_er_regions[region_name].game_scene:
-                        hint_text = hint_helper(portal1, portal_pairs)
-                        break
+        hint_text = "error"
+        if region_data.hint == 1:
+            for portal1, portal2 in portal_pairs.items():
+                if portal1.region == region_name:
+                    hint_text = hint_helper(portal2, portal_pairs)
+                    break
+                if portal2.region == region_name:
+                    hint_text = hint_helper(portal1, portal_pairs)
+                    break
+            regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+        elif region_data.hint == 2:
+            for portal1, portal2 in portal_pairs.items():
+                if portal1.scene() == tunic_er_regions[region_name].game_scene:
+                    hint_text = hint_helper(portal2, portal_pairs)
+                    break
+                if portal2.scene() == tunic_er_regions[region_name].game_scene:
+                    hint_text = hint_helper(portal1, portal_pairs)
+                    break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
