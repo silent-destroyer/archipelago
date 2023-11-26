@@ -51,6 +51,8 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         region = regions[location_table[location_name].er_region]
         location = TunicERLocation(world.player, location_name, location_id, region)
         region.locations.append(location)
+        if region.name == region.hint_text:
+            continue
         er_hint_data[location.address] = region.hint_text
     
     create_randomized_entrances(portal_pairs, regions)
