@@ -465,7 +465,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Overworld Holy Cross": RegionInfo("Fake", dead_end=True),
     "Overworld Belltower": RegionInfo("Overworld Redux"),  # the area with the belltower and chest
     "Overworld Laurels": RegionInfo("Overworld Redux"),  # all spots in Overworld that you need laurels to reach
-    "Overworld to West Garden from Furnace": RegionInfo("Overworld Redux"),  # the tiny spot with a sign
+    "Overworld to West Garden from Furnace": RegionInfo("Overworld Redux", hint=Hint.region),
     "Overworld Well to Furnace Rail": RegionInfo("Overworld Redux"),  # the tiny rail passageway
     "Overworld Ruined Passage Door": RegionInfo("Overworld Redux"),  # the small space betweeen the door and the portal
     "Overworld Old House Door": RegionInfo("Overworld Redux"),  # the too-small space between the door and the portal
@@ -486,7 +486,7 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Changing Room": RegionInfo("Changing Room", dead_end=True, hint=Hint.region),
     "Patrol Cave": RegionInfo("PatrolCave", dead_end=True, hint=Hint.region),
     "Ruined Shop": RegionInfo("Ruined Shop", dead_end=True, hint=Hint.region),
-    "Ruined Passage": RegionInfo("Ruins Passage"),
+    "Ruined Passage": RegionInfo("Ruins Passage", hint=Hint.region),
     "Special Shop": RegionInfo("ShopSpecial", dead_end=True, hint=Hint.region),
     "Caustic Light Cave": RegionInfo("Overworld Cave", dead_end=True, hint=Hint.region),
     "Maze Cave": RegionInfo("Maze Room", dead_end=True, hint=Hint.region),
