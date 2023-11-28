@@ -639,14 +639,6 @@ for p1, p2 in hallways.items():
     hallway_helper[p2] = p1
 
 
-class StaticCxn(NamedTuple):
-    origin: str
-    destination: str
-    reqs: List[List[str]] = []
-    region_reqs: List[str] = []
-    reverse: bool = False  # if the reverse connection has the same requirements
-
-
 # the key is the region you have, the value is the regions you get for having that region
 # this is mostly so we don't have to do something overly complex to get this information
 dependent_regions: Dict[Tuple[str, ...], List[str]] = {
