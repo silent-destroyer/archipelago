@@ -41,9 +41,9 @@ portal_mapping: List[Portal] = [
            destination="Swamp Redux 2_wall"),
     Portal(name="Swamp Lower Entrance", region="Overworld",
            destination="Swamp Redux 2_conduit"),
-    Portal(name="Ruined Passage Entrance Not-Door", region="Overworld",
+    Portal(name="Ruined Passage Not-Door Entrance", region="Overworld",
            destination="Ruins Passage_east"),
-    Portal(name="Ruined Passage Entrance Door", region="Overworld Ruined Passage Door",
+    Portal(name="Ruined Passage Door Entrance", region="Overworld Ruined Passage Door",
            destination="Ruins Passage_west"),
     Portal(name="Atoll Upper Entrance", region="Overworld",
            destination="Atoll Redux_upper"),
@@ -71,7 +71,7 @@ portal_mapping: List[Portal] = [
            destination="Town Basement_beach"),
     Portal(name="Changing Room Entrance", region="Overworld",
            destination="Changing Room_"),
-    Portal(name="Cube Room Entrance", region="Overworld",
+    Portal(name="Cube Cave Entrance", region="Overworld",
            destination="CubeRoom_"),
     Portal(name="Stairs from Overworld to Mountain", region="Overworld",
            destination="Mountain_"),
@@ -91,32 +91,42 @@ portal_mapping: List[Portal] = [
            destination="Transit_teleporter_town"),
     Portal(name="Spawn to Far Shore", region="Overworld Spawn Portal",
            destination="Transit_teleporter_starting island"),
-    Portal(name="Fairy Cave Entrance", region="Overworld",
+    Portal(name="Secret Gathering Place Entrance", region="Overworld",
            destination="Waterfall_"),
-    Portal(name="Fairy Cave Exit", region="Secret Gathering Place",
+    
+    Portal(name="Secret Gathering Place Exit", region="Secret Gathering Place",
            destination="Overworld Redux_"),
+    
     Portal(name="Windmill Exit", region="Windmill",
            destination="Overworld Redux_"),
     Portal(name="Windmill Shop", region="Windmill",
            destination="Shop_"),
+    
     Portal(name="Old House Door Exit", region="Old House Front",
            destination="Overworld Redux_house"),
     Portal(name="Old House to Glyph Tower", region="Old House Front",
            destination="g_elements_"),
     Portal(name="Old House Waterfall Exit", region="Old House Back",
            destination="Overworld Redux_under_checkpoint"),
+    
     Portal(name="Glyph Tower Exit", region="Relic Tower",
            destination="Overworld Interiors_"),
+    
     Portal(name="Changing Room Exit", region="Changing Room",
            destination="Overworld Redux_"),
+    
     Portal(name="Fountain HC Room Exit", region="Fountain Cross Room",
            destination="Overworld Redux_"),
-    Portal(name="Cube Room Exit", region="Cube Cave",
+    
+    Portal(name="Cube Cave Exit", region="Cube Cave",
            destination="Overworld Redux_"),
+    
     Portal(name="Guard Patrol Cave Exit", region="Patrol Cave",
            destination="Overworld Redux_"),
+    
     Portal(name="Ruined Shop Exit", region="Ruined Shop",
            destination="Overworld Redux_"),
+    
     Portal(name="Furnace Exit towards Well", region="Furnace Fuse",
            destination="Overworld Redux_gyro_upper_north"),
     Portal(name="Furnace Exit to Dark Tomb", region="Furnace Walking Path",
@@ -127,45 +137,57 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_gyro_lower"),
     Portal(name="Furnace Exit under Windmill", region="Furnace Ladder Area",
            destination="Overworld Redux_gyro_upper_east"),
+    
     Portal(name="Stick House Exit", region="Stick House",
            destination="Overworld Redux_"),
-    Portal(name="Ruined Passage Door Exit", region="Ruined Passage",
-           destination="Overworld Redux_east"),
+    
     Portal(name="Ruined Passage Not-Door Exit", region="Ruined Passage",
+           destination="Overworld Redux_east"),
+    Portal(name="Ruined Passage Door Exit", region="Ruined Passage",
            destination="Overworld Redux_west"),
+    
     Portal(name="Southeast HC Room Exit", region="Southeast Cross Room",
            destination="Overworld Redux_"),
+    
     Portal(name="Caustic Light Cave Exit", region="Caustic Light Cave",
            destination="Overworld Redux_"),
+    
     Portal(name="Maze Cave Exit", region="Maze Cave",
            destination="Overworld Redux_"),
+    
     Portal(name="Hourglass Cave Exit", region="Hourglass Cave",
            destination="Overworld Redux_beach"),
+    
     Portal(name="Special Shop Exit", region="Special Shop",
            destination="Overworld Redux_"),
+    
     Portal(name="Temple Rafters Exit", region="Sealed Temple Rafters",
            destination="Overworld Redux_rafters"),
     Portal(name="Temple Door Exit", region="Sealed Temple",
            destination="Overworld Redux_main"),
+    
     Portal(name="Well Ladder Exit", region="Bottom of the Well Front",
            destination="Overworld Redux_entrance"),
     Portal(name="Well to Well Boss", region="Bottom of the Well Back",
            destination="Sewer_Boss_"),
     Portal(name="Well Exit towards Furnace", region="Bottom of the Well Back",
            destination="Overworld Redux_west_aqueduct"),
+    
     Portal(name="Well Boss to Well", region="Well Boss",
            destination="Sewer_"),
     Portal(name="Checkpoint to Dark Tomb", region="Dark Tomb Checkpoint",
            destination="Crypt Redux_"),
+    
     Portal(name="Dark Tomb to Overworld", region="Dark Tomb Entry Point",
            destination="Overworld Redux_"),
     Portal(name="Dark Tomb to Furnace", region="Dark Tomb Dark Exit",
            destination="Furnace_"),
     Portal(name="Dark Tomb to Checkpoint", region="Dark Tomb Entry Point",
            destination="Sewer_Boss_"),
+    
     Portal(name="West Garden Exit near Hero's Grave", region="West Garden",
            destination="Overworld Redux_lower"),
-    Portal(name="Magic Dagger House Entrance", region="West Garden",
+    Portal(name="West Garden to Magic Dagger House", region="West Garden",
            destination="archipelagos_house_"),
     Portal(name="West Garden Exit after Boss", region="West Garden after Boss",
            destination="Overworld Redux_upper"),
@@ -177,8 +199,10 @@ portal_mapping: List[Portal] = [
            destination="RelicVoid_teleporter_relic plinth"),
     Portal(name="West Garden to Far Shore", region="West Garden Portal Area",
            destination="Transit_teleporter_archipelagos_teleporter"),
+    
     Portal(name="Magic Dagger House Exit", region="Magic Dagger House",
            destination="Archipelagos Redux_"),
+    
     Portal(name="Atoll Upper Exit", region="Ruined Atoll",
            destination="Overworld Redux_upper"),
     Portal(name="Atoll Lower Exit", region="Ruined Atoll Lower Entry Area",
@@ -187,12 +211,13 @@ portal_mapping: List[Portal] = [
            destination="Shop_"),
     Portal(name="Atoll to Far Shore", region="Ruined Atoll Portal",
            destination="Transit_teleporter_atoll"),
-    Portal(name="Atoll to Library", region="Ruined Atoll Portal",
+    Portal(name="Atoll Statue Teleporter", region="Ruined Atoll Portal",
            destination="Library Exterior_"),
     Portal(name="Frog Stairs Eye Entrance", region="Ruined Atoll",
            destination="Frog Stairs_eye"),
     Portal(name="Frog Stairs Mouth Entrance", region="Ruined Atoll Frog Mouth",
            destination="Frog Stairs_mouth"),
+    
     Portal(name="Frog Stairs Eye Exit", region="Frog's Domain Entry",
            destination="Atoll Redux_eye"),
     Portal(name="Frog Stairs Mouth Exit", region="Frog's Domain Entry",
@@ -201,32 +226,39 @@ portal_mapping: List[Portal] = [
            destination="frog cave main_Entrance"),
     Portal(name="Frog Stairs to Frog's Domain's Exit", region="Frog's Domain Entry",
            destination="frog cave main_Exit"),
+    
     Portal(name="Frog's Domain Ladder Exit", region="Frog's Domain",
            destination="Frog Stairs_Entrance"),
     Portal(name="Frog's Domain Orb Exit", region="Frog's Domain Back",
            destination="Frog Stairs_Exit"),
+    
     Portal(name="Library Exterior Tree", region="Library Exterior Tree",
            destination="Atoll Redux_"),
     Portal(name="Library Exterior Ladder", region="Library Exterior Ladder",
            destination="Library Hall_"),
+    
     Portal(name="Library Hall Bookshelf Exit", region="Library Hall",
            destination="Library Exterior_"),
     Portal(name="Library Hero's Grave", region="Library Hero's Grave",
            destination="RelicVoid_teleporter_relic plinth"),
     Portal(name="Library Hall to Rotunda", region="Library Hall",
            destination="Library Rotunda_"),
+    
     Portal(name="Library Rotunda Lower Exit", region="Library Rotunda",
            destination="Library Hall_"),
     Portal(name="Library Rotunda Upper Exit", region="Library Rotunda",
            destination="Library Lab_"),
-    Portal(name="Library Lab Lower Ladder", region="Library Lab Lower",
+    
+    Portal(name="Library Lab to Rotunda", region="Library Lab Lower",
            destination="Library Rotunda_"),
     Portal(name="Library to Far Shore", region="Library Portal",
            destination="Transit_teleporter_library teleporter"),
     Portal(name="Library Lab to Librarian Arena", region="Library Lab",
            destination="Library Arena_"),
+    
     Portal(name="Librarian Arena Exit", region="Library Arena",
            destination="Library Lab_"),
+    
     Portal(name="Forest to Belltower", region="East Forest",
            destination="Forest Belltower_"),
     Portal(name="Forest Guard House 1 Lower Entrance", region="East Forest",
@@ -245,6 +277,7 @@ portal_mapping: List[Portal] = [
            destination="Sword Access_lower"),
     Portal(name="Forest Grave Path Upper Entrance", region="East Forest",
            destination="Sword Access_upper"),
+    
     Portal(name="Guard House 1 Dance Fox Exit", region="Guard House 1 West",
            destination="East Forest Redux_upper"),
     Portal(name="Guard House 1 Lower Exit", region="Guard House 1 West",
@@ -253,20 +286,24 @@ portal_mapping: List[Portal] = [
            destination="East Forest Redux_gate"),
     Portal(name="Guard House 1 to Guard Captain Room", region="Guard House 1 East",
            destination="Forest Boss Room_"),
+    
     Portal(name="Forest Grave Path Upper Exit", region="Forest Grave Path Upper",
            destination="East Forest Redux_upper"),
     Portal(name="Forest Grave Path Lower Exit", region="Forest Grave Path Main",
            destination="East Forest Redux_lower"),
     Portal(name="East Forest Hero's Grave", region="Forest Hero's Grave",
            destination="RelicVoid_teleporter_relic plinth"),
+    
     Portal(name="Guard House 2 Lower Exit", region="Guard House 2",
            destination="East Forest Redux_lower"),
     Portal(name="Guard House 2 Upper Exit", region="Guard House 2",
            destination="East Forest Redux_upper"),
+    
     Portal(name="Guard Captain Room Non-Gate Exit", region="Forest Boss Room",
            destination="East Forest Redux Laddercave_"),
     Portal(name="Guard Captain Room Gate Exit", region="Forest Boss Room",
            destination="Forest Belltower_"),
+    
     Portal(name="Forest Belltower to Fortress", region="Forest Belltower Main",
            destination="Fortress Courtyard_"),
     Portal(name="Forest Belltower to Forest", region="Forest Belltower Lower",
@@ -275,6 +312,7 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_"),
     Portal(name="Forest Belltower to Guard Captain Room", region="Forest Belltower Upper",
            destination="Forest Boss Room_"),
+    
     Portal(name="Fortress Courtyard to Fortress Grave Path Lower", region="Fortress Courtyard",
            destination="Fortress Reliquary_Lower"),
     Portal(name="Fortress Courtyard to Fortress Grave Path Upper", region="Fortress Courtyard Upper",
@@ -291,10 +329,12 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_"),
     Portal(name="Fortress Courtyard Shop", region="Fortress Exterior near cave",
            destination="Shop_"),
+    
     Portal(name="Beneath the Earth to Fortress Interior", region="Beneath the Vault Back",
            destination="Fortress Main_"),
     Portal(name="Beneath the Earth to Fortress Courtyard", region="Beneath the Vault Front",
            destination="Fortress Courtyard_"),
+    
     Portal(name="Fortress Interior Main Exit", region="Eastern Vault Fortress",
            destination="Fortress Courtyard_Big Door"),
     Portal(name="Fortress Interior to Beneath the Earth", region="Eastern Vault Fortress",
@@ -307,38 +347,46 @@ portal_mapping: List[Portal] = [
            destination="Fortress East_upper"),
     Portal(name="Fortress Interior to East Fortress Lower", region="Eastern Vault Fortress",
            destination="Fortress East_lower"),
+    
     Portal(name="East Fortress to Interior Lower", region="Fortress East Shortcut Lower",
            destination="Fortress Main_lower"),
     Portal(name="East Fortress to Courtyard", region="Fortress East Shortcut Upper",
            destination="Fortress Courtyard_"),
     Portal(name="East Fortress to Interior Upper", region="Fortress East Shortcut Upper",
            destination="Fortress Main_upper"),
+    
     Portal(name="Fortress Grave Path Lower Exit", region="Fortress Grave Path",
            destination="Fortress Courtyard_Lower"),
     Portal(name="Fortress Hero's Grave", region="Fortress Grave Path",
            destination="RelicVoid_teleporter_relic plinth"),
-    Portal(name="Fortress Grave Path Dusty Entrance", region="Fortress Grave Path Dusty Entrance",
-           destination="Dusty_"),
-    Portal(name="Dusty Exit", region="Fortress Leaf Piles",
-           destination="Fortress Reliquary_"),
     Portal(name="Fortress Grave Path Upper Exit", region="Fortress Grave Path Upper",
            destination="Fortress Courtyard_Upper"),
+    Portal(name="Fortress Grave Path Dusty Entrance", region="Fortress Grave Path Dusty Entrance",
+           destination="Dusty_"),    
+
+    Portal(name="Dusty Exit", region="Fortress Leaf Piles",
+           destination="Fortress Reliquary_"),
+    
     Portal(name="Siege Engine Arena to Fortress", region="Fortress Arena",
            destination="Fortress Main_"),
     Portal(name="Fortress to Far Shore", region="Fortress Arena Portal",
            destination="Transit_teleporter_spidertank"),
+    
     Portal(name="Stairs to Top of the Mountain", region="Lower Mountain Stairs",
            destination="Mountaintop_"),
     Portal(name="Mountain to Quarry", region="Lower Mountain",
            destination="Quarry Redux_"),
     Portal(name="Mountain to Overworld", region="Lower Mountain",
            destination="Overworld Redux_"),
+    
     Portal(name="Top of the Mountain Exit", region="Top of the Mountain",
            destination="Mountain_"),
+    
     Portal(name="Quarry Connector to Overworld", region="Quarry Connector",
            destination="Overworld Redux_"),
     Portal(name="Quarry Connector to Quarry", region="Quarry Connector",
            destination="Quarry Redux_"),
+    
     Portal(name="Quarry to Overworld Exit", region="Quarry Entry",
            destination="Darkwoods Tunnel_"),
     Portal(name="Quarry Shop", region="Quarry Entry",
@@ -353,32 +401,39 @@ portal_mapping: List[Portal] = [
            destination="ziggurat2020_0_"),
     Portal(name="Quarry to Far Shore", region="Quarry Portal",
            destination="Transit_teleporter_quarry teleporter"),
+    
     Portal(name="Monastery Rear Exit", region="Monastery Back",
            destination="Quarry Redux_back"),
     Portal(name="Monastery Front Exit", region="Monastery Front",
            destination="Quarry Redux_front"),
     Portal(name="Monastery Hero's Grave", region="Monastery Hero's Grave",
            destination="RelicVoid_teleporter_relic plinth"),
+    
     Portal(name="Ziggurat Entry Hallway to Ziggurat Upper", region="Rooted Ziggurat Entry",
            destination="ziggurat2020_1_"),
     Portal(name="Ziggurat Entry Hallway to Quarry", region="Rooted Ziggurat Entry",
            destination="Quarry Redux_"),
+    
     Portal(name="Ziggurat Upper to Ziggurat Entry Hallway", region="Rooted Ziggurat Upper Entry",
            destination="ziggurat2020_0_"),
     Portal(name="Ziggurat Upper to Ziggurat Tower", region="Rooted Ziggurat Upper Back",
            destination="ziggurat2020_2_"),
+    
     Portal(name="Ziggurat Tower to Ziggurat Upper", region="Rooted Ziggurat Middle Top",
            destination="ziggurat2020_1_"),
     Portal(name="Ziggurat Tower to Ziggurat Lower", region="Rooted Ziggurat Middle Bottom",
            destination="ziggurat2020_3_"),
+    
     Portal(name="Ziggurat Lower to Ziggurat Tower", region="Rooted Ziggurat Lower Front",
            destination="ziggurat2020_2_"),
     Portal(name="Ziggurat Portal Room Entrance", region="Rooted Ziggurat Portal Room Entrance",
            destination="ziggurat2020_FTRoom_"),
+    
     Portal(name="Ziggurat Portal Room Exit", region="Rooted Ziggurat Portal Room Exit",
            destination="ziggurat2020_3_"),
     Portal(name="Ziggurat to Far Shore", region="Rooted Ziggurat Portal",
            destination="Transit_teleporter_ziggurat teleporter"),
+    
     Portal(name="Swamp Lower Exit", region="Swamp",
            destination="Overworld Redux_conduit"),
     Portal(name="Swamp to Cathedral Main Entrance", region="Swamp to Cathedral Main Entrance",
@@ -393,18 +448,21 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_wall"),
     Portal(name="Swamp Hero's Grave", region="Swamp Hero's Grave",
            destination="RelicVoid_teleporter_relic plinth"),
+    
     Portal(name="Cathedral Main Exit", region="Cathedral",
            destination="Swamp Redux 2_main"),
     Portal(name="Cathedral Elevator", region="Cathedral",
            destination="Cathedral Arena_"),
     Portal(name="Cathedral Secret Legend Room Exit", region="Cathedral Secret Legend Room",
            destination="Swamp Redux 2_secret"),
+    
     Portal(name="Gauntlet to Swamp", region="Cathedral Gauntlet Exit",
            destination="Swamp Redux 2_"),
     Portal(name="Gauntlet Elevator", region="Cathedral Gauntlet Checkpoint",
            destination="Cathedral Redux_"),
     Portal(name="Gauntlet Shop", region="Cathedral Gauntlet Checkpoint",
            destination="Shop_"),
+    
     Portal(name="Hero's Grave to Fortress", region="Hero Relic - Fortress",
            destination="Fortress Reliquary_teleporter_relic plinth"),
     Portal(name="Hero's Grave to Monastery", region="Hero Relic - Quarry",
@@ -417,6 +475,7 @@ portal_mapping: List[Portal] = [
            destination="Library Hall_teleporter_relic plinth"),
     Portal(name="Hero's Grave to Swamp", region="Hero Relic - Swamp",
            destination="Swamp Redux 2_teleporter_relic plinth"),
+    
     Portal(name="Far Shore to West Garden", region="Far Shore to West Garden",
            destination="Archipelagos Redux_teleporter_archipelagos_teleporter"),
     Portal(name="Far Shore to Library", region="Far Shore to Library",
@@ -437,8 +496,10 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_teleporter_town"),
     Portal(name="Far Shore to Spawn", region="Far Shore to Spawn",
            destination="Overworld Redux_teleporter_starting island"),
+    
     Portal(name="Heir Arena Exit", region="Spirit Arena",
            destination="Transit_teleporter_spirit arena"),
+    
     Portal(name="Purgatory Bottom Exit", region="Purgatory",
            destination="Purgatory_bottom"),
     Portal(name="Purgatory Top Exit", region="Purgatory",
