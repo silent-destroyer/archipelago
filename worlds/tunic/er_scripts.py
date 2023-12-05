@@ -241,8 +241,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
 
 
 # loop through our list of paired portals and make two-way connections
-def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dict[str, Region]) \
-        -> None:
+def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dict[str, Region]) -> None:
     for portal1, portal2 in portal_pairs.items():
         region1 = regions[portal1.region]
         region2 = regions[portal2.region]
