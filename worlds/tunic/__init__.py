@@ -8,7 +8,7 @@ from .er_rules import set_er_location_rules
 from .regions import tunic_regions
 from .er_scripts import create_er_regions
 from .options import TunicOptions
-from ..AutoWorld import WebWorld, World
+from worlds.AutoWorld import WebWorld, World
 from decimal import Decimal, ROUND_HALF_UP
 
 
