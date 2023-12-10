@@ -86,6 +86,21 @@ class TunicWorld(World):
         else:
             items_to_create["Sword Upgrade"] = 0
 
+        if self.options.laurels_location:
+            laurels = self.create_item("Hero's Laurels")
+            if self.options.laurels_location == "6_coins":
+                self.multiworld.get_location("Coins in the Well - 6 Coins", self.player).place_locked_item(laurels)
+            elif self.options.laurels_location == "10_coins":
+                self.multiworld.get_location("Coins in the Well - 10 Coins", self.player).place_locked_item(laurels)
+            elif self.options.laurels_location == "15_coins":
+                self.multiworld.get_location("Coins in the Well - 15 Coins", self.player).place_locked_item(laurels)
+            elif self.options.laurels_location == "10_fairies":
+                self.multiworld.get_location("Secret Gathering Place - 10 Fairy Reward", self.player).place_locked_item(laurels)
+            elif self.options.laurels_location == "20_fairies":
+                self.multiworld.get_location("Secret Gathering Place - 20 Fairy Reward", self.player).place_locked_item(laurels)
+            self.slot_data_items.append(laurels)
+            items_to_create["Hero's Laurels"] = 0
+
         if keys_behind_bosses:
             for rgb_hexagon, location in hexagon_locations.items():
                 hex_item = self.create_item(gold_hexagon if hexagon_quest else rgb_hexagon)

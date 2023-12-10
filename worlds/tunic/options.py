@@ -84,6 +84,21 @@ class FixedShop(Toggle):
     display_name = "ER Fixed Shop"
 
 
+class LaurelsLocation(Choice):
+    """Force the Hero's Laurels to be placed at a location in your world.
+    For if you want to avoid or specify early or late Laurels.
+    If you use either Fairies option in Entrance Rando, Secret Gathering Place will be at its vanilla entrance."""
+    internal_name = "laurels_location"
+    display_name = "Laurels Location"
+    option_anywhere = 0
+    option_6_coins = 1
+    option_10_coins = 2
+    option_15_coins = 3
+    option_10_fairies = 4
+    option_20_fairies = 5
+    default = 0
+
+
 @dataclass
 class TunicOptions(PerGameCommonOptions):
     sword_progression: SwordProgression
@@ -96,4 +111,5 @@ class TunicOptions(PerGameCommonOptions):
     hexagon_quest: HexagonQuest
     hexagon_goal: HexagonGoal
     extra_hexagon_percentage: ExtraHexagonPercentage
+    laurels_location: LaurelsLocation
     start_inventory_from_pool: StartInventoryPool

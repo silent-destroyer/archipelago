@@ -140,22 +140,39 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     start_region = "Overworld"
     connected_regions.update(add_dependent_regions(start_region))
 
+    # need to plando fairy cave, or it could end up laurels locked
+    # fix this later to be random? probably not?
+    if world.options.laurels_location in ["10_fairies", "20_fairies"]:
+        portal1 = None
+        portal2 = None
+        for portal in two_plus:
+            if portal.scene_destination() == "Overworld Redux, Waterfall_":
+                portal1 = portal
+                break
+        for portal in dead_ends:
+            if portal.scene_destination() == "Waterfall, Overworld Redux_":
+                portal2 = portal
+                break
+        portal_pairs[portal1] = portal2
+        two_plus.remove(portal1)
+        dead_ends.remove(portal2)
+
+    if world.options.fixed_shop:
+        fixed_shop = True
+        portal1 = None
+        for portal in two_plus:
+            if portal.scene_destination() == "Overworld Redux, Windmill_":
+                portal1 = portal
+                break
+        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance 2", destination="Previous Region_")
+        portal_pairs[portal1] = portal2
+        two_plus.remove(portal1)
+
     # we want to start by making sure every region is accessible
     non_dead_end_regions = set()
     for region_name, region_info in tunic_er_regions.items():
         if not region_info.dead_end:
             non_dead_end_regions.add(region_name)
-
-    if world.options.fixed_shop:
-        fixed_shop = True
-        portal1 = None
-        for item in two_plus:
-            if item.scene_destination() == "Overworld Redux, Windmill_":
-                portal1 = item
-                break
-        portal2 = Portal(name="Shop Portal", region=f"Shop Entrance 2", destination="Previous Region_")
-        portal_pairs[portal1] = portal2
-        two_plus.remove(portal1)
 
     world.random.shuffle(two_plus)
     check_success = 0
