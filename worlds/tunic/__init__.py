@@ -92,12 +92,8 @@ class TunicWorld(World):
                 self.multiworld.get_location("Coins in the Well - 6 Coins", self.player).place_locked_item(laurels)
             elif self.options.laurels_location == "10_coins":
                 self.multiworld.get_location("Coins in the Well - 10 Coins", self.player).place_locked_item(laurels)
-            elif self.options.laurels_location == "15_coins":
-                self.multiworld.get_location("Coins in the Well - 15 Coins", self.player).place_locked_item(laurels)
             elif self.options.laurels_location == "10_fairies":
                 self.multiworld.get_location("Secret Gathering Place - 10 Fairy Reward", self.player).place_locked_item(laurels)
-            elif self.options.laurels_location == "20_fairies":
-                self.multiworld.get_location("Secret Gathering Place - 20 Fairy Reward", self.player).place_locked_item(laurels)
             self.slot_data_items.append(laurels)
             items_to_create["Hero's Laurels"] = 0
 
