@@ -142,7 +142,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
 
     # need to plando fairy cave, or it could end up laurels locked
     # fix this later to be random? probably not?
-    if world.options.laurels_location in ["10_fairies", "20_fairies"]:
+    if world.options.laurels_location == "10_fairies":
         portal1 = None
         portal2 = None
         for portal in two_plus:
