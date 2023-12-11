@@ -93,9 +93,7 @@ class LaurelsLocation(Choice):
     option_anywhere = 0
     option_6_coins = 1
     option_10_coins = 2
-    option_15_coins = 3
-    option_10_fairies = 4
-    option_20_fairies = 5
+    option_10_fairies = 3
     default = 0
 
 
