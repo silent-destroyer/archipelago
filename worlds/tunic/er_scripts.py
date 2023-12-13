@@ -61,51 +61,51 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         world.multiworld.regions.append(region)
 
     # can reach didn't work in the rules file before loading them in, so I guess we're doing this now
-    world.multiworld.register_indirect_condition(
-        regions["Overworld Belltower"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Forest Belltower Upper"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Overworld Belltower"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Forest Belltower Upper"], world.multiworld.get_entrance("Overworld Temple Door", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Fortress Exterior from Overworld"],
-        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Eastern Vault Fortress"],
-        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Beneath the Vault Back"],
-        world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Fortress Exterior from Overworld"],
+    #     world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Eastern Vault Fortress"],
+    #     world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Beneath the Vault Back"],
+    #     world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Fortress Courtyard Upper"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Beneath the Vault Back"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Fortress Courtyard Upper"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Beneath the Vault Back"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Quarry Portal", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Zig Door", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Rooted Ziggurat Lower Back"], world.multiworld.get_entrance("Zig Portal Room Exit", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Quarry Portal", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Zig Door", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Rooted Ziggurat Lower Back"], world.multiworld.get_entrance("Zig Portal Room Exit", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["West Garden"], world.multiworld.get_entrance("Far Shore to West Garden", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["West Garden"], world.multiworld.get_entrance("Far Shore to West Garden", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Quarry Connector"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Quarry"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Quarry Connector"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Quarry"], world.multiworld.get_entrance("Far Shore to Quarry", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Fortress Exterior from Overworld"],
-        world.multiworld.get_entrance("Far Shore to Fortress", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Beneath the Vault Back"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
-    world.multiworld.register_indirect_condition(
-        regions["Eastern Vault Fortress"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Fortress Exterior from Overworld"],
+    #     world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Beneath the Vault Back"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Eastern Vault Fortress"], world.multiworld.get_entrance("Far Shore to Fortress", world.player))
 
-    world.multiworld.register_indirect_condition(
-        regions["Library Lab"], world.multiworld.get_entrance("Far Shore to Library", world.player))
+    # world.multiworld.register_indirect_condition(
+    #     regions["Library Lab"], world.multiworld.get_entrance("Far Shore to Library", world.player))
 
     place_event_items(world, regions)
 
@@ -120,7 +120,7 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
     return portals_and_hints
 
 
-event_locs_and_items: Dict[str, str] = {
+tunic_events: Dict[str, str] = {
     "Ring Eastern Bell": "Forest Belltower Upper",
     "Ring Western Bell": "Overworld Belltower",
     "Activate South and West Fortress Exterior Fuses": "Fortress Exterior from Overworld",
@@ -138,7 +138,7 @@ event_locs_and_items: Dict[str, str] = {
 
 
 def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
-    for event_name, region_name in event_locs_and_items.items():
+    for event_name, region_name in tunic_events.items():
         region = regions[region_name]
         location = TunicERLocation(world.player, event_name, None, region).place_locked_item(TunicERItem(event_name, ItemClassification.progression, None, world.player))
         region.locations.append(location)
