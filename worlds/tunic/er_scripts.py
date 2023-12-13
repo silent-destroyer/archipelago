@@ -107,6 +107,8 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
     world.multiworld.register_indirect_condition(
         regions["Library Lab"], world.multiworld.get_entrance("Far Shore to Library", world.player))
 
+    place_event_items(world, regions)
+
     victory_region = regions["Spirit Arena Victory"]
     victory_location = TunicERLocation(world.player, "The Heir", None, victory_region)
     victory_location.place_locked_item(TunicERItem("Victory", ItemClassification.progression, None, world.player))
@@ -116,6 +118,30 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
     portals_and_hints = (portal_pairs, er_hint_data)
 
     return portals_and_hints
+
+
+event_locs_and_items: Dict[str, str] = {
+    "Ring Eastern Bell": "Forest Belltower Upper",
+    "Ring Western Bell": "Overworld Belltower",
+    "Activate South and West Fortress Exterior Fuses": "Fortress Exterior from Overworld",
+    "Activate Upper and Central Fortress Exterior Fuses": "Fortress Courtyard Upper",
+    "Activate Beneath the Vault Fuse": "Beneath the Vault Back",
+    "Activate Eastern Vault Fuse by Candles": "Eastern Vault Fortress",
+    "Activate Eastern Vault Fuse Left of Door": "Eastern Vault Fortress",
+    "Activate Eastern Vault Fuse Right of Door": "Eastern Vault Fortress",
+    "Activate Quarry Connector Fuse": "Quarry Connector",
+    "Activate Quarry Fuse": "Quarry",
+    "Activate Ziggurat Fuse": "Rooted Ziggurat Lower Back",
+    "Activate West Garden Fuse": "West Garden",
+    "Activate Library Fuse": "Library Lab",
+}
+
+
+def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
+    for event_name, region_name in event_locs_and_items.items():
+        region = regions[region_name]
+        location = TunicERLocation(world.player, event_name, None, region).place_locked_item(TunicERItem(event_name, ItemClassification.progression, None, world.player))
+        region.locations.append(location)
 
 
 # pairing off portals, starting with dead ends
