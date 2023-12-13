@@ -77,8 +77,6 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
 
     world.multiworld.register_indirect_condition(
-        regions["Fortress Exterior from Overworld"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
-    world.multiworld.register_indirect_condition(
         regions["Fortress Courtyard Upper"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
     world.multiworld.register_indirect_condition(
         regions["Beneath the Vault Back"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
