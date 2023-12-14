@@ -705,9 +705,9 @@ def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) 
              lambda state: state.has(laurels, player))
 
     # Events
-    set_rule(multiworld.get_location("Ring Eastern Bell", player),
+    set_rule(multiworld.get_location("Eastern Bell", player),
              lambda state: (has_stick(state, player) or state.has(fire_wand, player)))
-    set_rule(multiworld.get_location("Ring Western Bell", player),
+    set_rule(multiworld.get_location("Western Bell", player),
              lambda state: (has_stick(state, player) or state.has(fire_wand, player)))
     set_rule(multiworld.get_location("Furnace Fuse", player),
              lambda state: has_ability(state, player, prayer, options, ability_unlocks))

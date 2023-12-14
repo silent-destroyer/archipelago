@@ -121,8 +121,8 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
 
 
 tunic_events: Dict[str, str] = {
-    "Ring Eastern Bell": "Forest Belltower Upper",
-    "Ring Western Bell": "Overworld Belltower",
+    "Eastern Bell": "Forest Belltower Upper",
+    "Western Bell": "Overworld Belltower",
     "Furnace Fuse": "Furnace Fuse",
     "South and West Fortress Exterior Fuses": "Fortress Exterior from Overworld",
     "Upper and Central Fortress Exterior Fuses": "Fortress Courtyard Upper",
@@ -141,7 +141,11 @@ def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
     for event_name, region_name in tunic_events.items():
         region = regions[region_name]
         location = TunicERLocation(world.player, event_name, None, region)
-        location.place_locked_item(TunicERItem("Activate " + event_name, ItemClassification.progression, None, world.player))
+        if event_name.endswith("Bell"):
+            location.place_locked_item(
+                TunicERItem("Ring " + event_name, ItemClassification.progression, None, world.player))
+        else:
+            location.place_locked_item(TunicERItem("Activate " + event_name, ItemClassification.progression, None, world.player))
         region.locations.append(location)
 
 
