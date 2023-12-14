@@ -140,7 +140,8 @@ tunic_events: Dict[str, str] = {
 def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
     for event_name, region_name in tunic_events.items():
         region = regions[region_name]
-        location = TunicERLocation(world.player, event_name, None, region).place_locked_item(TunicERItem(event_name, ItemClassification.progression, None, world.player))
+        location = TunicERLocation(world.player, event_name, None, region)
+        location.place_locked_item(TunicERItem(event_name, ItemClassification.progression, None, world.player))
         region.locations.append(location)
 
 
@@ -333,8 +334,8 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress teleporter needs only the left fuses
-    elif check_portal.scene_destination() in {"Fortress Arena, Transit_teleporter_spidertank",
-                                              "Transit, Fortress Arena_teleporter_spidertank"}:
+    elif check_portal.scene_destination() in ["Fortress Arena, Transit_teleporter_spidertank",
+                                              "Transit, Fortress Arena_teleporter_spidertank"]:
         i = j = k = 0
         for portal in two_plus:
             if portal.scene() == "Fortress Courtyard":
@@ -367,8 +368,8 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Quarry teleporter needs you to hit the Darkwoods fuse
     # Since it's physically in Quarry, we don't need to check for it
-    elif check_portal.scene_destination() in {"Quarry Redux, Transit_teleporter_quarry teleporter"
-                                              "Quarry Redux, ziggurat2020_0_"}:
+    elif check_portal.scene_destination() in ["Quarry Redux, Transit_teleporter_quarry teleporter",
+                                              "Quarry Redux, ziggurat2020_0_"]:
         i = 0
         for portal in two_plus:
             if portal.scene() == "Darkwoods Tunnel":
