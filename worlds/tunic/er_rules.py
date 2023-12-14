@@ -91,8 +91,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Temple Door"],
         name="Overworld Temple Door",
-        rule=lambda state: (has_stick(state, player) or state.has(fire_wand, player)) 
-        and state.can_reach(regions["Forest Belltower Upper"]) and state.can_reach(regions["Overworld Belltower"]))
+        rule=lambda state: state.has_all({"Ring Eastern Bell", "Ring Western Bell"}, player))
 
     # Overworld side areas
     regions["Old House Front"].connect(
@@ -323,9 +322,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Eastern Vault Fortress"].connect(
         connecting_region=regions["Eastern Vault Fortress Gold Door"],
         name="Fortress Gold Door",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["Fortress Courtyard Upper"])
-        and state.can_reach(regions["Beneath the Vault Back"]))
+        rule=lambda state: state.has_all({"Activate Eastern Vault West Fuses",
+                                          "Activate Eastern Vault East Fuse"}, player))
 
     regions["Fortress Grave Path"].connect(
         connecting_region=regions["Fortress Grave Path Dusty Entrance"],
@@ -343,10 +341,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Fortress Arena"].connect(
         connecting_region=regions["Fortress Arena Portal"],
         name="Fortress Arena to Fortress Portal",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["Fortress Exterior from Overworld"])
-        and state.can_reach(regions["Eastern Vault Fortress"])
-        and state.can_reach(regions["Beneath the Vault Back"]))
+        rule=lambda state: state.has("Activate Eastern Vault West Fuses", player))
     regions["Fortress Arena Portal"].connect(
         connecting_region=regions["Fortress Arena"])
 
@@ -361,8 +356,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Quarry Entry"].connect(
         connecting_region=regions["Quarry Portal"],
         name="Quarry to Quarry Portal",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
-        and state.can_reach(regions["Quarry Connector"]))
+        rule=lambda state: state.has("Activate Quarry Fuse", player))
     regions["Quarry Portal"].connect(
         connecting_region=regions["Quarry Entry"])
 
@@ -394,8 +388,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Lower Quarry"].connect(
         connecting_region=regions["Lower Quarry Zig Door"],
         name="Quarry to Zig Door",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
-        and state.can_reach(regions["Quarry Connector"]) and state.can_reach(regions["Quarry"]))
+        rule=lambda state: state.has("Activate Quarry Fuse", player))
 
     regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"])
@@ -440,8 +433,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Rooted Ziggurat Portal"].connect(
         connecting_region=regions["Rooted Ziggurat Portal Room Exit"],
         name="Zig Portal Room Exit",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["Rooted Ziggurat Lower Back"]))
+        rule=lambda state: state.has("Activate Ziggurat Fuse", player))
     regions["Rooted Ziggurat Portal Room Exit"].connect(
         connecting_region=regions["Rooted Ziggurat Portal"],
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
@@ -498,35 +490,28 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to West Garden"],
         name="Far Shore to West Garden",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["West Garden"]))
+        rule=lambda state: state.has("Activate West Garden Fuse", player))
     regions["Far Shore to West Garden"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Quarry"],
         name="Far Shore to Quarry",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
-        and state.can_reach(regions["Quarry Connector"])
-        and state.can_reach(regions["Quarry"]))
+        rule=lambda state: state.has("Activate Quarry Fuse", player))
     regions["Far Shore to Quarry"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Fortress"],
         name="Far Shore to Fortress",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["Fortress Exterior from Overworld"])
-        and state.can_reach(regions["Beneath the Vault Back"])
-        and state.can_reach(regions["Eastern Vault Fortress"]))
+        rule=lambda state: state.has("Activate Eastern Vault West Fuses", player))
     regions["Far Shore to Fortress"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Library"],
         name="Far Shore to Library",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
-        and state.can_reach(regions["Library Lab"]))
+        rule=lambda state: state.has("Activate Library Fuse", player))
     regions["Far Shore to Library"].connect(
         connecting_region=regions["Far Shore"])
 
@@ -565,8 +550,7 @@ def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) 
     set_rule(multiworld.get_location("East Forest - Golden Obelisk Holy Cross", player),
              lambda state: has_ability(state, player, holy_cross, options, ability_unlocks))
     set_rule(multiworld.get_location("Bottom of the Well - [Powered Secret Room] Chest", player),
-             lambda state: (has_ability(state, player, prayer, options, ability_unlocks)
-             and state.can_reach(multiworld.get_region("Furnace Fuse", player))))
+             lambda state: state.has("Activate Furnace Fuse", player))
     set_rule(multiworld.get_location("West Garden - [North] Behind Holy Cross Door", player),
              lambda state: has_ability(state, player, holy_cross, options, ability_unlocks))
     set_rule(multiworld.get_location("Library Hall - Holy Cross Chest", player),
@@ -719,3 +703,32 @@ def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) 
              lambda state: state.has(laurels, player))
     set_rule(multiworld.get_location("Far Shore - Secret Chest", player),
              lambda state: state.has(laurels, player))
+
+    # Events
+    set_rule(multiworld.get_location("Eastern Bell", player),
+             lambda state: (has_stick(state, player) or state.has(fire_wand, player)))
+    set_rule(multiworld.get_location("Western Bell", player),
+             lambda state: (has_stick(state, player) or state.has(fire_wand, player)))
+    set_rule(multiworld.get_location("Furnace Fuse", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+    set_rule(multiworld.get_location("South and West Fortress Exterior Fuses", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+    set_rule(multiworld.get_location("Upper and Central Fortress Exterior Fuses", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+    set_rule(multiworld.get_location("Beneath the Vault Fuse", player),
+             lambda state: state.has("Activate South and West Fortress Exterior Fuses", player))
+    set_rule(multiworld.get_location("Eastern Vault West Fuses", player),
+             lambda state: state.has("Activate Beneath the Vault Fuse", player))
+    set_rule(multiworld.get_location("Eastern Vault East Fuse", player),
+             lambda state: state.has_all({"Activate Upper and Central Fortress Exterior Fuses",
+                                          "Activate South and West Fortress Exterior Fuses"}, player))
+    set_rule(multiworld.get_location("Quarry Connector Fuse", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player))
+    set_rule(multiworld.get_location("Quarry Fuse", player),
+             lambda state: state.has("Activate Quarry Connector Fuse", player))
+    set_rule(multiworld.get_location("Ziggurat Fuse", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+    set_rule(multiworld.get_location("West Garden Fuse", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+    set_rule(multiworld.get_location("Library Fuse", player),
+             lambda state: has_ability(state, player, prayer, options, ability_unlocks))

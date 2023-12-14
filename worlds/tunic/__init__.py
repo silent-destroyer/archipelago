@@ -197,7 +197,7 @@ class TunicWorld(World):
             "Entrance Rando": self.tunic_portal_pairs
         }
 
-        for tunic_item in filter(lambda item: item.location is not None, self.slot_data_items):
+        for tunic_item in filter(lambda item: item.location is not None and item.code is not None, self.slot_data_items):
             if tunic_item.name not in slot_data:
                 slot_data[tunic_item.name] = []
             if tunic_item.name == gold_hexagon and len(slot_data[gold_hexagon]) >= 6:
