@@ -123,17 +123,17 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
 tunic_events: Dict[str, str] = {
     "Ring Eastern Bell": "Forest Belltower Upper",
     "Ring Western Bell": "Overworld Belltower",
-    "Activate Furnace Fuse": "Furnace Fuse",
-    "Activate South and West Fortress Exterior Fuses": "Fortress Exterior from Overworld",
-    "Activate Upper and Central Fortress Exterior Fuses": "Fortress Courtyard Upper",
-    "Activate Beneath the Vault Fuse": "Beneath the Vault Back",
-    "Activate Eastern Vault West Fuses": "Eastern Vault Fortress",
-    "Activate Eastern Vault East Fuse": "Eastern Vault Fortress",
-    "Activate Quarry Connector Fuse": "Quarry Connector",
-    "Activate Quarry Fuse": "Quarry",
-    "Activate Ziggurat Fuse": "Rooted Ziggurat Lower Back",
-    "Activate West Garden Fuse": "West Garden",
-    "Activate Library Fuse": "Library Lab",
+    "Furnace Fuse": "Furnace Fuse",
+    "South and West Fortress Exterior Fuses": "Fortress Exterior from Overworld",
+    "Upper and Central Fortress Exterior Fuses": "Fortress Courtyard Upper",
+    "Beneath the Vault Fuse": "Beneath the Vault Back",
+    "Eastern Vault West Fuses": "Eastern Vault Fortress",
+    "Eastern Vault East Fuse": "Eastern Vault Fortress",
+    "Quarry Connector Fuse": "Quarry Connector",
+    "Quarry Fuse": "Quarry",
+    "Ziggurat Fuse": "Rooted Ziggurat Lower Back",
+    "West Garden Fuse": "West Garden",
+    "Library Fuse": "Library Lab",
 }
 
 
@@ -141,7 +141,7 @@ def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
     for event_name, region_name in tunic_events.items():
         region = regions[region_name]
         location = TunicERLocation(world.player, event_name, None, region)
-        location.place_locked_item(TunicERItem(event_name, ItemClassification.progression, None, world.player))
+        location.place_locked_item(TunicERItem("Activate " + event_name, ItemClassification.progression, None, world.player))
         region.locations.append(location)
 
 
