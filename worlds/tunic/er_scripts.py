@@ -77,8 +77,6 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         world.multiworld.get_entrance("Fortress Arena to Fortress Portal", world.player))
 
     world.multiworld.register_indirect_condition(
-        regions["Fortress Exterior from Overworld"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
-    world.multiworld.register_indirect_condition(
         regions["Fortress Courtyard Upper"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
     world.multiworld.register_indirect_condition(
         regions["Beneath the Vault Back"], world.multiworld.get_entrance("Fortress Gold Door", world.player))
@@ -87,6 +85,8 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Quarry Portal", world.player))
     world.multiworld.register_indirect_condition(
         regions["Quarry Connector"], world.multiworld.get_entrance("Quarry to Zig Door", world.player))
+    world.multiworld.register_indirect_condition(
+        regions["Quarry"], world.multiworld.get_entrance("Quarry to Zig Door", world.player))
     world.multiworld.register_indirect_condition(
         regions["Rooted Ziggurat Lower Back"], world.multiworld.get_entrance("Zig Portal Room Exit", world.player))
 
@@ -309,8 +309,8 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
             return True
 
     # fortress teleporter needs only the left fuses
-    elif check_portal.scene_destination() in {"Fortress Arena, Transit_teleporter_spidertank",
-                                              "Transit, Fortress Arena_teleporter_spidertank"}:
+    elif check_portal.scene_destination() in ["Fortress Arena, Transit_teleporter_spidertank",
+                                              "Transit, Fortress Arena_teleporter_spidertank"]:
         i = j = k = 0
         for portal in two_plus:
             if portal.scene() == "Fortress Courtyard":
@@ -343,8 +343,8 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # Quarry teleporter needs you to hit the Darkwoods fuse
     # Since it's physically in Quarry, we don't need to check for it
-    elif check_portal.scene_destination() in {"Quarry Redux, Transit_teleporter_quarry teleporter"
-                                              "Quarry Redux, ziggurat2020_0_"}:
+    elif check_portal.scene_destination() in ["Quarry Redux, Transit_teleporter_quarry teleporter",
+                                              "Quarry Redux, ziggurat2020_0_"]:
         i = 0
         for portal in two_plus:
             if portal.scene() == "Darkwoods Tunnel":

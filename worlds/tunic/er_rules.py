@@ -91,7 +91,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Temple Door"],
         name="Overworld Temple Door",
-        rule=lambda state: (has_stick(state, player) or state.has(fire_wand, player)))
+        rule=lambda state: (has_stick(state, player) or state.has(fire_wand, player)) 
+        and state.can_reach(regions["Forest Belltower Upper"]) and state.can_reach(regions["Overworld Belltower"]))
 
     # Overworld side areas
     regions["Old House Front"].connect(
@@ -322,7 +323,9 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Eastern Vault Fortress"].connect(
         connecting_region=regions["Eastern Vault Fortress Gold Door"],
         name="Fortress Gold Door",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["Fortress Courtyard Upper"])
+        and state.can_reach(regions["Beneath the Vault Back"]))
 
     regions["Fortress Grave Path"].connect(
         connecting_region=regions["Fortress Grave Path Dusty Entrance"],
@@ -340,7 +343,10 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Fortress Arena"].connect(
         connecting_region=regions["Fortress Arena Portal"],
         name="Fortress Arena to Fortress Portal",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["Fortress Exterior from Overworld"])
+        and state.can_reach(regions["Eastern Vault Fortress"])
+        and state.can_reach(regions["Beneath the Vault Back"]))
     regions["Fortress Arena Portal"].connect(
         connecting_region=regions["Fortress Arena"])
 
@@ -355,7 +361,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Quarry Entry"].connect(
         connecting_region=regions["Quarry Portal"],
         name="Quarry to Quarry Portal",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
+        and state.can_reach(regions["Quarry Connector"]))
     regions["Quarry Portal"].connect(
         connecting_region=regions["Quarry Entry"])
 
@@ -387,7 +394,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Lower Quarry"].connect(
         connecting_region=regions["Lower Quarry Zig Door"],
         name="Quarry to Zig Door",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
+        and state.can_reach(regions["Quarry Connector"]) and state.can_reach(regions["Quarry"]))
 
     regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"])
@@ -432,7 +440,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Rooted Ziggurat Portal"].connect(
         connecting_region=regions["Rooted Ziggurat Portal Room Exit"],
         name="Zig Portal Room Exit",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["Rooted Ziggurat Lower Back"]))
     regions["Rooted Ziggurat Portal Room Exit"].connect(
         connecting_region=regions["Rooted Ziggurat Portal"],
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
@@ -489,28 +498,35 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to West Garden"],
         name="Far Shore to West Garden",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["West Garden"]))
     regions["Far Shore to West Garden"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Quarry"],
         name="Far Shore to Quarry",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
+        and state.can_reach(regions["Quarry Connector"])
+        and state.can_reach(regions["Quarry"]))
     regions["Far Shore to Quarry"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Fortress"],
         name="Far Shore to Fortress",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["Fortress Exterior from Overworld"])
+        and state.can_reach(regions["Beneath the Vault Back"])
+        and state.can_reach(regions["Eastern Vault Fortress"]))
     regions["Far Shore to Fortress"].connect(
         connecting_region=regions["Far Shore"])
 
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Library"],
         name="Far Shore to Library",
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        and state.can_reach(regions["Library Lab"]))
     regions["Far Shore to Library"].connect(
         connecting_region=regions["Far Shore"])
 
