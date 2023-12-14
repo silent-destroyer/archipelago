@@ -395,7 +395,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Lower Quarry Zig Door"],
         name="Quarry to Zig Door",
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks) and state.has(grapple, player)
-        and state.can_reach(regions["Quarry Connector"]))
+        and state.can_reach(regions["Quarry Connector"]) and state.can_reach(regions["Quarry"]))
 
     regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"])
