@@ -98,7 +98,8 @@ def place_event_items(world: "TunicWorld", regions: Dict[str, Region]) -> None:
             location.place_locked_item(
                 TunicERItem("Ring " + event_name, ItemClassification.progression, None, world.player))
         else:
-            location.place_locked_item(TunicERItem("Activate " + event_name, ItemClassification.progression, None, world.player))
+            location.place_locked_item(
+                TunicERItem("Activate " + event_name, ItemClassification.progression, None, world.player))
         region.locations.append(location)
 
 
@@ -360,7 +361,7 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
         for portal in two_plus:
             if portal.scene() == "Archipelagos Redux":
                 i += 1
-        if i == 7:
+        if i == 6:
             return True
 
     # false means you're good to place the portal
