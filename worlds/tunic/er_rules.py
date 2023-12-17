@@ -1,7 +1,7 @@
 from typing import Dict, TYPE_CHECKING
 from worlds.generic.Rules import set_rule, forbid_item
-from .rules import has_ability, has_sword
-from BaseClasses import Region, CollectionState
+from .rules import has_ability, has_sword, has_stick
+from BaseClasses import Region
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -24,10 +24,6 @@ red_hexagon = "Red Questagon"
 green_hexagon = "Green Questagon"
 blue_hexagon = "Blue Questagon"
 gold_hexagon = "Gold Questagon"
-
-
-def has_stick(state: CollectionState, player: int) -> bool:
-    return state.has("Stick", player) or state.has("Sword Upgrade", player, 1) or state.has("Sword", player)
 
 
 def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], regions: Dict[str, Region]) -> None:

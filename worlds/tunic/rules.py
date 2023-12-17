@@ -47,6 +47,10 @@ def has_ability(state: CollectionState, player: int, ability: str, options: Tuni
     return state.has(ability, player)
 
 
+def has_stick(state: CollectionState, player: int) -> bool:
+    return state.has("Stick", player) or state.has("Sword Upgrade", player, 1) or state.has("Sword", player)
+
+
 def has_sword(state: CollectionState, player: int) -> bool:
     return state.has("Sword", player) or state.has("Sword Upgrade", player, 2)
 
@@ -75,7 +79,7 @@ def set_region_rules(world: "TunicWorld", options: TunicOptions, ability_unlocks
     multiworld.get_entrance("Overworld -> Dark Tomb", player).access_rule = \
         lambda state: state.has(lantern, player)
     multiworld.get_entrance("Overworld -> Bottom of the Well", player).access_rule = \
-        lambda state: state.has("Stick", player) or state.has("Sword Upgrade", player, 1)
+        lambda state: has_stick(state, player) or state.has(fire_wand, player)
     multiworld.get_entrance("Overworld -> West Garden", player).access_rule = \
         lambda state: state.has(laurels, player)
     multiworld.get_entrance("Overworld -> Eastern Vault Fortress", player).access_rule = \
@@ -161,8 +165,7 @@ def set_location_rules(world: "TunicWorld", options: TunicOptions, ability_unloc
              has_ability(state, player, holy_cross, options, ability_unlocks))
     set_rule(multiworld.get_location("Sealed Temple - Page Pickup", player),
              lambda state: state.has(laurels, player) or (
-                     state.has(lantern, player) and (has_sword(state, player) or
-                                                     state.has(fire_wand, player))))
+                     state.has(lantern, player) and (has_sword(state, player) or state.has(fire_wand, player))))
     set_rule(multiworld.get_location("Secret Gathering Place - 10 Fairy Reward", player),
              lambda state: state.has(fairies, player, 10))
     set_rule(multiworld.get_location("Secret Gathering Place - 20 Fairy Reward", player),
@@ -230,7 +233,7 @@ def set_location_rules(world: "TunicWorld", options: TunicOptions, ability_unloc
 
     # Beneath the Vault
     set_rule(multiworld.get_location("Beneath the Fortress - Bridge", player),
-             lambda state: state.has_group("melee weapons", player, 1) or state.has_any({laurels, fire_wand}, player))
+             lambda state: has_stick(state, player) or state.has_any({laurels, fire_wand}, player))
 
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
