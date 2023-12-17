@@ -11,7 +11,7 @@ tunic_regions: Dict[str, Set[str]] = {
     "West Garden": {"Overworld", "Dark Tomb"},
     "Ruined Atoll": {"Frog's Domain", "Library"},
     "Frog's Domain": set(),
-    "Library": {"Ruined Atoll"},
+    "Library": set(),
     "Eastern Vault Fortress": {"Beneath the Vault"},
     "Beneath the Vault": {"Eastern Vault Fortress"},
     "Quarry": {"Lower Quarry"},

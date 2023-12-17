@@ -61,8 +61,6 @@ def set_region_rules(world: "TunicWorld", options: TunicOptions, ability_unlocks
 
     multiworld.get_entrance("Overworld -> Overworld Holy Cross", player).access_rule = \
         lambda state: has_ability(state, player, holy_cross, options, ability_unlocks)
-    multiworld.get_entrance("Library -> Ruined Atoll", player).access_rule = \
-        lambda state: has_ability(state, player, prayer, options, ability_unlocks)
     multiworld.get_entrance("Overworld -> Beneath the Vault", player).access_rule = \
         lambda state: state.has(lantern, player) and has_ability(state, player, prayer, options, ability_unlocks)
     multiworld.get_entrance("Lower Quarry -> Rooted Ziggurat", player).access_rule = \
