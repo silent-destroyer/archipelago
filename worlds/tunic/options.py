@@ -33,6 +33,27 @@ class AbilityShuffling(Toggle):
     display_name = "Ability Shuffling"
 
 
+class LogicRules(Choice):
+    """Set which logic rules to use for your world.
+    Restricted: Standard logic, no glitches.
+    No Major Glitches: Ice grapples through doors, shooting the west bell, and boss quick kills are included in logic.
+    Unrestricted: Logic in No Major Glitches, as well as ladder storage to get to certain places early.
+    *Special Shop is not in logic without the Hero's Laurels in Unrestricted due to soft lock potential.
+    *Lower Quarry without Scavenger's Mask is excluded because it's more brutal than fun."""
+    internal_name = "logic_rules"
+    display_name = "Logic Rules"
+    option_restricted = 0
+    option_no_major_glitches = 1
+    option_unrestricted = 2
+    default = 0
+
+
+class MaskLogic(DefaultOnToggle):
+    """Choose whether you require the Scavenger's Mask for Lower Quarry."""
+    internal_name = "mask_logic"
+    display_name = "Mask Logic"
+
+
 class FoolTraps(Choice):
     """Replaces low-to-medium value money rewards in the item pool with fool traps, which cause random negative
     effects to the player."""
@@ -103,6 +124,8 @@ class TunicOptions(PerGameCommonOptions):
     start_with_sword: StartWithSword
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
+    logic_rules: LogicRules
+    mask_logic: MaskLogic
     entrance_rando: EntranceRando
     fixed_shop: FixedShop
     fool_traps: FoolTraps

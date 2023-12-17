@@ -127,6 +127,11 @@ class TunicWorld(World):
                 if items_to_create[fill] == 0:
                     available_filler.remove(fill)
 
+        if not self.options.mask_logic:
+            mask_item = TunicItem("Scavenger's Mask", ItemClassification.useful, self.item_name_to_id["Scavenger's Mask"], self.player)
+            tunic_items.append(mask_item)
+            items_to_create["Scavenger's Mask"] = 0
+
         for item, quantity in items_to_create.items():
             for i in range(0, quantity):
                 tunic_item: TunicItem = self.create_item(item)
