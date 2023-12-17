@@ -2,8 +2,9 @@ from typing import Dict, Set
 
 tunic_regions: Dict[str, Set[str]] = {
     "Menu": {"Overworld"},
-    "Overworld": {"Menu", "Overworld Holy Cross", "East Forest", "Dark Tomb", "Bottom of the Well", "West Garden",
-                  "Ruined Atoll", "Eastern Vault Fortress", "Beneath the Vault", "Quarry", "Swamp", "Spirit Arena"},
+    "Overworld": {"Overworld Holy Cross", "East Forest", "Dark Tomb", "Bottom of the Well", "West Garden",
+                  "Ruined Atoll", "Eastern Vault Fortress", "Beneath the Vault", "Quarry Back", "Quarry", "Swamp",
+                  "Spirit Arena"},
     "Overworld Holy Cross": set(),
     "East Forest": {"Eastern Vault Fortress"},
     "Dark Tomb": {"West Garden"},
@@ -14,6 +15,7 @@ tunic_regions: Dict[str, Set[str]] = {
     "Library": set(),
     "Eastern Vault Fortress": {"Beneath the Vault"},
     "Beneath the Vault": {"Eastern Vault Fortress"},
+    "Quarry Back": {"Quarry"},
     "Quarry": {"Lower Quarry"},
     "Lower Quarry": {"Rooted Ziggurat"},
     "Rooted Ziggurat": set(),

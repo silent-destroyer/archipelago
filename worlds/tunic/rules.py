@@ -90,8 +90,8 @@ def set_region_rules(world: "TunicWorld", options: TunicOptions, ability_unlocks
         lambda state: state.has(lantern, player)
     multiworld.get_entrance("West Garden -> Dark Tomb", player).access_rule = \
         lambda state: state.has(lantern, player)
-    multiworld.get_entrance("Eastern Vault Fortress -> Beneath the Vault", player).access_rule = \
-        lambda state: state.has(lantern, player)
+    multiworld.get_entrance("Quarry Back -> Quarry", player).access_rule = \
+        lambda state: has_sword(state, player) or state.has(fire_wand, player)
     multiworld.get_entrance("Quarry -> Lower Quarry", player).access_rule = \
         lambda state: state.has(mask, player)
 
@@ -232,10 +232,14 @@ def set_location_rules(world: "TunicWorld", options: TunicOptions, ability_unloc
     # Beneath the Vault
     set_rule(multiworld.get_location("Beneath the Fortress - Bridge", player),
              lambda state: has_stick(state, player) or state.has_any({laurels, fire_wand}, player))
+    set_rule(multiworld.get_location("Beneath the Fortress - Obscured Behind Waterfall", player),
+             lambda state: has_stick(state, player) and state.has(lantern, player))
 
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
              lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Quarry - [West] Upper Area Bombable Wall", player),
+             lambda state: state.has(mask, player))
     set_rule(multiworld.get_location("Rooted Ziggurat Lower - Hexagon Blue", player),
              lambda state: has_sword(state, player))
 
