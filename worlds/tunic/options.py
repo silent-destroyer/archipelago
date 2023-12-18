@@ -49,17 +49,17 @@ class LogicRules(Choice):
     default = 0
 
 
-class LanternLogic(Toggle):
+class Lanternless(Toggle):
     """Choose whether you require the Lantern for dark areas.
     When enabled, the Lantern is marked as Useful instead of Progression."""
-    internal_name = "lantern_logic"
+    internal_name = "lanternless"
     display_name = "Lanternless"
 
 
-class MaskLogic(Toggle):
+class Maskless(Toggle):
     """Choose whether you require the Scavenger's Mask for Lower Quarry.
     When enabled, the Scavenger's Mask is marked as Useful instead of Progression."""
-    internal_name = "mask_logic"
+    internal_name = "maskless"
     display_name = "Maskless"
 
 
@@ -134,8 +134,8 @@ class TunicOptions(PerGameCommonOptions):
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
     logic_rules: LogicRules
-    lantern_logic: LanternLogic
-    mask_logic: MaskLogic
+    lanternless: Lanternless
+    maskless: Maskless
     entrance_rando: EntranceRando
     fixed_shop: FixedShop
     fool_traps: FoolTraps
