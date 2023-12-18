@@ -309,7 +309,7 @@ location_table: Dict[str, TunicLocationData] = {
     "West Garden - [Central Highlands] Behind Guard Captain": TunicLocationData("West Garden", "West Garden"),
     "West Garden - [Central Highlands] After Garden Knight": TunicLocationData("West Garden", "West Garden after Boss"),
     "West Garden - [South Highlands] Secret Chest Beneath Fuse": TunicLocationData("West Garden", "West Garden"),
-    "West Garden - [East Lowlands] Page Behind Ice Dagger House": TunicLocationData("West Garden", "West Garden Portal Area"),
+    "West Garden - [East Lowlands] Page Behind Ice Dagger House": TunicLocationData("West Garden", "West Garden Portal Item"),
     "West Garden - [North] Page Pickup": TunicLocationData("West Garden", "West Garden"),
     "West Garden House - [Southeast Lowlands] Ice Dagger Pickup": TunicLocationData("West Garden", "Magic Dagger House"),
     "Hero's Grave - Effigy Relic": TunicLocationData("West Garden", "Hero Relic - West Garden"),

@@ -54,6 +54,12 @@ class MaskLogic(DefaultOnToggle):
     display_name = "Mask Logic"
 
 
+class LanternLogic(DefaultOnToggle):
+    """Choose whether you require the Lantern for dark areas."""
+    internal_name = "lantern_logic"
+    display_name = "Lantern Logic"
+
+
 class FoolTraps(Choice):
     """Replaces low-to-medium value money rewards in the item pool with fool traps, which cause random negative
     effects to the player."""
@@ -125,6 +131,7 @@ class TunicOptions(PerGameCommonOptions):
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
     logic_rules: LogicRules
+    lantern_logic: LanternLogic
     mask_logic: MaskLogic
     entrance_rando: EntranceRando
     fixed_shop: FixedShop

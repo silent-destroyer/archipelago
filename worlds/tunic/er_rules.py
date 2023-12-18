@@ -1,6 +1,7 @@
 from typing import Dict, TYPE_CHECKING
 from worlds.generic.Rules import set_rule, forbid_item
-from .rules import has_ability, has_sword, has_stick
+from .rules import has_ability, has_sword, has_stick, has_ice_grapple_logic, has_lantern, has_mask
+from .er_data import Portal
 from BaseClasses import Region
 
 if TYPE_CHECKING:
@@ -26,7 +27,8 @@ blue_hexagon = "Blue Questagon"
 gold_hexagon = "Gold Questagon"
 
 
-def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], regions: Dict[str, Region]) -> None:
+def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], regions: Dict[str, Region],
+                        portal_pairs: Dict[Portal, Portal]) -> None:
     player = world.player
     options = world.options
 
@@ -46,7 +48,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Ruined Passage Door"],
-        rule=lambda state: state.has(key, player, 2))
+        rule=lambda state: state.has(key, player, 2)
+        or (options.logic_rules and state.has(laurels, player)))
 
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Laurels"],
@@ -57,7 +60,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Old House Door"],
-        rule=lambda state: state.has(house_key, player))
+        rule=lambda state: state.has(house_key, player)
+        or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Southeast Cross Door"],
@@ -87,11 +91,15 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Temple Door"],
         name="Overworld Temple Door",
-        rule=lambda state: state.has_all({"Ring Eastern Bell", "Ring Western Bell"}, player))
+        rule=lambda state: state.has_all({"Ring Eastern Bell", "Ring Western Bell"}, player)
+        or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     # Overworld side areas
     regions["Old House Front"].connect(
         connecting_region=regions["Old House Back"])
+    regions["Old House Back"].connect(
+        connecting_region=regions["Old House Front"],
+        rule=lambda state: state.has(laurels, player) and options.logic_rules)
 
     regions["Sealed Temple"].connect(
         connecting_region=regions["Sealed Temple Rafters"])
@@ -132,7 +140,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has(laurels, player))
     regions["East Forest Dance Fox Spot"].connect(
         connecting_region=regions["East Forest"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player)
+        or has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["East Forest"].connect(
         connecting_region=regions["East Forest Portal"],
@@ -148,13 +157,17 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Forest Grave Path Upper"].connect(
         connecting_region=regions["Forest Grave Path Main"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player)
+        or has_ice_grapple_logic(True, state, player, options, ability_unlocks))
     regions["Forest Grave Path Main"].connect(
         connecting_region=regions["Forest Grave Path Upper"],
         rule=lambda state: state.has(laurels, player))
 
     regions["Forest Grave Path Main"].connect(
         connecting_region=regions["Forest Grave Path by Grave"])
+    regions["Forest Grave Path by Grave"].connect(
+        connecting_region=regions["Forest Grave Path Main"],
+        rule=lambda state: has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Forest Grave Path by Grave"].connect(
         connecting_region=regions["Forest Hero's Grave"],
@@ -185,17 +198,17 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Dark Tomb Entry Point"].connect(
         connecting_region=regions["Dark Tomb Main"],
-        rule=lambda state: state.has(lantern, player))
+        rule=lambda state: has_lantern(state, player, options))
     regions["Dark Tomb Main"].connect(
         connecting_region=regions["Dark Tomb Entry Point"],
-        rule=lambda state: state.has(lantern, player))
+        rule=lambda state: has_lantern(state, player, options))
 
     regions["Dark Tomb Main"].connect(
         connecting_region=regions["Dark Tomb Dark Exit"],
-        rule=lambda state: state.has(lantern, player))
+        rule=lambda state: has_lantern(state, player, options))
     regions["Dark Tomb Dark Exit"].connect(
         connecting_region=regions["Dark Tomb Main"],
-        rule=lambda state: state.has(lantern, player))
+        rule=lambda state: has_lantern(state, player, options))
 
     # West Garden
     regions["West Garden Laurels Exit"].connect(
@@ -210,13 +223,28 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has(laurels, player))
     regions["West Garden"].connect(
         connecting_region=regions["West Garden after Boss"],
-        rule=lambda state: state.has(laurels, player) or has_sword(state, player))
+        rule=lambda state: state.has(laurels, player) or has_sword(state, player)
+        or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["West Garden"].connect(
         connecting_region=regions["West Garden Hero's Grave"],
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
     regions["West Garden Hero's Grave"].connect(
         connecting_region=regions["West Garden"])
+
+    regions["West Garden Portal"].connect(
+        connecting_region=regions["West Garden Portal Item"],
+        rule=lambda state: state.has(laurels, player))
+    regions["West Garden Portal Item"].connect(
+        connecting_region=regions["West Garden Portal"],
+        rule=lambda state: state.has(laurels, player) and has_ability(state, player, prayer, options, ability_unlocks))
+
+    regions["West Garden Portal Item"].connect(
+        connecting_region=regions["West Garden"],
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
+    regions["West Garden"].connect(
+        connecting_region=regions["West Garden Portal Item"],
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     # Atoll and Frog's Domain
     regions["Ruined Atoll"].connect(
@@ -231,7 +259,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
     regions["Ruined Atoll Frog Mouth"].connect(
         connecting_region=regions["Ruined Atoll"],
-        rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
+        rule=lambda state: state.has(laurels, player) or state.has(grapple, player)
+        or has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Ruined Atoll"].connect(
         connecting_region=regions["Ruined Atoll Portal"],
@@ -279,13 +308,6 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Fortress Exterior from East Forest"],
         rule=lambda state: state.has(laurels, player))
 
-    regions["Fortress Exterior from East Forest"].connect(
-        connecting_region=regions["Fortress Exterior from Overworld"],
-        rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
-    regions["Fortress Exterior from Overworld"].connect(
-        connecting_region=regions["Fortress Exterior from East Forest"],
-        rule=lambda state: state.has(laurels, player))
-
     regions["Fortress Exterior near cave"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"],
         rule=lambda state: state.has(laurels, player))
@@ -298,17 +320,21 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has(laurels, player))
     regions["Fortress Exterior from Overworld"].connect(
         connecting_region=regions["Fortress Courtyard"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player)
+        or has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Fortress Courtyard Upper"].connect(
         connecting_region=regions["Fortress Courtyard"])
+    regions["Fortress Courtyard"].connect(
+        connecting_region=regions["Fortress Courtyard Upper"],
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Fortress Courtyard Upper"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"])
 
     regions["Beneath the Vault Front"].connect(
         connecting_region=regions["Beneath the Vault Back"],
-        rule=lambda state: state.has(lantern, player))
+        rule=lambda state: has_lantern(state, player, options))
     regions["Beneath the Vault Back"].connect(
         connecting_region=regions["Beneath the Vault Front"])
 
@@ -333,6 +359,10 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
     regions["Fortress Hero's Grave"].connect(
         connecting_region=regions["Fortress Grave Path"])
+
+    regions["Fortress Grave Path Upper"].connect(
+        connecting_region=regions["Fortress Grave Path"],
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Fortress Arena"].connect(
         connecting_region=regions["Fortress Arena Portal"],
@@ -379,12 +409,14 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Quarry"].connect(
         connecting_region=regions["Lower Quarry"],
-        rule=lambda state: state.has(mask, player))
+        rule=lambda state: has_mask(state, player, options)
+        or has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Lower Quarry"].connect(
         connecting_region=regions["Lower Quarry Zig Door"],
         name="Quarry to Zig Door",
-        rule=lambda state: state.has("Activate Quarry Fuse", player))
+        rule=lambda state: state.has("Activate Quarry Fuse", player)
+        or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"])
@@ -437,7 +469,8 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     # Swamp and Cathedral
     regions["Swamp"].connect(
         connecting_region=regions["Swamp to Cathedral Main Entrance"],
-        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
+        rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
+        or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Swamp"].connect(
         connecting_region=regions["Swamp to Cathedral Treasure Room"],
@@ -451,6 +484,11 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Back of Swamp Laurels Area"].connect(
         connecting_region=regions["Back of Swamp"],
         rule=lambda state: state.has(laurels, player))
+
+    regions["Back of Swamp Laurels Area"].connect(
+        connecting_region=regions["Swamp"],
+        rule=lambda state: state.has(laurels, player)
+        and has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Back of Swamp"].connect(
         connecting_region=regions["Swamp Hero's Grave"],
@@ -530,6 +568,148 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if
                             world.options.hexagon_quest else
                             state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)))
+
+    # connecting the regions portals are in to other portals you can access via ladder storage
+    # using has_stick instead of can_ladder_storage since it's already checking the logic rules
+    if options.logic_rules == "unrestricted":
+        def get_paired_region(portal_sd: str) -> str:
+            for portal1, portal2 in portal_pairs.items():
+                if portal1.scene_destination() == portal_sd:
+                    return portal2.region
+                if portal2.scene_destination() == portal_sd:
+                    return portal1.region
+            raise Exception("no matches found in get_paired_region")
+
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Furnace_gyro_west")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Swamp Redux 2_wall")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, ShopSpecial_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Archipelagos Redux_upper")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Archipelagos Redux_lower")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Archipelagos Redux_lowest")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Furnace Ladder Area"].connect(
+            regions[get_paired_region("Furnace, Overworld Redux_gyro_upper_north")],
+            rule=lambda state: has_stick(state, player))
+        regions["Furnace Ladder Area"].connect(
+            regions[get_paired_region("Furnace, Crypt Redux_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Furnace Ladder Area"].connect(
+            regions[get_paired_region("Furnace, Overworld Redux_gyro_west")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["West Garden"].connect(
+            regions[get_paired_region("Archipelagos Redux, Overworld Redux_upper")],
+            rule=lambda state: has_stick(state, player))
+        regions["West Garden"].connect(
+            regions[get_paired_region("Archipelagos Redux, Overworld Redux_lowest")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Ruined Atoll"].connect(
+            regions[get_paired_region("Atoll Redux, Frog Stairs_mouth")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["East Forest"].connect(
+            regions[get_paired_region("East Forest Redux, East Forest Redux Laddercave_upper")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Guard House 1 West"].connect(
+            regions[get_paired_region("East Forest Redux Laddercave, East Forest Redux_gate")],
+            rule=lambda state: has_stick(state, player))
+        regions["Guard House 1 West"].connect(
+            regions[get_paired_region("East Forest Redux Laddercave, Forest Boss Room_")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Forest Grave Path Main"].connect(
+            regions[get_paired_region("Sword Access, East Forest Redux_upper")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Fortress Exterior from Overworld"].connect(
+            regions[get_paired_region("Fortress Courtyard, Shop_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from Overworld"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Main_Big Door")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from Overworld"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Lower")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from Overworld"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Upper")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from Overworld"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress East_")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Overworld Redux_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Shop_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Main_Big Door")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Lower")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Upper")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior from East Forest"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress East_")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Fortress Exterior near cave"].connect(
+            regions[get_paired_region("Fortress Courtyard, Overworld Redux_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior near cave"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Main_Big Door")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior near cave"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Lower")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior near cave"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress Reliquary_Upper")],
+            rule=lambda state: has_stick(state, player))
+        regions["Fortress Exterior near cave"].connect(
+            regions[get_paired_region("Fortress Courtyard, Fortress East_")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Lower Mountain"].connect(
+            regions[get_paired_region("Mountain, Mountaintop_")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Quarry Monastery Entry"].connect(
+            regions[get_paired_region("Quarry Redux, Monastery_back")],
+            rule=lambda state: has_stick(state, player))
+
+        regions["Swamp"].connect(
+            regions[get_paired_region("Swamp Redux 2, Cathedral Arena_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Swamp"].connect(
+            regions[get_paired_region("Swamp Redux 2, Overworld Redux_wall")],
+            rule=lambda state: has_stick(state, player))
+        regions["Back of Swamp"].connect(
+            regions[get_paired_region("Swamp Redux 2, Overworld Redux_conduit")],
+            rule=lambda state: has_stick(state, player))
+        regions["Back of Swamp"].connect(
+            regions[get_paired_region("Swamp Redux 2, Shop_")],
+            rule=lambda state: has_stick(state, player))
+        regions["Back of Swamp"].connect(
+            regions[get_paired_region("Swamp Redux 2, Cathedral Redux_secret")],
+            rule=lambda state: has_stick(state, player)
+            and has_ability(state, player, holy_cross, options, ability_unlocks))
 
 
 def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) -> None:
@@ -654,11 +834,13 @@ def set_er_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) 
     set_rule(multiworld.get_location("Beneath the Fortress - Bridge", player),
              lambda state: state.has_group("melee weapons", player, 1) or state.has_any({laurels, fire_wand}, player))
     set_rule(multiworld.get_location("Beneath the Fortress - Obscured Behind Waterfall", player),
-             lambda state: state.has(lantern, player))
+             lambda state: has_lantern(state, player, options))
 
     # Quarry
     set_rule(multiworld.get_location("Quarry - [Central] Above Ladder Dash Chest", player),
              lambda state: state.has(laurels, player))
+    set_rule(multiworld.get_location("Quarry - [West] Upper Area Bombable Wall", player),
+             lambda state: has_mask(state, player, options))
 
     # Ziggurat
     set_rule(multiworld.get_location("Rooted Ziggurat Upper - Near Bridge Switch", player),

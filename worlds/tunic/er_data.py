@@ -197,7 +197,7 @@ portal_mapping: List[Portal] = [
            destination="Overworld Redux_lowest"),
     Portal(name="West Garden Hero's Grave", region="West Garden Hero's Grave",
            destination="RelicVoid_teleporter_relic plinth"),
-    Portal(name="West Garden to Far Shore", region="West Garden Portal Area",
+    Portal(name="West Garden to Far Shore", region="West Garden Portal",
            destination="Transit_teleporter_archipelagos_teleporter"),
     
     Portal(name="Magic Dagger House Exit", region="Magic Dagger House",
@@ -362,7 +362,7 @@ portal_mapping: List[Portal] = [
     Portal(name="Fortress Grave Path Upper Exit", region="Fortress Grave Path Upper",
            destination="Fortress Courtyard_Upper"),
     Portal(name="Fortress Grave Path Dusty Entrance", region="Fortress Grave Path Dusty Entrance",
-           destination="Dusty_"),    
+           destination="Dusty_"),
 
     Portal(name="Dusty Exit", region="Fortress Leaf Piles",
            destination="Fortress Reliquary_"),
@@ -517,6 +517,7 @@ class Hint(IntEnum):
     none = 0  # big areas, empty hallways, etc.
     region = 1  # at least one of the portals must not be a dead end
     scene = 2  # multiple regions in the scene, so using region could mean no valid hints
+    special = 3  # for if there's a weird case of specific regions being viable
 
 
 # key is the AP region name. "Fake" in region info just means the mod won't receive that info at all
@@ -581,7 +582,8 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Bottom of the Well Back": RegionInfo("Sewer"),
     "West Garden": RegionInfo("Archipelagos Redux"),
     "Magic Dagger House": RegionInfo("archipelagos_house", dead_end=True, hint=Hint.region),
-    "West Garden Portal Area": RegionInfo("Archipelagos Redux", dead_end=True, hint=Hint.region),
+    "West Garden Portal": RegionInfo("Archipelagos Redux", dead_end=True),
+    "West Garden Portal Item": RegionInfo("Archipelagos Redux", dead_end=True, hint=Hint.special),
     "West Garden Laurels Exit": RegionInfo("Archipelagos Redux"),
     "West Garden after Boss": RegionInfo("Archipelagos Redux"),
     "West Garden Hero's Grave": RegionInfo("Archipelagos Redux"),
@@ -730,8 +732,10 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
         ["Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"],
     ("Dark Tomb Checkpoint", "Well Boss"):
         ["Dark Tomb Checkpoint", "Well Boss"],
+    # todo: what to do about the other logic settings?
     ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"):
         ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"],
+    ("West Garden Portal", "West Garden Portal Item"): ["West Garden Portal", "West Garden Portal Item"],
     ("Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"):
         ["Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"],
     ("Frog's Domain",):

@@ -132,6 +132,11 @@ class TunicWorld(World):
             tunic_items.append(mask_item)
             items_to_create["Scavenger's Mask"] = 0
 
+        if not self.options.lantern_logic:
+            mask_item = TunicItem("Lantern", ItemClassification.useful, self.item_name_to_id["Lantern"], self.player)
+            tunic_items.append(mask_item)
+            items_to_create["Lantern"] = 0
+
         for item, quantity in items_to_create.items():
             for i in range(0, quantity):
                 tunic_item: TunicItem = self.create_item(item)

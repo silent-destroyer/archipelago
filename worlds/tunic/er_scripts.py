@@ -41,10 +41,31 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
                     hint_text = hint_helper(portal1, portal_pairs)
                     break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+        elif region_data.hint == 3:
+            # only the west garden portal item for now
+            if region_name == "West Garden Portal Item":
+                if world.options.logic_rules:
+                    for portal1, portal2 in portal_pairs.items():
+                        if portal1.scene() == "Archipelagos Redux":
+                            hint_text = hint_helper(portal2, portal_pairs)
+                            break
+                        if portal2.scene() == "Archipelagos Redux":
+                            hint_text = hint_helper(portal1, portal_pairs)
+                            break
+                    regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
+                else:
+                    for portal1, portal2 in portal_pairs.items():
+                        if portal1.region == "West Garden Portal":
+                            hint_text = hint_helper(portal2, portal_pairs)
+                            break
+                        if portal2.region == "West Garden Portal":
+                            hint_text = hint_helper(portal1, portal_pairs)
+                            break
+                    regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         else:
             regions[region_name] = Region(region_name, world.player, world.multiworld)
 
-    set_er_region_rules(world, world.ability_unlocks, regions)
+    set_er_region_rules(world, world.ability_unlocks, regions, portal_pairs)
 
     er_hint_data: Dict[int, str] = {}
     for location_name, location_id in world.location_name_to_id.items():
@@ -432,7 +453,7 @@ def hint_helper(portal: Portal, portal_pairs: Dict[Portal, Portal], hint_text: s
 #             if portal2_name == portal.name:
 #                 portal2 = portal
 #         if portal1 is None and portal2 is None:
-#             raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name}, "
+#             raise Exception(f"Could not find entrances named {portal1_name} and {portal2_name},
 #                             "please double-check their names.")
 #         if portal1 is None:
 #             raise Exception(f"Could not find entrance named {portal1_name}, please double-check its name.")
