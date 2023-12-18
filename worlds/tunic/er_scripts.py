@@ -133,11 +133,18 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     fixed_shop = False
 
     # create separate lists for dead ends and non-dead ends
-    for portal in portal_mapping:
-        if tunic_er_regions[portal.region].dead_end:
-            dead_ends.append(portal)
-        else:
-            two_plus.append(portal)
+    if self.options.logic_rules:
+        for portal in portal_mapping:
+            if tunic_er_regions[portal.region].dead_end == 2:
+                dead_ends.append(portal)
+            else:
+                two_plus.append(portal)
+    else:
+        for portal in portal_mapping:
+            if tunic_er_regions[portal.region].dead_end:
+                dead_ends.append(portal)
+            else:
+                two_plus.append(portal)
 
     connected_regions: Set[str] = set()
     # make better start region stuff when/if implementing random start
