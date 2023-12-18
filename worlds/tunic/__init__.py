@@ -127,12 +127,12 @@ class TunicWorld(World):
                 if items_to_create[fill] == 0:
                     available_filler.remove(fill)
 
-        if not self.options.mask_logic:
+        if self.options.maskless:
             mask_item = TunicItem("Scavenger's Mask", ItemClassification.useful, self.item_name_to_id["Scavenger's Mask"], self.player)
             tunic_items.append(mask_item)
             items_to_create["Scavenger's Mask"] = 0
 
-        if not self.options.lantern_logic:
+        if self.options.lanternless:
             mask_item = TunicItem("Lantern", ItemClassification.useful, self.item_name_to_id["Lantern"], self.player)
             tunic_items.append(mask_item)
             items_to_create["Lantern"] = 0
