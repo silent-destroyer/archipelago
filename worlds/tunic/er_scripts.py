@@ -131,7 +131,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     dead_ends: List[Portal] = []
     two_plus: List[Portal] = []
     fixed_shop = False
-    logic_rules = self.options.logic_rules
+    logic_rules = world.options.logic_rules
 
     # create separate lists for dead ends and non-dead ends
     if world.options.logic_rules:
