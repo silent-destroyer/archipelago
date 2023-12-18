@@ -133,7 +133,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     fixed_shop = False
 
     # create separate lists for dead ends and non-dead ends
-    if self.options.logic_rules:
+    if world.options.logic_rules:
         for portal in portal_mapping:
             if tunic_er_regions[portal.region].dead_end == 2:
                 dead_ends.append(portal)
