@@ -1,7 +1,7 @@
 from typing import Dict, List, Set, Tuple, TYPE_CHECKING
 from BaseClasses import Region, ItemClassification, Item, Location
 from .locations import location_table
-from .er_data import Portal, tunic_er_regions, portal_mapping, dependent_regions, hallway_helper
+from .er_data import Portal, tunic_er_regions, portal_mapping, dependent_regions, dependent_regions_nmg, dependent_regions_ur, hallway_helper
 from .er_rules import set_er_region_rules
 
 if TYPE_CHECKING:
@@ -131,6 +131,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     dead_ends: List[Portal] = []
     two_plus: List[Portal] = []
     fixed_shop = False
+    logic_rules = self.options.logic_rules
 
     # create separate lists for dead ends and non-dead ends
     if world.options.logic_rules:
@@ -149,7 +150,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     connected_regions: Set[str] = set()
     # make better start region stuff when/if implementing random start
     start_region = "Overworld"
-    connected_regions.update(add_dependent_regions(start_region))
+    connected_regions.update(add_dependent_regions(start_region, logic_rules))
 
     # need to plando fairy cave, or it could end up laurels locked
     # fix this later to be random? probably not?
@@ -218,7 +219,7 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
 
         # once we have both portals, connect them and add the new region(s) to connected_regions
         if check_success == 2:
-            connected_regions.update(add_dependent_regions(portal2.region))
+            connected_regions.update(add_dependent_regions(portal2.region, logic_rules))
             portal_pairs[portal1] = portal2
             check_success = 0
             world.random.shuffle(two_plus)
@@ -280,9 +281,15 @@ def create_randomized_entrances(portal_pairs: Dict[Portal, Portal], regions: Dic
 
 
 # loop through the static connections, return regions you can reach from this region
-def add_dependent_regions(region_name: str) -> Set[str]:
+def add_dependent_regions(region_name: str, logic_rules: int) -> Set[str]:
     region_set = set()
-    for origin_regions, destination_regions in dependent_regions.items():
+    if not logic_rules:
+        regions_to_add = dependent_regions
+    elif logic_rules == 1:
+        regions_to_add = dependent_regions_nmg
+    elif logic_rules == 2:
+        regions_to_add = dependent_regions_ur
+    for origin_regions, destination_regions in regions_to_add.items():
         if region_name in origin_regions:
             # if you matched something in the first set, you get the regions in its paired set
             region_set.update(destination_regions)
