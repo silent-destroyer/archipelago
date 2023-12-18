@@ -287,6 +287,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Library Hero's Grave"].connect(
         connecting_region=regions["Library Hall"])
 
+    # todo: can you ladder storage up?
     regions["Library Lab Lower"].connect(
         connecting_region=regions["Library Lab"],
         rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
@@ -318,6 +319,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Fortress Courtyard"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"],
         rule=lambda state: state.has(laurels, player))
+    # todo: verify that ice grapple can be used here
     regions["Fortress Exterior from Overworld"].connect(
         connecting_region=regions["Fortress Courtyard"],
         rule=lambda state: state.has(laurels, player)
@@ -340,12 +342,19 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Fortress East Shortcut Upper"].connect(
         connecting_region=regions["Fortress East Shortcut Lower"])
+    regions["Fortress East Shortcut Lower"].connect(
+        connecting_region=regions["Fortress East Shortcut Upper"],
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Eastern Vault Fortress"].connect(
         connecting_region=regions["Eastern Vault Fortress Gold Door"],
         name="Fortress Gold Door",
         rule=lambda state: state.has_all({"Activate Eastern Vault West Fuses",
                                           "Activate Eastern Vault East Fuse"}, player))
+    regions["Eastern Vault Fortress Gold Door"].connect(
+        connecting_region=regions["Eastern Vault Fortress"],
+        name="Fortress Gold Door",
+        rule=lambda state: has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Fortress Grave Path"].connect(
         connecting_region=regions["Fortress Grave Path Dusty Entrance"],
@@ -444,6 +453,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Rooted Ziggurat Middle Top"].connect(
         connecting_region=regions["Rooted Ziggurat Middle Bottom"])
 
+    # todo: can you get from back to front with ls?
     regions["Rooted Ziggurat Lower Front"].connect(
         connecting_region=regions["Rooted Ziggurat Lower Back"],
         rule=lambda state: state.has(laurels, player)
@@ -471,6 +481,9 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Swamp to Cathedral Main Entrance"],
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks)
         or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
+    regions["Swamp to Cathedral Main Entrance"].connect(
+        connecting_region=regions["Swamp"],
+        rule=lambda state: has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
     regions["Swamp"].connect(
         connecting_region=regions["Swamp to Cathedral Treasure Room"],
