@@ -844,10 +844,8 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
          "Fortress Exterior near cave", "Fortress Courtyard", "Fortress Courtyard Upper"],
     ("Beneath the Vault Front", "Beneath the Vault Back"):
         ["Beneath the Vault Front", "Beneath the Vault Back"],
-    # todo: add the ice grapple from lower to upper
     ("Fortress East Shortcut Upper", "Fortress East Shortcut Lower"):
         ["Fortress East Shortcut Upper", "Fortress East Shortcut Lower"],
-    # todo: add the ice grapple through the gold door backwards
     ("Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"):
         ["Eastern Vault Fortress", "Eastern Vault Fortress Gold Door"],
     ("Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"):
@@ -873,7 +871,6 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
         ["Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"],
     ("Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"):
         ["Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"],
-    # todo: add the ice grapple from the door to swamp
     ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"):
         ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"],
     ("Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
@@ -926,7 +923,6 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
         ["Library Exterior Ladder", "Library Exterior Tree"],
     ("Library Hall", "Library Hero's Grave"):
         ["Library Hall", "Library Hero's Grave"],
-    # todo: can you use ladder storage to get from lower to lab?
     ("Library Lab", "Library Lab Lower", "Library Portal"):
         ["Library Lab", "Library Lab Lower", "Library Portal"],
     # can use ice grapple or ladder storage to get from any ladder to upper
@@ -960,13 +956,10 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
         ["Rooted Ziggurat Upper Entry", "Rooted Ziggurat Upper Front", "Rooted Ziggurat Upper Back"],
     ("Rooted Ziggurat Middle Top",):
         ["Rooted Ziggurat Middle Top", "Rooted Ziggurat Middle Bottom"],
-    # todo: can you get from lower back to lower front with LS?
     ("Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"):
         ["Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"],
     ("Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"):
         ["Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"],
-    # todo: add the ice grapple from the door to swamp
-    # ladder storage, confirm these are all possible
     ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
         ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"],
     ("Cathedral Gauntlet Checkpoint",):
