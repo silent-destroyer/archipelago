@@ -1,6 +1,6 @@
 from typing import Dict, TYPE_CHECKING
 from worlds.generic.Rules import set_rule, forbid_item
-from .rules import has_ability, has_sword, has_stick, has_ice_grapple_logic, has_lantern, has_mask
+from .rules import has_ability, has_sword, has_stick, has_ice_grapple_logic, has_lantern, has_mask, can_ladder_storage
 from .er_data import Portal
 from BaseClasses import Region
 
@@ -287,7 +287,6 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Library Hero's Grave"].connect(
         connecting_region=regions["Library Hall"])
 
-    # todo: can you ladder storage up?
     regions["Library Lab Lower"].connect(
         connecting_region=regions["Library Lab"],
         rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
@@ -319,7 +318,6 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Fortress Courtyard"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"],
         rule=lambda state: state.has(laurels, player))
-    # todo: verify that ice grapple can be used here
     regions["Fortress Exterior from Overworld"].connect(
         connecting_region=regions["Fortress Courtyard"],
         rule=lambda state: state.has(laurels, player)
@@ -453,14 +451,13 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Rooted Ziggurat Middle Top"].connect(
         connecting_region=regions["Rooted Ziggurat Middle Bottom"])
 
-    # todo: can you get from back to front with ls?
     regions["Rooted Ziggurat Lower Front"].connect(
         connecting_region=regions["Rooted Ziggurat Lower Back"],
         rule=lambda state: state.has(laurels, player)
         or (has_sword(state, player) and has_ability(state, player, prayer, options, ability_unlocks)))
     regions["Rooted Ziggurat Lower Back"].connect(
         connecting_region=regions["Rooted Ziggurat Lower Front"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player) or can_ladder_storage(state, player, options))
 
     regions["Rooted Ziggurat Lower Back"].connect(
         connecting_region=regions["Rooted Ziggurat Portal Room Entrance"],

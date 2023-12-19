@@ -600,7 +600,6 @@ tunic_er_regions: Dict[str, RegionInfo] = {
     "Ruined Atoll Portal": RegionInfo("Atoll Redux"),
     "Frog's Domain Entry": RegionInfo("Frog Stairs"),
     "Frog's Domain": RegionInfo("frog cave main", hint=Hint.region),
-    # todo: we need another region at the altar room, since you can theoretically ice grapple to it
     "Frog's Domain Back": RegionInfo("frog cave main", hint=Hint.scene),
     "Library Exterior Tree": RegionInfo("Library Exterior"),
     "Library Exterior Ladder": RegionInfo("Library Exterior"),

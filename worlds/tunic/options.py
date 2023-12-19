@@ -40,7 +40,8 @@ class LogicRules(Choice):
     Unrestricted: Logic in No Major Glitches, as well as ladder storage to get to certain places early.
     *Special Shop is not in logic without the Hero's Laurels in Unrestricted due to soft lock potential.
     *Using Ladder Storage to get to individual chests is not in logic to avoid tedium.
-    *Getting knocked out of the air by enemies during Ladder Storage to reach places is not in logic."""
+    *Getting knocked out of the air by enemies during Ladder Storage to reach places is not in logic, except for in
+    Rooted Ziggurat Lower. This is so you're not punished for playing with enemy rando on."""
     internal_name = "logic_rules"
     display_name = "Logic Rules"
     option_restricted = 0
@@ -134,13 +135,13 @@ class TunicOptions(PerGameCommonOptions):
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
     logic_rules: LogicRules
-    lanternless: Lanternless
-    maskless: Maskless
     entrance_rando: EntranceRando
     fixed_shop: FixedShop
     fool_traps: FoolTraps
     hexagon_quest: HexagonQuest
     hexagon_goal: HexagonGoal
     extra_hexagon_percentage: ExtraHexagonPercentage
+    lanternless: Lanternless
+    maskless: Maskless
     laurels_location: LaurelsLocation
     start_inventory_from_pool: StartInventoryPool
