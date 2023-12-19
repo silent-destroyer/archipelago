@@ -128,9 +128,9 @@ class TunicWorld(World):
                     available_filler.remove(fill)
 
         if self.options.maskless:
-            mask_item = TunicItem("Scavenger's Mask", ItemClassification.useful, self.item_name_to_id["Scavenger's Mask"], self.player)
+            mask_item = TunicItem("Scavenger Mask", ItemClassification.useful, self.item_name_to_id["Scavenger Mask"], self.player)
             tunic_items.append(mask_item)
-            items_to_create["Scavenger's Mask"] = 0
+            items_to_create["Scavenger Mask"] = 0
 
         if self.options.lanternless:
             mask_item = TunicItem("Lantern", ItemClassification.useful, self.item_name_to_id["Lantern"], self.player)
@@ -191,11 +191,6 @@ class TunicWorld(World):
             hint_data[self.player] = self.er_portal_hints
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        # import Utils
-        # state = self.multiworld.get_all_state(False)
-        # state.update_reachable_regions(self.player)
-        # Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), "tunc.puml",
-        #                         show_entrance_names=True, highlight_regions=state.reachable_regions[self.player])
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword.value,
