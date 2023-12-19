@@ -710,6 +710,22 @@ for p1, p2 in hallways.items():
     hallway_helper[p1] = p2
     hallway_helper[p2] = p1
 
+# so we can just loop over this instead of doing some complicated thing to deal with hallways in the hints
+hallways_nmg: Dict[str, str] = {
+    "Ruins Passage, Overworld Redux_east": "Ruins Passage, Overworld Redux_west",
+    "East Forest Redux Interior_upper": "East Forest Redux Interior_lower",
+    "Forest Boss Room, East Forest Redux Laddercave_": "Forest Boss Room, Forest Belltower_",
+    "Library Exterior, Atoll Redux_": "Library Exterior, Library Hall_",
+    "Library Rotunda, Library Lab_": "Library Rotunda, Library Hall_",
+    "Darkwoods Tunnel, Quarry Redux_": "Darkwoods Tunnel, Overworld Redux_",
+    "ziggurat2020_0, Quarry Redux_": "ziggurat2020_0, ziggurat2020_1_",
+    "Purgatory, Purgatory_bottom": "Purgatory, Purgatory_top",
+}
+hallway_helper_nmg: Dict[str, str] = {}
+for p1, p2 in hallways.items():
+    hallway_helper[p1] = p2
+    hallway_helper[p2] = p1
+
 
 # the key is the region you have, the value is the regions you get for having that region
 # this is mostly so we don't have to do something overly complex to get this information
@@ -802,7 +818,8 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
 
 dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
     ("Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Southeast Cross Door", "Overworld Temple Door",
-     "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal", "Overworld Ruined Passage Door"):
+     "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal",
+     "Overworld Ruined Passage Door"):
          ["Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Ruined Passage Door",
           "Overworld Southeast Cross Door", "Overworld Old House Door", "Overworld Temple Door",
           "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal"],
@@ -826,8 +843,10 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
         ["Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"],
     ("Dark Tomb Checkpoint", "Well Boss"):
         ["Dark Tomb Checkpoint", "Well Boss"],
-    ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave", "West Garden Portal", "West Garden Portal Item"):
-        ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave", "West Garden Portal", "West Garden Portal Item"],
+    ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave",
+     "West Garden Portal", "West Garden Portal Item"):
+        ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave",
+         "West Garden Portal", "West Garden Portal Item"],
     ("Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"):
         ["Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"],
     ("Frog's Domain",):
@@ -851,7 +870,8 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
     ("Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"):
         ["Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
     ("Fortress Grave Path Upper",):
-        ["Fortress Grave Path Upper", "Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
+        ["Fortress Grave Path Upper", "Fortress Grave Path", "Fortress Grave Path Dusty Entrance",
+         "Fortress Hero's Grave"],
     ("Fortress Arena", "Fortress Arena Portal"):
         ["Fortress Arena", "Fortress Arena Portal"],
     ("Lower Mountain", "Lower Mountain Stairs"):
@@ -874,7 +894,8 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
     ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"):
         ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"],
     ("Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
-        ["Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave", "Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"],
+        ["Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave", "Swamp",
+         "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance"],
     ("Cathedral Gauntlet Checkpoint",):
         ["Cathedral Gauntlet Checkpoint", "Cathedral Gauntlet Exit", "Cathedral Gauntlet"],
     ("Far Shore", "Far Shore to Spawn", "Far Shore to East Forest", "Far Shore to Quarry",
@@ -887,10 +908,12 @@ dependent_regions_nmg: Dict[Tuple[str, ...], List[str]] = {
 dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
     # can use ladder storage to get to the well rail
     ("Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Southeast Cross Door", "Overworld Temple Door",
-     "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal", "Overworld Ruined Passage Door"):
+     "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal",
+     "Overworld Ruined Passage Door"):
          ["Overworld", "Overworld Belltower", "Overworld Laurels", "Overworld Ruined Passage Door",
           "Overworld Southeast Cross Door", "Overworld Old House Door", "Overworld Temple Door",
-          "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal", "Overworld Well to Furnace Rail"],
+          "Overworld Fountain Cross Door", "Overworld Town Portal", "Overworld Spawn Portal",
+          "Overworld Well to Furnace Rail"],
     # can laurels through the gate
     ("Old House Front", "Old House Back"):
         ["Old House Front", "Old House Back"],
@@ -913,8 +936,10 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
     ("Dark Tomb Checkpoint", "Well Boss"):
         ["Dark Tomb Checkpoint", "Well Boss"],
     # can ice grapple from portal area to the rest, and vice versa
-    ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave", "West Garden Portal", "West Garden Portal Item"):
-        ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave", "West Garden Portal", "West Garden Portal Item"],
+    ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave",
+     "West Garden Portal", "West Garden Portal Item"):
+        ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave",
+         "West Garden Portal", "West Garden Portal Item"],
     ("Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"):
         ["Ruined Atoll", "Ruined Atoll Lower Entry Area", "Ruined Atoll Frog Mouth", "Ruined Atoll Portal"],
     ("Frog's Domain",):
@@ -941,7 +966,8 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
         ["Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
     # can ice grapple down
     ("Fortress Grave Path Upper",):
-        ["Fortress Grave Path Upper", "Fortress Grave Path", "Fortress Grave Path Dusty Entrance", "Fortress Hero's Grave"],
+        ["Fortress Grave Path Upper", "Fortress Grave Path", "Fortress Grave Path Dusty Entrance",
+         "Fortress Hero's Grave"],
     ("Fortress Arena", "Fortress Arena Portal"):
         ["Fortress Arena", "Fortress Arena Portal"],
     ("Lower Mountain", "Lower Mountain Stairs"):
@@ -949,7 +975,8 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
     ("Monastery Front", "Monastery Back", "Monastery Hero's Grave"):
         ["Monastery Front", "Monastery Back", "Monastery Hero's Grave"],
     # can use ladder storage at any of the Quarry ladders to get to Monastery Rope
-    ("Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry", "Monastery Rope"):
+    ("Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry",
+     "Monastery Rope"):
         ["Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry",
          "Monastery Rope", "Lower Quarry Zig Door"],
     ("Rooted Ziggurat Upper Entry", "Rooted Ziggurat Upper Front"):
@@ -960,8 +987,10 @@ dependent_regions_ur: Dict[Tuple[str, ...], List[str]] = {
         ["Rooted Ziggurat Lower Front", "Rooted Ziggurat Lower Back", "Rooted Ziggurat Portal Room Entrance"],
     ("Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"):
         ["Rooted Ziggurat Portal", "Rooted Ziggurat Portal Room Exit"],
-    ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
-        ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp", "Back of Swamp Laurels Area", "Swamp Hero's Grave"],
+    ("Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp",
+     "Back of Swamp Laurels Area", "Swamp Hero's Grave"):
+        ["Swamp", "Swamp to Cathedral Treasure Room", "Swamp to Cathedral Main Entrance", "Back of Swamp",
+         "Back of Swamp Laurels Area", "Swamp Hero's Grave"],
     ("Cathedral Gauntlet Checkpoint",):
         ["Cathedral Gauntlet Checkpoint", "Cathedral Gauntlet Exit", "Cathedral Gauntlet"],
     ("Far Shore", "Far Shore to Spawn", "Far Shore to East Forest", "Far Shore to Quarry",

@@ -191,6 +191,11 @@ class TunicWorld(World):
             hint_data[self.player] = self.er_portal_hints
 
     def fill_slot_data(self) -> Dict[str, Any]:
+        # import Utils
+        # state = self.multiworld.get_all_state(False)
+        # state.update_reachable_regions(self.player)
+        # Utils.visualize_regions(self.multiworld.get_region("Menu", self.player), "tunc.puml",
+        #                         show_entrance_names=True, highlight_regions=state.reachable_regions[self.player])
         slot_data: Dict[str, Any] = {
             "seed": self.random.randint(0, 2147483647),
             "start_with_sword": self.options.start_with_sword.value,

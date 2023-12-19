@@ -611,6 +611,12 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         regions["Overworld"].connect(
             regions[get_paired_region("Overworld Redux, Archipelagos Redux_lowest")],
             rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Sewer_west_aqueduct")],
+            rule=lambda state: has_stick(state, player))
+        regions["Overworld"].connect(
+            regions[get_paired_region("Overworld Redux, Furnace_gyro_upper_north")],
+            rule=lambda state: has_stick(state, player))
 
         regions["Furnace Ladder Area"].connect(
             regions[get_paired_region("Furnace, Overworld Redux_gyro_upper_north")],

@@ -1,7 +1,8 @@
 from typing import Dict, List, Set, Tuple, TYPE_CHECKING
 from BaseClasses import Region, ItemClassification, Item, Location
 from .locations import location_table
-from .er_data import Portal, tunic_er_regions, portal_mapping, dependent_regions, dependent_regions_nmg, dependent_regions_ur, hallway_helper
+from .er_data import Portal, tunic_er_regions, portal_mapping, hallway_helper, hallway_helper_nmg, \
+    dependent_regions, dependent_regions_nmg, dependent_regions_ur
 from .er_rules import set_er_region_rules
 
 if TYPE_CHECKING:
@@ -19,6 +20,53 @@ class TunicERLocation(Location):
 def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[int, str]]:
     regions: Dict[str, Region] = {}
     portal_pairs: Dict[Portal, Portal] = pair_portals(world)
+    logic_rules = world.options.logic_rules
+
+    # check if a portal leads to a hallway. if it does, update the hint text accordingly
+    def hint_helper(portal: Portal, hint_string: str = "") -> str:
+        # start by setting it as the name of the portal, for the case we're not using the hallway helper
+        if hint_string == "":
+            hint_string = portal.name
+
+        if logic_rules:
+            hallways = hallway_helper_nmg
+        else:
+            hallways = hallway_helper
+
+        if portal.scene_destination() in hallways:
+            # if we have a hallway, we want the region rather than the portal name
+            if hint_string == portal.name:
+                hint_string = portal.region
+                # library exterior is two regions, we just want to fix up the name
+                if hint_string in {"Library Exterior Tree", "Library Exterior Ladder"}:
+                    hint_string = "Library Exterior"
+
+            # search through the list for the other end of the hallway
+            for portala, portalb in portal_pairs.items():
+                if portala.scene_destination() == hallways[portal.scene_destination()]:
+                    # if we find that we have a chain of hallways, do recursion
+                    if portalb.scene_destination() in hallways:
+                        hint_region = portalb.region
+                        if hint_region in {"Library Exterior Tree", "Library Exterior Ladder"}:
+                            hint_region = "Library Exterior"
+                        hint_string = hint_region + " then " + hint_string
+                        hint_string = hint_helper(portalb, hint_string)
+                    else:
+                        # if we didn't find a chain, get the portal name for the end of the chain
+                        hint_string = portalb.name + " then " + hint_string
+                        return hint_string
+                # and then the same thing for the other portal, since we have to check each separately
+                if portalb.scene_destination() == hallways[portal.scene_destination()]:
+                    if portala.scene_destination() in hallways:
+                        hint_region = portala.region
+                        if hint_region in {"Library Exterior Tree", "Library Exterior Ladder"}:
+                            hint_region = "Library Exterior"
+                        hint_string = hint_region + " then " + hint_string
+                        hint_string = hint_helper(portala, hint_string)
+                    else:
+                        hint_string = portala.name + " then " + hint_string
+                        return hint_string
+        return hint_string
 
     # create our regions, give them hint text if they're in a spot where it makes sense to
     for region_name, region_data in tunic_er_regions.items():
@@ -26,19 +74,19 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
         if region_data.hint == 1:
             for portal1, portal2 in portal_pairs.items():
                 if portal1.region == region_name:
-                    hint_text = hint_helper(portal2, portal_pairs)
+                    hint_text = hint_helper(portal2)
                     break
                 if portal2.region == region_name:
-                    hint_text = hint_helper(portal1, portal_pairs)
+                    hint_text = hint_helper(portal1)
                     break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         elif region_data.hint == 2:
             for portal1, portal2 in portal_pairs.items():
                 if portal1.scene() == tunic_er_regions[region_name].game_scene:
-                    hint_text = hint_helper(portal2, portal_pairs)
+                    hint_text = hint_helper(portal2)
                     break
                 if portal2.scene() == tunic_er_regions[region_name].game_scene:
-                    hint_text = hint_helper(portal1, portal_pairs)
+                    hint_text = hint_helper(portal1)
                     break
             regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         elif region_data.hint == 3:
@@ -47,19 +95,19 @@ def create_er_regions(world: "TunicWorld") -> Tuple[Dict[Portal, Portal], Dict[i
                 if world.options.logic_rules:
                     for portal1, portal2 in portal_pairs.items():
                         if portal1.scene() == "Archipelagos Redux":
-                            hint_text = hint_helper(portal2, portal_pairs)
+                            hint_text = hint_helper(portal2)
                             break
                         if portal2.scene() == "Archipelagos Redux":
-                            hint_text = hint_helper(portal1, portal_pairs)
+                            hint_text = hint_helper(portal1)
                             break
                     regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
                 else:
                     for portal1, portal2 in portal_pairs.items():
                         if portal1.region == "West Garden Portal":
-                            hint_text = hint_helper(portal2, portal_pairs)
+                            hint_text = hint_helper(portal2)
                             break
                         if portal2.region == "West Garden Portal":
-                            hint_text = hint_helper(portal1, portal_pairs)
+                            hint_text = hint_helper(portal1)
                             break
                     regions[region_name] = Region(region_name, world.player, world.multiworld, hint_text)
         else:
@@ -131,12 +179,12 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     dead_ends: List[Portal] = []
     two_plus: List[Portal] = []
     fixed_shop = False
-    logic_rules = world.options.logic_rules
+    logic_rules = world.options.logic_rules.value
 
     # create separate lists for dead ends and non-dead ends
-    if world.options.logic_rules:
+    if logic_rules:
         for portal in portal_mapping:
-            if tunic_er_regions[portal.region].dead_end == 2:
+            if tunic_er_regions[portal.region].dead_end == 1:
                 dead_ends.append(portal)
             else:
                 two_plus.append(portal)
@@ -184,6 +232,8 @@ def pair_portals(world: "TunicWorld") -> Dict[Portal, Portal]:
     non_dead_end_regions = set()
     for region_name, region_info in tunic_er_regions.items():
         if not region_info.dead_end:
+            non_dead_end_regions.add(region_name)
+        elif region_info.dead_end == 2 and logic_rules:
             non_dead_end_regions.add(region_name)
 
     world.random.shuffle(two_plus)
@@ -287,7 +337,7 @@ def add_dependent_regions(region_name: str, logic_rules: int) -> Set[str]:
         regions_to_add = dependent_regions
     elif logic_rules == 1:
         regions_to_add = dependent_regions_nmg
-    elif logic_rules == 2:
+    else:
         regions_to_add = dependent_regions_ur
     for origin_regions, destination_regions in regions_to_add.items():
         if region_name in origin_regions:
@@ -401,48 +451,6 @@ def gate_before_switch(check_portal: Portal, two_plus: List[Portal]) -> bool:
 
     # false means you're good to place the portal
     return False
-
-
-# check if a portal leads to a hallway. if it does, update the hint text accordingly
-def hint_helper(portal: Portal, portal_pairs: Dict[Portal, Portal], hint_text: str = "") -> str:
-    # start by setting it as the name of the portal, for the case we're not using the hallway helper
-    if hint_text == "":
-        hint_text = portal.name
-
-    if portal.scene_destination() in hallway_helper:
-        # if we have a hallway, we want the region rather than the portal name
-        if hint_text == portal.name:
-            hint_text = portal.region
-            # library exterior is two regions, we just want to fix up the name
-            if hint_text in {"Library Exterior Tree", "Library Exterior Ladder"}:
-                hint_text = "Library Exterior"
-
-        # search through the list for the other end of the hallway
-        for portal1, portal2 in portal_pairs.items():
-            if portal1.scene_destination() == hallway_helper[portal.scene_destination()]:
-                # if we find that we have a chain of hallways, do recursion
-                if portal2.scene_destination() in hallway_helper:
-                    hint_region = portal2.region
-                    if hint_region in {"Library Exterior Tree", "Library Exterior Ladder"}:
-                        hint_region = "Library Exterior"
-                    hint_text = hint_region + " then " + hint_text
-                    hint_text = hint_helper(portal2, portal_pairs, hint_text)
-                else:
-                    # if we didn't find a chain, get the portal name for the end of the chain
-                    hint_text = portal2.name + " then " + hint_text
-                    return hint_text
-            # and then the same thing for the other portal, since we have to check each separately
-            if portal2.scene_destination() == hallway_helper[portal.scene_destination()]:
-                if portal1.scene_destination() in hallway_helper:
-                    hint_region = portal1.region
-                    if hint_region in {"Library Exterior Tree", "Library Exterior Ladder"}:
-                        hint_region = "Library Exterior"
-                    hint_text = hint_region + " then " + hint_text
-                    hint_text = hint_helper(portal1, portal_pairs, hint_text)
-                else:
-                    hint_text = portal1.name + " then " + hint_text
-                    return hint_text
-    return hint_text
 
 
 # todo: get this to work after 2170 is merged
