@@ -76,14 +76,14 @@ def can_ladder_storage(state: CollectionState, player: int, options: TunicOption
 
 
 def has_mask(state: CollectionState, player: int, options: TunicOptions) -> bool:
-    if not options.mask_logic:
+    if options.maskless:
         return True
     else:
         return state.has(mask, player)
 
 
 def has_lantern(state: CollectionState, player: int, options: TunicOptions) -> bool:
-    if not options.lantern_logic:
+    if options.lanternless:
         return True
     else:
         return state.has(lantern, player)

@@ -39,7 +39,9 @@ class LogicRules(Choice):
     No Major Glitches: Ice grapples through doors, shooting the west bell, and boss quick kills are included in logic.
     Unrestricted: Logic in No Major Glitches, as well as ladder storage to get to certain places early.
     *Special Shop is not in logic without the Hero's Laurels in Unrestricted due to soft lock potential.
-    *Lower Quarry without Scavenger's Mask is excluded because it's more brutal than fun."""
+    *Using Ladder Storage to get to individual chests is not in logic to avoid tedium.
+    *Getting knocked out of the air by enemies during Ladder Storage to reach places is not in logic, except for in
+    Rooted Ziggurat Lower. This is so you're not punished for playing with enemy rando on."""
     internal_name = "logic_rules"
     display_name = "Logic Rules"
     option_restricted = 0
@@ -48,16 +50,18 @@ class LogicRules(Choice):
     default = 0
 
 
-class MaskLogic(DefaultOnToggle):
-    """Choose whether you require the Scavenger's Mask for Lower Quarry."""
-    internal_name = "mask_logic"
-    display_name = "Mask Logic"
+class Lanternless(Toggle):
+    """Choose whether you require the Lantern for dark areas.
+    When enabled, the Lantern is marked as Useful instead of Progression."""
+    internal_name = "lanternless"
+    display_name = "Lanternless"
 
 
-class LanternLogic(DefaultOnToggle):
-    """Choose whether you require the Lantern for dark areas."""
-    internal_name = "lantern_logic"
-    display_name = "Lantern Logic"
+class Maskless(Toggle):
+    """Choose whether you require the Scavenger's Mask for Lower Quarry.
+    When enabled, the Scavenger's Mask is marked as Useful instead of Progression."""
+    internal_name = "maskless"
+    display_name = "Maskless"
 
 
 class FoolTraps(Choice):
@@ -131,13 +135,13 @@ class TunicOptions(PerGameCommonOptions):
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
     logic_rules: LogicRules
-    lantern_logic: LanternLogic
-    mask_logic: MaskLogic
     entrance_rando: EntranceRando
     fixed_shop: FixedShop
     fool_traps: FoolTraps
     hexagon_quest: HexagonQuest
     hexagon_goal: HexagonGoal
     extra_hexagon_percentage: ExtraHexagonPercentage
+    lanternless: Lanternless
+    maskless: Maskless
     laurels_location: LaurelsLocation
     start_inventory_from_pool: StartInventoryPool
