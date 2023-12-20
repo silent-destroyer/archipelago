@@ -753,7 +753,7 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
         ["Bottom of the Well Front", "Bottom of the Well Main", "Bottom of the Well Back"],
     ("Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"):
         ["Dark Tomb Entry Point", "Dark Tomb Main", "Dark Tomb Dark Exit"],
-    ("Dark Tomb Checkpoint", "Well Boss"):
+    ("Well Boss",):
         ["Dark Tomb Checkpoint", "Well Boss"],
     ("West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"):
         ["West Garden", "West Garden Laurels Exit", "West Garden after Boss", "West Garden Hero's Grave"],
@@ -787,8 +787,10 @@ dependent_regions: Dict[Tuple[str, ...], List[str]] = {
         ["Fortress Arena", "Fortress Arena Portal"],
     ("Lower Mountain", "Lower Mountain Stairs"):
         ["Lower Mountain", "Lower Mountain Stairs"],
-    ("Monastery Front", "Monastery Back", "Monastery Hero's Grave"):
+    ("Monastery Front",):
         ["Monastery Front", "Monastery Back", "Monastery Hero's Grave"],
+    ("Monastery Back", "Monastery Hero's Grave"):
+        ["Monastery Back", "Monastery Hero's Grave"],
     ("Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry"):
         ["Quarry", "Quarry Portal", "Lower Quarry", "Quarry Entry", "Quarry Back", "Quarry Monastery Entry",
          "Lower Quarry Zig Door"],
