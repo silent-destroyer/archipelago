@@ -35,7 +35,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Menu"].connect(
         connecting_region=regions["Overworld"])
 
-    ### Overworld ###
+    # Overworld
     regions["Overworld"].connect(
         connecting_region=regions["Overworld Holy Cross"],
         rule=lambda state: has_ability(state, player, holy_cross, options, ability_unlocks))
@@ -99,7 +99,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has_all({"Ring Eastern Bell", "Ring Western Bell"}, player)
         or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
 
-    ### Overworld side areas ###
+    # Overworld side areas
     regions["Old House Front"].connect(
         connecting_region=regions["Old House Back"])
     # nmg: laurels through the gate
@@ -134,7 +134,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Furnace Fuse"],
         rule=lambda state: state.has(laurels, player))
 
-    ### East Forest ###
+    # East Forest
     regions["Forest Belltower Upper"].connect(
         connecting_region=regions["Forest Belltower Main"])
 
@@ -186,7 +186,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Forest Hero's Grave"].connect(
         connecting_region=regions["Forest Grave Path by Grave"])
 
-    ### Bottom of the Well and Dark Tomb ###
+    # Bottom of the Well and Dark Tomb
     regions["Bottom of the Well Front"].connect(
         connecting_region=regions["Bottom of the Well Main"],
         rule=lambda state: has_stick(state, player) or state.has(fire_wand, player))
@@ -203,10 +203,10 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Well Boss"].connect(
         connecting_region=regions["Dark Tomb Checkpoint"])
-    # all categories: can laurels through the gate
+    # nmg: can laurels through the gate
     regions["Dark Tomb Checkpoint"].connect(
         connecting_region=regions["Well Boss"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player) and options.logic_rules)
 
     regions["Dark Tomb Entry Point"].connect(
         connecting_region=regions["Dark Tomb Main"],
@@ -222,7 +222,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Dark Tomb Main"],
         rule=lambda state: has_lantern(state, player, options))
 
-    ### West Garden ###
+    # West Garden
     regions["West Garden Laurels Exit"].connect(
         connecting_region=regions["West Garden"],
         rule=lambda state: state.has(laurels, player))
@@ -259,7 +259,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["West Garden Portal Item"],
         rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
-    ### Atoll and Frog's Domain ###
+    # Atoll and Frog's Domain
     # nmg: ice grapple the bird below the portal
     regions["Ruined Atoll"].connect(
         connecting_region=regions["Ruined Atoll Lower Entry Area"],
@@ -286,7 +286,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Frog's Domain Back"],
         rule=lambda state: state.has(grapple, player))
 
-    ### Library ###
+    # Library
     regions["Library Exterior Tree"].connect(
         connecting_region=regions["Library Exterior Ladder"],
         rule=lambda state: state.has(grapple, player) or state.has(laurels, player))
@@ -314,7 +314,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Library Portal"].connect(
         connecting_region=regions["Library Lab"])
 
-    ### Eastern Vault Fortress ###
+    # Eastern Vault Fortress
     regions["Fortress Exterior from East Forest"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"],
         rule=lambda state: state.has(laurels, player) or state.has(grapple, player))
@@ -398,7 +398,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Fortress Arena Portal"].connect(
         connecting_region=regions["Fortress Arena"])
 
-    ### Quarry ###
+    # Quarry
     regions["Lower Mountain"].connect(
         connecting_region=regions["Lower Mountain Stairs"],
         rule=lambda state: has_ability(state, player, holy_cross, options, ability_unlocks))
@@ -452,10 +452,10 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
 
     regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"])
-    # all categories: can laurels through the gate
+    # nmg: can laurels through the gate
     regions["Monastery Back"].connect(
         connecting_region=regions["Monastery Front"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player) and options.logic_rules)
 
     regions["Monastery Back"].connect(
         connecting_region=regions["Monastery Hero's Grave"],
@@ -463,7 +463,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Monastery Hero's Grave"].connect(
         connecting_region=regions["Monastery Back"])
 
-    ### Ziggurat ###
+    # Ziggurat
     regions["Rooted Ziggurat Upper Entry"].connect(
         connecting_region=regions["Rooted Ziggurat Upper Front"])
 
@@ -500,7 +500,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Rooted Ziggurat Portal"],
         rule=lambda state: has_ability(state, player, prayer, options, ability_unlocks))
 
-    ### Swamp and Cathedral ###
+    # Swamp and Cathedral
     # nmg: ice grapple through cathedral door, can do it both ways
     regions["Swamp"].connect(
         connecting_region=regions["Swamp to Cathedral Main Entrance"],
@@ -545,7 +545,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["Cathedral Gauntlet"],
         rule=lambda state: state.has(laurels, player))
 
-    ### Far Shore ###
+    # Far Shore
     regions["Far Shore"].connect(
         connecting_region=regions["Far Shore to Spawn"],
         rule=lambda state: state.has(laurels, player))
@@ -588,7 +588,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Far Shore to Library"].connect(
         connecting_region=regions["Far Shore"])
 
-    ### Misc ###
+    # Misc
     regions["Shop Entrance 1"].connect(
         connecting_region=regions["Shop"])
     regions["Shop Entrance 2"].connect(
@@ -619,7 +619,6 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
                     return portal1.region
             raise Exception("no matches found in get_paired_region")
 
-        
         # The upper Swamp entrance
         regions["Overworld"].connect(
             regions[get_paired_region("Overworld Redux, Swamp Redux 2_wall")],
