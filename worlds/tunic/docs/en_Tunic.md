@@ -45,7 +45,6 @@ There is also a [standalone item tracker](https://github.com/radicoon/tunic-rand
 - The Secret Legend chest at the Cathedral can be obtained during the day by opening the Holy Cross door from the outside.
 
 For Entrance Rando specifically:
-- You can dash through the gate in the Bottom of the Well boss room and the Monastery using the Hero's Laurels.
 - Activating a fuse to turn on a yellow teleporter pad also activates its counterpart in the Far Shore.
 - The West Garden fuse can be activated from below.
 - You can pray at the tree at the exterior of the Library.
