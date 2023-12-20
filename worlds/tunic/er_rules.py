@@ -371,7 +371,7 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     regions["Eastern Vault Fortress Gold Door"].connect(
         connecting_region=regions["Eastern Vault Fortress"],
         name="Fortress Gold Door",
-        rule=lambda state: has_ice_grapple_logic(False, state, player, options, ability_unlocks))
+        rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Fortress Grave Path"].connect(
         connecting_region=regions["Fortress Grave Path Dusty Entrance"],
