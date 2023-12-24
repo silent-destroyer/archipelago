@@ -696,7 +696,7 @@ hallways: Dict[str, str] = {
     "Overworld Redux, Furnace_gyro_west": "Overworld Redux, Archipelagos Redux_lower",
     "Overworld Redux, Furnace_gyro_upper_north": "Overworld Redux, Sewer_west_aqueduct",
     "Ruins Passage, Overworld Redux_east": "Ruins Passage, Overworld Redux_west",
-    "East Forest Redux Interior_upper": "East Forest Redux Interior_lower",
+    "East Forest Redux Interior, East Forest Redux_upper": "East Forest Redux Interior, East Forest Redux_lower",
     "Forest Boss Room, East Forest Redux Laddercave_": "Forest Boss Room, Forest Belltower_",
     "Library Exterior, Atoll Redux_": "Library Exterior, Library Hall_",
     "Library Rotunda, Library Lab_": "Library Rotunda, Library Hall_",
@@ -712,7 +712,7 @@ for p1, p2 in hallways.items():
 # so we can just loop over this instead of doing some complicated thing to deal with hallways in the hints
 hallways_nmg: Dict[str, str] = {
     "Ruins Passage, Overworld Redux_east": "Ruins Passage, Overworld Redux_west",
-    "East Forest Redux Interior_upper": "East Forest Redux Interior_lower",
+    "East Forest Redux Interior, East Forest Redux_upper": "East Forest Redux Interior, East Forest Redux_lower",
     "Forest Boss Room, East Forest Redux Laddercave_": "Forest Boss Room, Forest Belltower_",
     "Library Exterior, Atoll Redux_": "Library Exterior, Library Hall_",
     "Library Rotunda, Library Lab_": "Library Rotunda, Library Hall_",
