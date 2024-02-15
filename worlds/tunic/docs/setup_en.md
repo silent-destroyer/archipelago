@@ -7,7 +7,7 @@
 - [TUNIC Randomizer Mod](https://github.com/silent-destroyer/tunic-randomizer/releases/latest)
 
 ## Optional Software
-- [TUNIC Randomizer Map Tracker](https://github.com/SapphireSapphic/TunicTracker/releases/latest) (For use with EmoTracker/PopTracker)
+- [TUNIC Randomizer Map Tracker](https://github.com/SapphireSapphic/TunicTracker/releases/latest) (Compatible with PopTracker and EmoTracker)
 - [TUNIC Randomizer Item Auto-tracker](https://github.com/radicoon/tunic-rando-tracker/releases/latest)
 - [Archipelago Text Client](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
 
