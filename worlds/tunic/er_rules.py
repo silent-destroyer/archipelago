@@ -53,9 +53,23 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         or (state.has(laurels, player) and options.logic_rules))
 
     regions["Overworld"].connect(
-        connecting_region=regions["Overworld Laurels"],
+        connecting_region=regions["Overworld Swamp Upper Entry"],
         rule=lambda state: state.has(laurels, player))
-    regions["Overworld Laurels"].connect(
+    regions["Overworld Swamp Upper Entry"].connect(
+        connecting_region=regions["Overworld"],
+        rule=lambda state: state.has(laurels, player))
+
+    regions["Overworld"].connect(
+        connecting_region=regions["Overworld Special Shop Entry"],
+        rule=lambda state: state.has(laurels, player))
+    regions["Overworld Special Shop Entry"].connect(
+        connecting_region=regions["Overworld"],
+        rule=lambda state: state.has(laurels, player))
+
+    regions["Overworld"].connect(
+        connecting_region=regions["Overworld West Garden Laurels Entry"],
+        rule=lambda state: state.has(laurels, player))
+    regions["Overworld West Garden Laurels Entry"].connect(
         connecting_region=regions["Overworld"],
         rule=lambda state: state.has(laurels, player))
 
@@ -230,7 +244,6 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         connecting_region=regions["West Garden Laurels Exit"],
         rule=lambda state: state.has(laurels, player))
 
-    # todo: can you wake the boss, then grapple to it, then kill it?
     regions["West Garden after Boss"].connect(
         connecting_region=regions["West Garden"],
         rule=lambda state: state.has(laurels, player))
@@ -364,13 +377,13 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
     # nmg: ice grapple through the big gold door, can do it both ways
     regions["Eastern Vault Fortress"].connect(
         connecting_region=regions["Eastern Vault Fortress Gold Door"],
-        name="Fortress Gold Door",
+        name="Fortress to Gold Door",
         rule=lambda state: state.has_all({"Activate Eastern Vault West Fuses",
                                           "Activate Eastern Vault East Fuse"}, player)
         or has_ice_grapple_logic(False, state, player, options, ability_unlocks))
     regions["Eastern Vault Fortress Gold Door"].connect(
         connecting_region=regions["Eastern Vault Fortress"],
-        name="Fortress Gold Door",
+        name="Gold Door to Fortress",
         rule=lambda state: has_ice_grapple_logic(True, state, player, options, ability_unlocks))
 
     regions["Fortress Grave Path"].connect(
@@ -430,6 +443,13 @@ def set_er_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int], re
         rule=lambda state: state.has(fire_wand, player) or has_sword(state, player))
     regions["Quarry"].connect(
         connecting_region=regions["Quarry Monastery Entry"])
+
+    regions["Quarry Monastery Entry"].connect(
+        connecting_region=regions["Quarry Back"],
+        rule=lambda state: state.has(laurels, player))
+    regions["Quarry Back"].connect(
+        connecting_region=regions["Quarry Monastery Entry"],
+        rule=lambda state: state.has(laurels, player))
 
     regions["Monastery Rope"].connect(
         connecting_region=regions["Quarry Back"])
