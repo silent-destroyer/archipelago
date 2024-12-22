@@ -151,12 +151,6 @@ class TunicWorld(World):
         if self.options.local_fill == -1:
             if self.options.grass_randomizer:
                 self.options.local_fill.value = 95
-            #     if self.options.breakable_shuffle:
-            #         self.options.local_fill.value = 96
-            #     else:
-            #         self.options.local_fill.value = 95
-            # elif self.options.breakable_shuffle:
-            #     self.options.local_fill.value = 40
             else:
                 self.options.local_fill.value = 0
 
@@ -167,9 +161,6 @@ class TunicWorld(World):
                                   f"in their host.yaml settings")
 
             self.player_location_table.update(grass_location_name_to_id)
-
-        # if self.options.breakable_shuffle:
-        #     self.player_location_table.update(breakable_location_name_to_id)
 
     @classmethod
     def stage_generate_early(cls, multiworld: MultiWorld) -> None:
