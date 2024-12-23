@@ -418,6 +418,11 @@ class TunicWorld(World):
                 grass_fill_locations.extend(world.grass_fill_locations)
                 non_grass_fill_locations.extend(world.non_grass_fill_locations)
 
+            multiworld.random.shuffle(grass_fill)
+            multiworld.random.shuffle(non_grass_fill)
+            multiworld.random.shuffle(grass_fill_locations)
+            multiworld.random.shuffle(non_grass_fill_locations)
+
             for loc in grass_fill_locations:
                 multiworld.push_item(loc, grass_fill.pop(), collect=False)
 
