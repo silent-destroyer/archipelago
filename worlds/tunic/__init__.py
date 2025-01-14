@@ -93,7 +93,7 @@ class TunicWorld(World):
     shop_num: int = 1  # need to make it so that you can walk out of shops, but also that they aren't all connected
     er_regions: Dict[str, RegionInfo]  # absolutely needed so outlet regions work
 
-    # for the local_fill option -- grass and non-grass option worlds get their own pools
+    # for the local_fill option
     fill_items: List[TunicItem]
     fill_locations: List[TunicLocation]
     amount_to_local_fill: int
