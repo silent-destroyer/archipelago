@@ -134,7 +134,8 @@ def set_fuse_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Overworld - [Southeast] Activate Fuse"),
              lambda state: state.has(laurels, player) and has_ability(prayer, state, world))
     set_rule(world.get_location("Swamp - [Central] Activate Fuse"),
-             lambda state: state.has_all(fuse_activation_reqs[swamp_fuse_2], player) and has_ability(prayer, state, world))
+             lambda state: state.has_all(fuse_activation_reqs[swamp_fuse_2], player) and has_ability(prayer, state, world)
+                           and has_sword(state, player))
     set_rule(world.get_location("Swamp - [Outside Cathedral] Activate Fuse"),
              lambda state: state.has_all(fuse_activation_reqs[swamp_fuse_3], player) and has_ability(prayer, state, world))
     set_rule(world.get_location("Cathedral - Activate Fuse"),
