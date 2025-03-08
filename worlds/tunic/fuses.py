@@ -175,3 +175,5 @@ def set_fuse_location_rules(world: "TunicWorld") -> None:
              lambda state: state.has_all(fuse_activation_reqs[quarry_fuse_2], player) and has_ability(prayer, state, world))
     set_rule(world.get_location("Rooted Ziggurat Lower - [Miniboss] Activate Fuse"),
              lambda state: has_sword(state, player) and has_ability(prayer, state, world))
+    set_rule(world.get_location("Rooted Ziggurat Lower - [Before Boss] Activate Fuse"),
+             lambda state: has_ability(prayer, state, world))
