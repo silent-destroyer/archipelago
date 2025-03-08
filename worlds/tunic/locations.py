@@ -1,7 +1,8 @@
 from typing import Dict, NamedTuple, Set, Optional, List
 
-from .fuses import fuse_location_table
 from .grass import grass_location_table
+from .breakables import breakable_location_table
+from .fuses import fuse_location_table
 from .bells import bell_location_table
 
 
@@ -345,6 +346,7 @@ standard_location_name_to_id: Dict[str, int] = {name: location_base_id + index f
 
 all_locations = location_table.copy()
 all_locations.update(grass_location_table)
+all_locations.update(breakable_location_table)
 all_locations.update(fuse_location_table)
 all_locations.update(bell_location_table)
 
