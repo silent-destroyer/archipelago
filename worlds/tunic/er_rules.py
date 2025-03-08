@@ -1959,6 +1959,15 @@ def set_er_location_rules(world: "TunicWorld") -> None:
         if options.shuffle_fuses:
             set_rule(world.get_location("Rooted Ziggurat Lower - [Miniboss] Activate Fuse"),
                      lambda state: has_ability(prayer, state, world) and has_combat_reqs("Rooted Ziggurat", state, player))
+            combat_logic_to_loc("Beneath the Fortress - Activate Fuse", "Beneath the Vault")
+            combat_logic_to_loc("Fortress Courtyard - [Upper] Activate Fuse", "Eastern Vault Fortress")
+            combat_logic_to_loc("Fortress Courtyard - [Central] Activate Fuse", "Eastern Vault Fortress")
+            combat_logic_to_loc("Eastern Vault Fortress - [Candle Room] Activate Fuse", "Eastern Vault Fortress")
+            combat_logic_to_loc("Eastern Vault Fortress - [Left of Door] Activate Fuse", "Eastern Vault Fortress")
+            combat_logic_to_loc("Eastern Vault Fortress - [Right of Door] Activate Fuse", "Eastern Vault Fortress")
+            combat_logic_to_loc("Ruined Atoll - [Northwest] Activate Fuse", "Ruined Atoll")
+            combat_logic_to_loc("Ruined Atoll - [Southwest] Activate Fuse", "Ruined Atoll")
+            combat_logic_to_loc("Swamp - [Central] Activate Fuse", "Swamp")
 
         # replace the sword rule with this one
         combat_logic_to_loc("Swamp - [South Graveyard] 4 Orange Skulls", "Swamp", set_instead=True)
