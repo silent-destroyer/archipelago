@@ -850,7 +850,9 @@ def set_er_region_rules(world: "TunicWorld", regions: Dict[str, Region], portal_
 
     regions["Fortress Exterior near cave"].connect(
         connecting_region=regions["Fortress Exterior from Overworld"],
-        rule=lambda state: state.has(laurels, player))
+        rule=lambda state: state.has(laurels, player)
+                           or (has_ability(prayer, state, world) and state.has(fortress_exterior_fuse_1, player)
+                               and options.shuffle_fuses))
     regions["Fortress Exterior from Overworld"].connect(
         connecting_region=regions["Fortress Exterior near cave"],
         rule=lambda state: state.has(laurels, player) or
