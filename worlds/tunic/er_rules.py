@@ -926,7 +926,9 @@ def set_er_region_rules(world: "TunicWorld", regions: Dict[str, Region], portal_
                            or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world))
     regions["Eastern Vault Fortress Gold Door"].connect(
         connecting_region=regions["Eastern Vault Fortress"],
-        rule=lambda state: has_ice_grapple_logic(False, IceGrappling.option_easy, state, world))
+        rule=lambda state: has_ice_grapple_logic(False, IceGrappling.option_easy, state, world)
+                           or (has_fuses("Activate Eastern Vault West Fuses", state, world)
+                           and has_fuses("Activate Eastern Vault East Fuse", state, world) and options.shuffle_fuses))
 
     fort_grave_entry_to_combat = regions["Fortress Grave Path Entry"].connect(
         connecting_region=regions["Fortress Grave Path Combat"])
