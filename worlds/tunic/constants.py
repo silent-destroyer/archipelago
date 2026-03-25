@@ -1,6 +1,9 @@
 base_id = 509342400
 
 laurels = "Hero's Laurels"
+stick = "Stick"
+sword = "Sword"
+sword_upgrade = "Sword Upgrade"
 grapple = "Magic Orb"
 ice_dagger = "Magic Dagger"
 fire_wand = "Magic Wand"

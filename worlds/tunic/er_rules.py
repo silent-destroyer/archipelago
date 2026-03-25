@@ -6,6 +6,7 @@ from worlds.generic.Rules import set_rule, add_rule, forbid_item
 from .bells import set_bell_location_rules
 from .combat_logic import has_combat_reqs
 from .constants import *
+from .enemy_drops import set_enemy_location_rules
 from .er_data import Portal, get_portal_outlet_region
 from .fuses import set_fuse_location_rules
 from .grass import set_grass_location_rules
@@ -1537,6 +1538,9 @@ def set_er_location_rules(world: "TunicWorld") -> None:
 
     if options.shuffle_bells:
         set_bell_location_rules(world)
+
+    if options.shuffle_enemy_drops:
+        set_enemy_location_rules(world)
 
     forbid_item(world.get_location("Secret Gathering Place - 20 Fairy Reward"), fairies, player)
 
