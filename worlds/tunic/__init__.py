@@ -779,6 +779,8 @@ class TunicWorld(World):
             "Entrance Rando": self.tunic_portal_pairs,
             "disable_local_spoiler": int(self.settings.disable_local_spoiler or self.multiworld.is_race),
             "breakable_shuffle": self.options.breakable_shuffle.value,
+            "shuffle_enemy_drops": self.options.shuffle_enemy_drops.value,
+            "shuffle_enemy_souls": self.options.shuffle_enemy_souls.value,
         }
 
         # this would be in a stage if there was an appropriate stage for it
