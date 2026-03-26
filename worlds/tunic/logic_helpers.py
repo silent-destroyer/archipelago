@@ -49,13 +49,13 @@ def laurels_zip(state: CollectionState, world: "TunicWorld") -> bool:
     return world.options.laurels_zips and state.has(laurels, world.player)
 
 
-def has_ice_grapple_logic(long_range: bool, difficulty: IceGrappling, state: CollectionState, world: "TunicWorld") -> bool:
+def has_ice_grapple_logic(long_range: bool, difficulty: IceGrappling, state: CollectionState, world: "TunicWorld", usable_enemies: list) -> bool:
     if world.options.ice_grappling < difficulty:
         return False
     if not long_range:
-        return state.has_all((ice_dagger, grapple), world.player)
+        return state.has_all((ice_dagger, grapple), world.player) and (not usable_enemies or any(has_enemy_soul(enemy, state, world) for enemy in usable_enemies))
     else:
-        return state.has_all((ice_dagger, fire_wand, grapple), world.player) and has_ability(icebolt, state, world)
+        return state.has_all((ice_dagger, fire_wand, grapple), world.player) and has_ability(icebolt, state, world) and (not usable_enemies or any(has_enemy_soul(enemy, state, world) for enemy in usable_enemies))
 
 
 def can_ladder_storage(state: CollectionState, world: "TunicWorld") -> bool:
@@ -123,3 +123,7 @@ def has_fuses(fuse_event: str, state: CollectionState, world: "TunicWorld") -> b
         return state.has_all(fuse_activation_reqs[fuse_event], world.player)
 
     return state.has(fuse_event, world.player)
+
+
+def has_enemy_soul(enemy_soul: str, state: CollectionState, world: "TunicWorld") -> bool:
+    return not world.options.shuffle_enemy_souls or state.has(enemy_soul, world.player)

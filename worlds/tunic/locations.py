@@ -1,11 +1,11 @@
 from typing import NamedTuple
 
-from . import enemy_location_table
 from .bells import bell_location_table
 from .breakables import breakable_location_table
 from .constants import base_id
 from .fuses import fuse_location_table
 from .grass import grass_location_table
+from .enemy_drops import enemy_location_table
 
 
 class TunicLocationData(NamedTuple):

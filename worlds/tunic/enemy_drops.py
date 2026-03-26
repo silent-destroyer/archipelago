@@ -1,11 +1,11 @@
-from enum import IntEnum, StrEnum
+from enum import IntEnum
 from typing import TYPE_CHECKING, NamedTuple
 
-from BaseClasses import CollectionState
+from worlds.generic.Rules import set_rule, add_rule
+
 from .constants import *
-from .logic_helpers import has_melee, has_sword, can_shop, has_ability
+from .logic_helpers import has_melee, has_sword, can_shop, has_ability, has_enemy_soul
 from .options import ShuffleEnemyDrops
-from ..generic.Rules import set_rule, add_rule
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -56,40 +56,6 @@ class EnemyType(IntEnum):
     fox_enemy_zombie = 42
     fox_enemy = 43
     voidtouched = 44
-
-
-class EnemySouls(StrEnum):
-    administrator = "Enemy Soul (Administrator)"
-    phrend = "Enemy Soul (Phrend)"
-    beefboy = "Enemy Soul (Beefboy)"
-    blobs = "Enemy Soul (Blobs)"
-    fleemers = "Enemy Soul (Fleemers)"
-    crabs = "Enemy Soul (Crabs)"
-    chompignom = "Enemy Soul (Chompignom)"
-    husher = "Enemy Soul (Husher)"
-    autobolt = "Enemy Soul (Autobolt)"
-    zombie_foxes = "Enemy Soul (Zombie Foxes)"
-    frogs = "Enemy Soul (Frogs)"
-    lost_echo = "Enemy Soul (Lost Echo)"
-    gunslinger = "Enemy Soul (Gunslinger)"
-    hedgehogs = "Enemy Soul (Hedgehogs)"
-    laser_trap = "Enemy Soul (Laser Trap)"
-    envoy = "Enemy Soul (Envoy)"
-    garden_knight = "Enemy Soul (Garden Knight)"
-    librarian = "Enemy Soul (Librarian)"
-    plover = "Enemy Soul (Plover)"
-    fairies = "Enemy Soul (Fairies)"
-    scavengers = "Enemy Soul (Scavengers)"
-    boss_scavenger = "Enemy Soul (Boss Scavenger)"
-    tentacle = "Enemy Soul (Tentacle)"
-    rudelings = "Enemy Soul (Rudelings)"
-    spiders = "Enemy Soul (Spiders)"
-    siege_engine = "Enemy Soul (Siege Engine)"
-    slorm = "Enemy Soul (Slorm)"
-    baby_slorm = "Enemy Soul (Baby Slorm)"
-    voidling = "Enemy Soul (Voidling)"
-    custodians = "Enemy Soul (Custodians)"
-    heir = "Enemy Soul (The Heir)"
 
 
 class TunicLocationData(NamedTuple):
@@ -804,10 +770,6 @@ for location_name, location_data in enemy_location_table.items():
         enemy_location_groups.setdefault(location_data.extra_group, set()).add(location_name)
 
 
-def has_enemy_soul(enemy_soul: str, state: CollectionState, world: "TunicWorld") -> bool:
-    return not world.options.shuffle_enemy_souls or state.has(enemy_soul, world.player)
-
-
 def set_enemy_location_rules(world: "TunicWorld") -> None:
     player = world.player
 
@@ -845,6 +807,8 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.laser_trap, state, world) and has_melee(state, player))
         elif enemy_type == EnemyType.fairy:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.fairies, state, world) and (has_sword(state, player) or state.has(fire_wand, player) or (state.has_any((stick, sword_upgrade), player) and state.has(grapple, player))))
+            if loc_data.er_region == "Cathedral Gauntlet": # stick + grapple for the gauntlet wave would be a little mean
+                set_rule(location, lambda state: has_enemy_soul(EnemySouls.fairies, state, world) and (state.has(fire_wand, player) or (has_sword(state, player) and state.has(grapple, player))))
         elif enemy_type == EnemyType.chompignom:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.chompignom, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.garden_knight:
