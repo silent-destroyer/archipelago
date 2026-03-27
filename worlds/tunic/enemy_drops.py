@@ -453,7 +453,7 @@ enemy_location_table: dict[str, TunicLocationData] = {
     "Monastery - [Front] Scavenger Mining Broken Fuse 1": TunicLocationData("Monastery Front", EnemyType.scavenger_miner),
     "Monastery - [Front] Scavenger Sniper Near Entrance": TunicLocationData("Monastery Front", EnemyType.scavenger),
     "Monastery - [Back] Zombie Fox Near Grave": TunicLocationData("Monastery Back", EnemyType.fox_enemy_zombie, is_extra_enemy=True),
-    "Monastery - [Back] Voidtouched": TunicLocationData("Monastery Back", EnemyType.voidtouched, is_extra_enemy=True),
+    "Monastery - [Back] Voidtouched": TunicLocationData("Monastery Back", EnemyType.voidtouched),
     "Monastery - [Front] Voidling Spider 1": TunicLocationData("Monastery Front", EnemyType.voidling, is_extra_enemy=True),
     "Monastery - [Front] Voidling Spider 2": TunicLocationData("Monastery Front", EnemyType.voidling, is_extra_enemy=True),
     "Monastery - [Front] Voidling Spider 3": TunicLocationData("Monastery Front", EnemyType.voidling, is_extra_enemy=True),
@@ -854,7 +854,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type == EnemyType.fox_enemy:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.zombie_foxes, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.voidtouched:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidling, state, world) and has_sword(state, player) and state.has(laurels, player))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidtouched, state, world) and has_sword(state, player) and state.has(laurels, player))
 
         # specific enemy rules
         if loc_name == "Frog's Domain - Side Room Secret Frog":

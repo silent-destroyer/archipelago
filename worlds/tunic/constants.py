@@ -82,6 +82,7 @@ class EnemySouls(StrEnum):
     baby_slorm = "Enemy Soul (Baby Slorm)"
     voidling = "Enemy Soul (Voidling)"
     custodians = "Enemy Soul (Custodians)"
+    voidtouched = "Enemy Soul (Voidtouched)"
     heir = "Enemy Soul (The Heir)"
 
 

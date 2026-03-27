@@ -228,7 +228,11 @@ item_table: dict[str, TunicItemData] = {
     "Enemy Soul (Baby Slorm)": TunicItemData(IC.progression, 0, 209, "Enemy Souls"),
     "Enemy Soul (Voidling)": TunicItemData(IC.progression, 0, 210, "Enemy Souls"),
     "Enemy Soul (Custodians)": TunicItemData(IC.progression, 0, 211, "Enemy Souls"),
-    "Enemy Soul (The Heir)": TunicItemData(IC.progression, 0, 212, "Enemy Souls"),
+    "Enemy Soul (Voidtouched)": TunicItemData(IC.progression, 0, 212, "Enemy Souls"),
+    "Enemy Soul (The Heir)": TunicItemData(IC.progression, 0, 213, "Enemy Souls"),
+    "Firecracker": TunicItemData(IC.filler, 0, 214, "Bombs"),
+    "Fire Bomb": TunicItemData(IC.filler, 0, 215, "Bombs"),
+    "Ice Bomb": TunicItemData(IC.filler, 0, 216, "Bombs"),
 }
 
 # items to be replaced by fool traps
