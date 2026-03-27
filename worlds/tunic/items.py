@@ -16,19 +16,24 @@ class TunicItemData(NamedTuple):
 
 
 item_table: dict[str, TunicItemData] = {
+    "Firecracker": TunicItemData(IC.filler, 0, 214, "Bombs"),
     "Firecracker x2": TunicItemData(IC.filler, 3, 0, "Bombs"),
     "Firecracker x3": TunicItemData(IC.filler, 3, 1, "Bombs"),
     "Firecracker x4": TunicItemData(IC.filler, 3, 2, "Bombs"),
     "Firecracker x5": TunicItemData(IC.filler, 1, 3, "Bombs"),
     "Firecracker x6": TunicItemData(IC.filler, 2, 4, "Bombs"),
+    "Fire Bomb": TunicItemData(IC.filler, 0, 215, "Bombs"),
     "Fire Bomb x2": TunicItemData(IC.filler, 2, 5, "Bombs"),
     "Fire Bomb x3": TunicItemData(IC.filler, 1, 6, "Bombs"),
+    "Ice Bomb": TunicItemData(IC.filler, 0, 216, "Bombs"),
     "Ice Bomb x2": TunicItemData(IC.filler, 2, 7, "Bombs"),
     "Ice Bomb x3": TunicItemData(IC.filler, 2, 8, "Bombs"),
     "Ice Bomb x5": TunicItemData(IC.filler, 1, 9, "Bombs"),
     "Lure": TunicItemData(IC.filler, 4, 10, "Consumables"),
     "Lure x2": TunicItemData(IC.filler, 1, 11, "Consumables"),
+    "Pepper": TunicItemData(IC.filler, 0, 217, "Consumables"),
     "Pepper x2": TunicItemData(IC.filler, 4, 12, "Consumables"),
+    "Ivy": TunicItemData(IC.filler, 0, 218, "Consumables"),
     "Ivy x3": TunicItemData(IC.filler, 2, 13, "Consumables"),
     "Effigy": TunicItemData(IC.useful, 12, 14, "Money", combat_ic=IC.progression | IC.deprioritized),
     "HP Berry": TunicItemData(IC.filler, 2, 15, "Consumables"),
@@ -108,6 +113,10 @@ item_table: dict[str, TunicItemData] = {
     "Money x3": TunicItemData(IC.filler, 0, 153, "Money"),
     "Money x4": TunicItemData(IC.filler, 0, 154, "Money"),
     "Money x5": TunicItemData(IC.filler, 0, 155, "Money"),
+    "Money x6": TunicItemData(IC.filler, 0, 219, "Money"),
+    "Money x7": TunicItemData(IC.filler, 0, 220, "Money"),
+    "Money x8": TunicItemData(IC.filler, 0, 221, "Money"),
+    "Money x9": TunicItemData(IC.filler, 0, 222, "Money"),
     "Money x10": TunicItemData(IC.filler, 1, 87, "Money"),
     "Money x15": TunicItemData(IC.filler, 10, 88, "Money"),
     "Money x16": TunicItemData(IC.filler, 1, 89, "Money"),
@@ -230,9 +239,6 @@ item_table: dict[str, TunicItemData] = {
     "Enemy Soul (Custodians)": TunicItemData(IC.progression, 0, 211, "Enemy Souls"),
     "Enemy Soul (Voidtouched)": TunicItemData(IC.progression, 0, 212, "Enemy Souls"),
     "Enemy Soul (The Heir)": TunicItemData(IC.progression, 0, 213, "Enemy Souls"),
-    "Firecracker": TunicItemData(IC.filler, 0, 214, "Bombs"),
-    "Fire Bomb": TunicItemData(IC.filler, 0, 215, "Bombs"),
-    "Ice Bomb": TunicItemData(IC.filler, 0, 216, "Bombs"),
 }
 
 # items to be replaced by fool traps

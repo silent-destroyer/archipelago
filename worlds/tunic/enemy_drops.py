@@ -769,6 +769,30 @@ for location_name, location_data in enemy_location_table.items():
     if location_data.extra_group:
         enemy_location_groups.setdefault(location_data.extra_group, set()).add(location_name)
 
+enemy_item_fill_quantities: dict[str, int] = {
+    "Firecracker": 20,
+    "Fire Bomb": 20,
+    "Ice Bomb": 20,
+    "Pepper": 10,
+    "Ivy": 10,
+    "Lure": 5,
+    "HP Berry": 15,
+    "MP Berry": 15,
+    "Money x1": 70,
+    "Money x2": 120,
+    "Money x3": 100,
+    "Money x4": 50,
+    "Money x5": 25,
+    "Money x6": 25,
+    "Money x7": 20,
+    "Money x8": 10,
+    "Money x10": 10,
+    "Money x20": 7,
+    "Money x30": 5,
+    "Money x100": 3,
+    "Money x200": 1,
+    "Money x255": 1,
+}
 
 def set_enemy_location_rules(world: "TunicWorld") -> None:
     player = world.player

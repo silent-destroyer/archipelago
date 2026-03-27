@@ -10,7 +10,8 @@ from worlds.AutoWorld import WebWorld, World
 from .bells import bell_location_groups, bell_location_name_to_id
 from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
 from .combat_logic import area_data, CombatState
-from .enemy_drops import EnemyType, enemy_location_groups, enemy_location_name_to_id, enemy_location_table
+from .enemy_drops import (EnemyType, enemy_location_groups, enemy_location_name_to_id, enemy_location_table,
+                          enemy_item_fill_quantities)
 from .er_data import portal_mapping, RegionInfo, tunic_er_regions
 from .er_rules import set_er_location_rules
 from .er_scripts import create_er_regions, verify_plando_directions
@@ -399,14 +400,20 @@ class TunicWorld(World):
                 items_to_create[f"Money x{self.random.randint(1, 5)}"] += 1
 
         if self.options.shuffle_enemy_drops:
-            enemy_souls = item_name_groups["Enemy Souls"]
-            for loc_data in enemy_location_table.values():
-                if self.options.shuffle_enemy_drops != ShuffleEnemyDrops.option_extra and loc_data.is_extra_enemy:
-                    continue
-                if self.options.shuffle_enemy_souls and len(enemy_souls) > 0:
-                    items_to_create[enemy_souls.pop()] = 1
-                    continue
+            enemy_locations_to_fill = len([enemy_location for enemy_location in enemy_location_table.values()
+                                           if not enemy_location.is_extra_enemy
+                                           or self.options.shuffle_enemy_drops == ShuffleEnemyDrops.option_extra])
+            if self.options.shuffle_enemy_souls:
+                for soul in item_name_groups["Enemy Souls"]:
+                    items_to_create[soul] += 1
+                enemy_locations_to_fill -= len(item_name_groups["Enemy Souls"])
+            for item, quantity in enemy_item_fill_quantities.items():
+                items_to_create[item] += quantity
+                enemy_locations_to_fill -= quantity
+            # fill any leftover locations with random small money
+            while enemy_locations_to_fill > 0:
                 items_to_create[f"Money x{self.random.randint(1, 5)}"] += 1
+                enemy_locations_to_fill -= 1
 
         if self.options.start_with_sword:
             self.multiworld.push_precollected(self.create_item("Sword"))
