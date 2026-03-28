@@ -814,7 +814,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type == EnemyType.envoy:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.envoy, state, world) and (can_shop(state, world) or (has_sword(state, player) and state.has(grapple, player)) or state.has(gun, player)))
         elif enemy_type == EnemyType.beefboy:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.beefboy, state, world) and has_sword(state, player))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.beefboy, state, world) and has_sword(state, player) and (state.has(att_offering, player, 2) or state.has(sword_upgrade, player, 4)))
         elif enemy_type == EnemyType.phrend:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.phrend, state, world) and has_melee(state, player))
         elif enemy_type == EnemyType.spider:
@@ -878,7 +878,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type == EnemyType.fox_enemy:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.zombie_foxes, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.voidtouched:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidtouched, state, world) and has_sword(state, player) and state.has(laurels, player))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidtouched, state, world) and has_sword(state, player) and state.has(laurels, player) and state.has(att_offering, player, 3))
 
         # specific enemy rules
         if loc_name == "Frog's Domain - Side Room Secret Frog":
