@@ -445,6 +445,7 @@ enemy_location_table: dict[str, TunicLocationData] = {
     "Librarian - Defeat Librarian": TunicLocationData("Library Arena", EnemyType.librarian, extra_group="Bosses"),
     "Library Hall - Right Beefboy": TunicLocationData("Library Hall", EnemyType.beefboy),
     "Library Hall - Left Beefboy": TunicLocationData("Library Hall", EnemyType.beefboy),
+    "Library Hall - Administrator Coffee Table": TunicLocationData("Library Hall", EnemyType.administrator),
     "Monastery - [Front] Scavenger Miner Near Entrance": TunicLocationData("Monastery Front", EnemyType.scavenger_miner),
     "Monastery - [Front] Upper Path Scavenger Sniper": TunicLocationData("Monastery Front", EnemyType.scavenger),
     "Monastery - [Front] Upper Path Scavenger Miner": TunicLocationData("Monastery Front", EnemyType.scavenger_miner),
@@ -896,3 +897,6 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.blobs, state, world)
                                              and state.has_all((ice_dagger, fire_wand, grapple), world.player)
                                              and has_ability(icebolt, state, world))
+        elif loc_name == "Library Hall - Administrator Coffee Table":
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world))
+            
