@@ -864,7 +864,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type == EnemyType.voidling:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidling, state, world) and (has_sword(state, player) or state.has(gun, player)))
         elif enemy_type == EnemyType.administrator:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world) and has_sword(state, player))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world) and has_sword(state, player) and state.has(att_offering, player, 2))
         elif enemy_type == EnemyType.boss_scavenger:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.boss_scavenger, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.fleemer:
