@@ -127,3 +127,7 @@ def has_fuses(fuse_event: str, state: CollectionState, world: "TunicWorld") -> b
 
 def has_enemy_soul(enemy_soul: str, state: CollectionState, world: "TunicWorld") -> bool:
     return not world.options.shuffle_enemy_souls or state.has(enemy_soul, world.player)
+
+
+def has_any_enemy_souls(enemy_souls: list[str], state: CollectionState, world: "TunicWorld") -> bool:
+    return not world.options.shuffle_enemy_souls or state.has_any(enemy_souls, world.player)

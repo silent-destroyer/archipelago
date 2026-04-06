@@ -13,7 +13,7 @@ from .grass import set_grass_location_rules
 from .ladder_storage_data import ow_ladder_groups, region_ladders, easy_ls, medium_ls, hard_ls
 from .logic_helpers import (has_ability, has_ladder, has_melee, has_sword, has_lantern, has_mask, has_fuses,
                             can_shop, can_get_past_bushes, laurels_zip, has_ice_grapple_logic, can_ladder_storage,
-                            has_enemy_soul)
+                            has_enemy_soul, has_any_enemy_souls)
 from .options import IceGrappling, LadderStorage, CombatLogic, ShuffleEnemyDrops
 
 if TYPE_CHECKING:
@@ -301,7 +301,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         connecting_region=regions["Overworld Old House Door"],
         rule=lambda state: state.has(house_key, player)
         or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.rudelings, EnemySouls.hedgehogs])
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,[EnemySouls.blobs]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.blobs]))
 
     # lure enemy over and ice grapple through
     regions["Overworld"].connect(
@@ -316,7 +316,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         connecting_region=regions["Overworld Fountain Cross Door"],
         rule=lambda state: has_ability(holy_cross, state, world)
         or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.rudelings, EnemySouls.hedgehogs])
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,[EnemySouls.blobs]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.blobs]))
     # regions["Overworld Fountain Cross Door"].connect(
     #     connecting_region=regions["Overworld"])
 
@@ -338,7 +338,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         rule=lambda state: (state.has_all(("Ring Eastern Bell", "Ring Western Bell"), player) and not options.shuffle_bells)
         or (state.has_all(("East Bell", "West Bell"), player) and options.shuffle_bells)
         or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.blobs])
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,[EnemySouls.hedgehogs]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.hedgehogs]))
 
     regions["Overworld Temple Door"].connect(
         connecting_region=regions["Overworld above Patrol Cave"],
@@ -973,7 +973,8 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     regions["Lower Quarry"].connect(
         connecting_region=regions["Even Lower Quarry"],
         rule=lambda state: has_ladder("Ladders in Lower Quarry", state, world)
-        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world, [EnemySouls.scavengers]))
+        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world,
+                                 [EnemySouls.scavengers]))
 
     regions["Even Lower Quarry"].connect(
         connecting_region=regions["Even Lower Quarry Isolated Chest"])
@@ -985,12 +986,14 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     regions["Even Lower Quarry Isolated Chest"].connect(
         connecting_region=regions["Lower Quarry Zig Door"],
         rule=lambda state: has_fuses("Activate Quarry Fuse", state, world)
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.scavengers]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,
+                                 [EnemySouls.scavengers]))
 
     # don't need the mask for this either, please don't complain about not needing a mask here, you know what you did
     regions["Quarry"].connect(
         connecting_region=regions["Even Lower Quarry Isolated Chest"],
-        rule=lambda state: has_ice_grapple_logic(True, IceGrappling.option_hard, state, world, [EnemySouls.scavengers]))
+        rule=lambda state: has_ice_grapple_logic(True, IceGrappling.option_hard, state, world,
+                                                 [EnemySouls.scavengers]))
 
     monastery_front_to_back = regions["Monastery Front"].connect(
         connecting_region=regions["Monastery Back"],
@@ -1013,7 +1016,8 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
 
     zig_upper_front_back = regions["Rooted Ziggurat Upper Front"].connect(
         connecting_region=regions["Rooted Ziggurat Upper Back"],
-        rule=lambda state: state.has(laurels, player) or (has_sword(state, player) and has_enemy_soul(EnemySouls.administrator, state, world)))
+        rule=lambda state: state.has(laurels, player)
+        or (has_sword(state, player) and has_enemy_soul(EnemySouls.administrator, state, world)))
     regions["Rooted Ziggurat Upper Back"].connect(
         connecting_region=regions["Rooted Ziggurat Upper Front"],
         rule=lambda state: state.has(laurels, player))
@@ -1040,12 +1044,14 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     # can ice grapple to the voidlings to get to the double admin fight, still need to pray at the fuse
     zig_low_miniboss_to_back = regions["Rooted Ziggurat Lower Miniboss Platform"].connect(
         connecting_region=regions["Rooted Ziggurat Lower Back"],
-        rule=lambda state: state.has(laurels, player) or (state.has(ziggurat_miniboss_fuse, player) and options.shuffle_fuses)
+        rule=lambda state: state.has(laurels, player)
+        or (state.has(ziggurat_miniboss_fuse, player) and options.shuffle_fuses)
         or (has_sword(state, player) and has_ability(prayer, state, world) and not options.shuffle_fuses))
     regions["Rooted Ziggurat Lower Back"].connect(
         connecting_region=regions["Rooted Ziggurat Lower Miniboss Platform"],
         rule=lambda state: state.has(laurels, player)
-        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world, [EnemySouls.voidling])
+        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world,
+                                 [EnemySouls.voidling])
         or (state.has(ziggurat_miniboss_fuse, player) and options.shuffle_fuses))
 
     regions["Rooted Ziggurat Lower Back"].connect(
@@ -1071,12 +1077,14 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         connecting_region=regions["Swamp Mid"],
         rule=lambda state: has_ladder("Ladders in Swamp", state, world)
         or state.has(laurels, player)
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.gunslinger, EnemySouls.fleemers]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,
+                                 [EnemySouls.gunslinger, EnemySouls.fleemers]))
     regions["Swamp Mid"].connect(
         connecting_region=regions["Swamp Front"],
         rule=lambda state: has_ladder("Ladders in Swamp", state, world)
         or state.has(laurels, player)
-        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.gunslinger, EnemySouls.fleemers, EnemySouls.lost_echo]))
+        or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world,
+                                 [EnemySouls.gunslinger, EnemySouls.fleemers, EnemySouls.lost_echo]))
 
     swamp_mid_to_cath = regions["Swamp Mid"].connect(
         connecting_region=regions["Swamp to Cathedral Main Entrance Region"],
@@ -1213,11 +1221,12 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     # Misc
     heir_fight = regions["Spirit Arena"].connect(
         connecting_region=regions["Spirit Arena Victory"],
-        rule=lambda state: has_enemy_soul(EnemySouls.heir, state, world) and (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if
-                            world.options.hexagon_quest else
-                            (state.has("Unseal the Heir", player)
-                             and state.has_group_unique("Hero Relics", player, 6)
-                             and has_sword(state, player))))
+        rule=lambda state:
+        has_enemy_soul(EnemySouls.heir, state, world)
+        and (state.has(gold_hexagon, player, world.options.hexagon_goal.value) if world.options.hexagon_quest
+             else (state.has("Unseal the Heir", player)
+                   and state.has_group_unique("Hero Relics", player, 6)
+                   and has_sword(state, player))))
 
     if options.ladder_storage:
         # connect ls elevation regions to their destinations
@@ -1273,9 +1282,12 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         if options.ladder_storage >= LadderStorage.option_medium:
             for ladder_region, region_info in ow_ladder_groups.items():
                 for dest_region in region_info.regions:
+                    region_name = dest_region[0]
+                    enemy_reqs = dest_region[1]
                     ladder_regions[ladder_region].connect(
-                        connecting_region=regions[dest_region],
-                        name=ladder_region + " (LS) " + dest_region)
+                        connecting_region=regions[region_name],
+                        name=ladder_region + " (LS) " + region_name,
+                        rule=lambda state, nmes=enemy_reqs: has_any_enemy_souls(nmes, state, world))
             # well rail, need height off portal pad for one side, and a tiny extra from stairs on the other
             ls_connect("LS Elev 3", "Overworld Redux, Sewer_west_aqueduct")
             ls_connect("LS Elev 3", "Overworld Redux, Furnace_gyro_upper_north")
@@ -1291,19 +1303,23 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         # connect the non-overworld ones
         for ls_info in non_ow_ls_list:
             # for places where the destination is a region (so you have to get knocked down)
-            if ls_info.dest_is_region:
+            if ls_info.enemy_req:
                 # none of the non-ow ones have multiple ladders that can be used, so don't need has_any
                 if options.shuffle_ladders and ls_info.ladders_req:
                     regions[ls_info.origin].connect(
                         connecting_region=regions[ls_info.destination],
                         name=ls_info.destination + " (LS) " + ls_info.origin,
-                        rule=lambda state, lad=ls_info.ladders_req: can_ladder_storage(state, world)
-                        and state.has(lad, player))
+                        rule=lambda state, lad=ls_info.ladders_req, nmes=ls_info.enemy_req:
+                        can_ladder_storage(state, world)
+                        and state.has(lad, player)
+                        and has_any_enemy_souls(nmes, state, world))
                 else:
                     regions[ls_info.origin].connect(
                         connecting_region=regions[ls_info.destination],
                         name=ls_info.destination + " (LS) " + ls_info.origin,
-                        rule=lambda state: can_ladder_storage(state, world))
+                        rule=lambda state, nmes=ls_info.enemy_req:
+                        can_ladder_storage(state, world)
+                        and has_any_enemy_souls(nmes, state, world))
                 continue
 
             portal_name, dest_region = get_portal_info(ls_info.destination)
