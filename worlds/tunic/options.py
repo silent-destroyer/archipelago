@@ -227,9 +227,17 @@ class GrassRandomizer(Toggle):
 class LocalFill(NamedRange):
     """
     Choose the percentage of your filler/trap items that will be kept local or distributed to other TUNIC players with this option enabled.
-    If you have Grass Randomizer enabled, this defaults to 95%. If you have Breakable Shuffle enabled, this defaults to 40%. If you have both enabled, this defaults to 96%.
-    If you have Grass Randomizer enabled, this option must be set to 95% or higher to avoid flooding the item pool.
-    The host can remove this restriction by turning off the limit_local_fill setting in host.yaml. This setting can only be changed with local generation, it cannot be changed on the website.
+    The default value for this option will be higher or lower depending on what combination of options you have enabled:
+    - Grass Randomizer + Breakable Shuffle or Shuffled Enemy Drops = 96%
+    - Grass Randomizer = 95%
+    - Shuffled Enemy Drops + Breakable Shuffle = 73%
+    - Shuffled Enemy Drops = 65%
+    - Breakable Shuffle = 40%
+    If you have any of the following options enabled, this option must be set greater than or equal to the corresponding value to avoid flooding the item pool:
+    - Grass Randomizer: >= 95%
+    - Shuffled Enemy Drops + Breakable Shuffle: >= 40%
+    - Shuffled Enemy Drops: >= 30%
+    The host can remove the above restriction by turning off the limit_local_fill setting in host.yaml.
     This option ignores items placed in your local_items or non_local_items.
     This option does nothing in single player games.
     """
