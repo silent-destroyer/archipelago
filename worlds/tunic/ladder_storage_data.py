@@ -167,7 +167,7 @@ medium_ls: list[LadderInfo] = [
     LadderInfo("Rooted Ziggurat Lower Back", "ziggurat2020_3, ziggurat2020_2_"),
     LadderInfo("Rooted Ziggurat Lower Back", "Rooted Ziggurat Lower Entry",
                enemy_req=(EnemySouls.voidling, EnemySouls.autobolt)),
-    LadderInfo("Rooted Ziggurat Lower Back", "Rooted Ziggurat Lower Mid Checkpoint",
+    LadderInfo("Rooted Ziggurat Lower Back", "Rooted Ziggurat Lower Miniboss Platform",
                enemy_req=(EnemySouls.voidling, EnemySouls.administrator)),
 
     # Swamp to Overworld upper
