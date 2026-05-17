@@ -89,6 +89,24 @@ def can_get_past_bushes(state: CollectionState, world: "TunicWorld") -> bool:
     return has_sword(state, player) or state.has_any((fire_wand, laurels, gun), player) or (has_melee(state, player) and state.has("Glass Cannon", player))
 
 
+def can_break_breakables(state: CollectionState, world: "TunicWorld") -> bool:
+    return has_melee(state, world.player) or state.has_any(("Magic Wand", "Gun"), world.player)
+
+
+def can_break_signs(state: CollectionState, world: "TunicWorld") -> bool:
+    # and also the table
+    return (has_sword(state, world.player) or state.has_any(("Magic Wand", "Gun"), world.player)
+            or (has_melee(state, world.player) and state.has("Glass Cannon", world.player)))
+
+
+def can_break_leaf_piles(state: CollectionState, world: "TunicWorld") -> bool:
+    return has_melee(state, world.player) or state.has_any(("Magic Dagger", "Gun"), world.player)
+
+
+def can_break_bomb_walls(state: CollectionState, world: "TunicWorld") -> bool:
+    return state.has("Gun", world.player) or can_shop(state, world)
+
+
 # for fuse locations and reusing event names to simplify er_rules
 fuse_activation_reqs: dict[str, list[str]] = {
     swamp_fuse_2: [swamp_fuse_1],
