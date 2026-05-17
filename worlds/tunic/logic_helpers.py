@@ -79,13 +79,14 @@ def has_ladder(ladder: str, state: CollectionState, world: "TunicWorld") -> bool
 
 
 def can_shop(state: CollectionState, world: "TunicWorld") -> bool:
-    return has_sword(state, world.player) and state.can_reach_region("Shop", world.player)
+    return has_sword(state, world.player) and state.can_reach_region("Shop", world.player) and has_enemy_soul(EnemySouls.rudelings, state, world)
 
 
 # for the ones that are not early bushes where ER can screw you over a bit
 def can_get_past_bushes(state: CollectionState, world: "TunicWorld") -> bool:
+    player = world.player
     # add in glass cannon + stick for grass rando
-    return has_sword(state, world.player) or state.has_any((fire_wand, laurels, gun), world.player)
+    return has_sword(state, player) or state.has_any((fire_wand, laurels, gun), player) or (has_melee(state, player) and state.has("Glass Cannon", player))
 
 
 # for fuse locations and reusing event names to simplify er_rules
