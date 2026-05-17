@@ -4,6 +4,7 @@ from BaseClasses import Region
 from worlds.generic.Rules import set_rule, add_rule, forbid_item
 
 from .bells import set_bell_location_rules
+from .breakables import can_break_breakables
 from .combat_logic import has_combat_reqs
 from .constants import *
 from .enemy_drops import set_enemy_location_rules, EnemySouls
@@ -428,7 +429,8 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         or has_ice_grapple_logic(False, IceGrappling.option_easy, state, world, [EnemySouls.blobs]))
     # you can use the slimes to break the bushes
     regions["Forest Belltower Main"].connect(
-        connecting_region=regions["Forest Belltower Main behind bushes"])
+        connecting_region=regions["Forest Belltower Main behind bushes"],
+        rule=lambda state: has_enemy_soul(EnemySouls.blobs, state, world) or can_get_past_bushes(state, world))
 
     # ice grapple up to dance fox spot, and vice versa
     regions["East Forest"].connect(
@@ -864,7 +866,8 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         and (has_melee(state, player) or state.has_any((gun, grapple, fire_wand, laurels), player)))
     # on the reverse trip, you can lure an enemy over to break the boxes if needed
     regions["Beneath the Vault Main"].connect(
-        connecting_region=regions["Beneath the Vault Entry Spot"])
+        connecting_region=regions["Beneath the Vault Entry Spot"],
+        rule=lambda state: has_enemy_soul(EnemySouls.spiders, state, world) or (has_melee(state, player) or state.has_any((gun, grapple, fire_wand, laurels), player)))
 
     regions["Beneath the Vault Main"].connect(
         connecting_region=regions["Beneath the Vault Back"])
@@ -1657,6 +1660,8 @@ def set_er_location_rules(world: "TunicWorld") -> None:
              lambda state: state.has_all((grapple, laurels), player))
     set_rule(world.get_location("East Forest - Ice Rod Grapple Chest"), lambda state: (
             state.has_all((grapple, ice_dagger, fire_wand), player) and has_ability(icebolt, state, world)))
+    set_rule(world.get_location("Forest Grave Path - Obscured Chest"),
+             lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.hedgehogs], state, world) or can_get_past_bushes(state, world))
 
     # Dark Tomb
     # added to make combat logic smoother
@@ -1674,6 +1679,8 @@ def set_er_location_rules(world: "TunicWorld") -> None:
              lambda state: state.has(laurels, player))
     set_rule(world.get_location("West Garden - [Central Lowlands] Below Left Walkway"),
              lambda state: state.has(laurels, player))
+    set_rule(world.get_location("West Garden - [Central Highlands] Behind Guard Captain"),
+             lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world) or can_get_past_bushes(state, world))
 
     # Ruined Atoll
     set_rule(world.get_location("Ruined Atoll - [West] Near Kevin Block"),
@@ -1690,7 +1697,7 @@ def set_er_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Frog's Domain - Grapple Above Hot Tub"),
              lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Frog's Domain - Escape Chest"),
-             lambda state: state.has_any((grapple, laurels), player))
+             lambda state: state.has(laurels, player) or (state.has(grapple, player) and has_enemy_soul(EnemySouls.autobolt, state, world)))
 
     # Library Lab
     set_rule(world.get_location("Library Lab - Page 1"),
@@ -1713,6 +1720,9 @@ def set_er_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Beneath the Fortress - Bridge"),
              lambda state: has_lantern(state, world) and
              (has_melee(state, player) or state.has_any((laurels, fire_wand, ice_dagger, gun), player)))
+
+    set_rule(world.get_location("Beneath the Fortress - Back Room Chest"),
+             lambda state: has_enemy_soul(EnemySouls.custodians, state, world) or can_break_breakables(state, world) or state.has_any((grapple, laurels), player))
 
     # Quarry
     set_rule(world.get_location("Quarry - [Central] Above Ladder Dash Chest"),

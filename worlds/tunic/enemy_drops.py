@@ -864,7 +864,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type == EnemyType.voidling:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.voidling, state, world) and (has_sword(state, player) or state.has(gun, player)))
         elif enemy_type == EnemyType.administrator:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world) and has_sword(state, player) and state.has(att_offering, player, 2))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.boss_scavenger:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.boss_scavenger, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.fleemer:
@@ -890,7 +890,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif loc_name in ("Overworld - [Southwest] Autobolt Guarding Chest On Island", "Frog's Domain - Escape Room Autobolt",
                           "Rooted Ziggurat Lower - Left Autobolt 1", "Rooted Ziggurat Lower - Left Autobolt 2"):
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.autobolt, state, world)
-                     and state.has(gun, player) or (has_sword(state, player) and state.has_any((grapple, laurels), player)))
+                     and (state.has(gun, player) or (has_sword(state, player) and state.has_any((grapple, laurels), player))))
         elif loc_name == "Patrol Cave - Patrolling Rudeling":
             add_rule(location, lambda state: can_shop(state, world))
         elif loc_name == "East Forest - Ice Grapple Blob":
