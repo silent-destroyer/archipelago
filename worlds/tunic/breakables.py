@@ -1,13 +1,11 @@
 from enum import IntEnum
 from typing import TYPE_CHECKING, NamedTuple
 
-from BaseClasses import CollectionState, Region
+from BaseClasses import Region
 from worlds.generic.Rules import set_rule
 
 from .constants import base_id
-from .er_rules import can_shop
-from .logic_helpers import has_sword, has_melee
-
+from .logic_helpers import can_break_leaf_piles, can_break_signs, can_break_bomb_walls, can_break_breakables
 
 if TYPE_CHECKING:
     from . import TunicWorld
@@ -389,24 +387,6 @@ breakable_location_groups: dict[str, set[str]] = {}
 for location_name, location_data in breakable_location_table.items():
     group_name = loc_group_convert.get(location_data.er_region, location_data.er_region)
     breakable_location_groups.setdefault(group_name, set()).add(location_name)
-
-
-def can_break_breakables(state: CollectionState, world: "TunicWorld") -> bool:
-    return has_melee(state, world.player) or state.has_any(("Magic Wand", "Gun"), world.player)
-
-
-# and also the table
-def can_break_signs(state: CollectionState, world: "TunicWorld") -> bool:
-    return (has_sword(state, world.player) or state.has_any(("Magic Wand", "Gun"), world.player)
-            or (has_melee(state, world.player) and state.has("Glass Cannon", world.player)))
-
-
-def can_break_leaf_piles(state: CollectionState, world: "TunicWorld") -> bool:
-    return has_melee(state, world.player) or state.has_any(("Magic Dagger", "Gun"), world.player)
-
-
-def can_break_bomb_walls(state: CollectionState, world: "TunicWorld") -> bool:
-    return state.has("Gun", world.player) or can_shop(state, world)
 
 
 def create_breakable_exclusive_regions(world: "TunicWorld") -> list[Region]:

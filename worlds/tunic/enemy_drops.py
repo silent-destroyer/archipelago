@@ -899,4 +899,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
                                              and has_ability(icebolt, state, world))
         elif loc_name == "Library Hall - Administrator Coffee Table":
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.administrator, state, world))
+        elif loc_name in ("Ruined Atoll - [Northwest] Frog Near Fuse 1", "Ruined Atoll - [Northwest] Frog Near Fuse 2",
+                          "Ruined Atoll - [Northwest] Small Frog Above Ruins"):
+            add_rule(location, lambda state: state.has_any((grapple, laurels), player))
             

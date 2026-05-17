@@ -4,7 +4,6 @@ from BaseClasses import Region
 from worlds.generic.Rules import set_rule, add_rule, forbid_item
 
 from .bells import set_bell_location_rules
-from .breakables import can_break_breakables
 from .combat_logic import has_combat_reqs
 from .constants import *
 from .enemy_drops import set_enemy_location_rules, EnemySouls
@@ -13,8 +12,8 @@ from .fuses import set_fuse_location_rules
 from .grass import set_grass_location_rules
 from .ladder_storage_data import ow_ladder_groups, region_ladders, easy_ls, medium_ls, hard_ls
 from .logic_helpers import (has_ability, has_ladder, has_melee, has_sword, has_lantern, has_mask, has_fuses,
-                            can_shop, can_get_past_bushes, laurels_zip, has_ice_grapple_logic, can_ladder_storage,
-                            has_enemy_soul, has_any_enemy_souls)
+                            can_shop, can_get_past_bushes, can_break_breakables, laurels_zip, has_ice_grapple_logic,
+                            can_ladder_storage, has_enemy_soul, has_any_enemy_souls)
 from .options import IceGrappling, LadderStorage, CombatLogic, ShuffleEnemyDrops
 
 if TYPE_CHECKING:
