@@ -902,4 +902,7 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif loc_name in ("Ruined Atoll - [Northwest] Frog Near Fuse 1", "Ruined Atoll - [Northwest] Frog Near Fuse 2",
                           "Ruined Atoll - [Northwest] Small Frog Above Ruins"):
             add_rule(location, lambda state: state.has_any((grapple, laurels), player))
+        elif loc_name == "Quarry - [Lowlands] Scavenger Sniper On Pillar":
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.scavengers, state, world)
+                                             and (state.has(fire_wand, player) or (has_sword(state, player) and state.has(grapple, player))))
             
