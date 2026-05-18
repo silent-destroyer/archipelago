@@ -1661,6 +1661,8 @@ def set_er_location_rules(world: "TunicWorld") -> None:
             state.has_all((grapple, ice_dagger, fire_wand), player) and has_ability(icebolt, state, world)))
     set_rule(world.get_location("Forest Grave Path - Obscured Chest"),
              lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.hedgehogs], state, world) or can_get_past_bushes(state, world))
+    set_rule(world.get_location("Forest Grave Path - Above Gate"),
+             lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.hedgehogs], state, world) or can_get_past_bushes(state, world))
 
     # Dark Tomb
     # added to make combat logic smoother
