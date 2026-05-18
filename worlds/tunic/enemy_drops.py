@@ -841,10 +841,8 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.chompignom, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.garden_knight:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.garden_knight, state, world) and has_sword(state, player))
-        elif enemy_type == EnemyType.custodian:
+        elif enemy_type in (EnemyType.custodian, EnemyType.custodian_sword, EnemyType.custodian_candelabra):
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.custodians, state, world) and (has_sword(state, player) or state.has(gun, player)))
-        elif enemy_type in (EnemyType.custodian_sword, EnemyType.custodian_candelabra):
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.custodians, state, world) and ((has_sword(state, player) and state.has(ice_dagger, player)) or state.has(gun, player)))
         elif enemy_type == EnemyType.siege_engine:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.siege_engine, state, world) and has_sword(state, player) and state.has(fire_wand, player))
         elif enemy_type == EnemyType.plover:
@@ -869,6 +867,8 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.boss_scavenger, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.fleemer:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.fleemers, state, world) and has_melee(state, player))
+            if loc_data.er_region == "Cathedral Gauntlet":
+                set_rule(location, lambda state: has_enemy_soul(EnemySouls.fleemers, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.fleemer_fencer:
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.fleemers, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.fleemer_big:
