@@ -1606,7 +1606,7 @@ def set_er_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Overworld - [Southwest] Grapple Chest Over Walkway"),
              lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Overworld - [Southwest] West Beach Guarded By Turret 2"),
-             lambda state: state.has_any((grapple, laurels), player))
+             lambda state: state.has(laurels, player) or (state.has(grapple, player) and has_enemy_soul(EnemySouls.autobolt, state, world)))
     set_rule(world.get_location("Overworld - [Southwest] From West Garden"),
              lambda state: state.has(laurels, player))
     set_rule(world.get_location("Overworld - [Southeast] Page on Pillar by Swamp"),
