@@ -905,4 +905,8 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif loc_name == "Quarry - [Lowlands] Scavenger Sniper On Pillar":
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.scavengers, state, world)
                                              and (state.has(fire_wand, player) or (has_sword(state, player) and state.has(grapple, player))))
-            
+        elif loc_name == "Cathedral - [2F] Back Hallway Hedgehog Trap 3":
+            add_rule(location, lambda state: state.has(grapple, player) or can_shop(state, world))
+        elif loc_name == "Overworld - [Northwest] Envoy On Bridge To Quarry":
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.envoy, state, world) and ((has_sword(state, player) and state.has(grapple, player)) or state.has(gun, player)))
+
