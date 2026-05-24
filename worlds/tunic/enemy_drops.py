@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, NamedTuple
 from worlds.generic.Rules import set_rule, add_rule
 
 from .constants import *
-from .logic_helpers import has_melee, has_sword, can_shop, has_ability, has_enemy_soul
+from .logic_helpers import has_melee, has_sword, can_shop, has_ability, has_enemy_soul, has_ladder
 from .options import ShuffleEnemyDrops
 
 if TYPE_CHECKING:
@@ -856,7 +856,9 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         elif enemy_type in (EnemyType.frog_small, EnemyType.frog, EnemyType.frog_spear):
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.frogs, state, world) and has_sword(state, player))
         elif enemy_type == EnemyType.librarian:
-            set_rule(location, lambda state: has_enemy_soul(EnemySouls.librarian, state, world) and has_sword(state, player) and state.has(grapple, player) and state.has_any((gun, fire_wand), player))
+            set_rule(location, lambda state: has_enemy_soul(EnemySouls.librarian, state, world) and has_sword(state, player)
+                                            and has_ladder("Ladders in Library", state, world)
+                                            and state.has(grapple, player) and state.has_any((gun, fire_wand), player))
         elif enemy_type in (EnemyType.scavenger, EnemyType.scavenger_support, EnemyType.scavenger_miner):
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.scavengers, state, world) and (has_sword(state, player) or state.has(fire_wand, player)))
         elif enemy_type == EnemyType.voidling:
