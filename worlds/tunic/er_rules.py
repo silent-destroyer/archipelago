@@ -581,9 +581,15 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         rule=lambda state: state.has(laurels, player))
 
     wg_checkpoint_to_dagger = regions["West Garden South Checkpoint"].connect(
-        connecting_region=regions["West Garden at Dagger House"])
+        connecting_region=regions["West Garden at Dagger House"],
+        rule=lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
+        or can_get_past_bushes(state, world)
+    )
     regions["West Garden at Dagger House"].connect(
-        connecting_region=regions["West Garden South Checkpoint"])
+        connecting_region=regions["West Garden South Checkpoint"],
+        rule = lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
+        or can_get_past_bushes(state, world)
+    )
 
     wg_checkpoint_to_before_boss = regions["West Garden South Checkpoint"].connect(
         connecting_region=regions["West Garden before Boss"])
@@ -1658,7 +1664,7 @@ def set_er_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("East Forest - Lower Dash Chest"),
              lambda state: state.has_all((grapple, laurels), player))
     set_rule(world.get_location("East Forest - Ice Rod Grapple Chest"), lambda state: (
-            state.has_all((grapple, ice_dagger, fire_wand), player) and has_ability(icebolt, state, world)))
+            state.has_all((grapple, ice_dagger, fire_wand), player) and has_ability(icebolt, state, world) and has_enemy_soul(EnemySouls.blobs, state, world)))
     set_rule(world.get_location("Forest Grave Path - Obscured Chest"),
              lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.hedgehogs], state, world) or can_get_past_bushes(state, world))
     set_rule(world.get_location("Forest Grave Path - Above Gate"),
