@@ -888,7 +888,8 @@ def set_enemy_location_rules(world: "TunicWorld") -> None:
         if loc_name == "Frog's Domain - Side Room Secret Frog":
             add_rule(location, lambda state: state.has(laurels, player) or state.has(grapple, player))
         elif loc_name in ("Overworld - [Southwest] Autobolt Guarding Chest On Island", "Frog's Domain - Escape Room Autobolt",
-                          "Rooted Ziggurat Lower - Left Autobolt 1", "Rooted Ziggurat Lower - Left Autobolt 2"):
+                          "Rooted Ziggurat Lower - Left Autobolt 1", "Rooted Ziggurat Lower - Left Autobolt 2",
+                          "Rooted Ziggurat Upper - Turret Path Autobolt 5"):
             set_rule(location, lambda state: has_enemy_soul(EnemySouls.autobolt, state, world)
                      and (state.has(gun, player) or (has_sword(state, player) and state.has_any((grapple, laurels), player))))
         elif loc_name == "Patrol Cave - Patrolling Rudeling":
