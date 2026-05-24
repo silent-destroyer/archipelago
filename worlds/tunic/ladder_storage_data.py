@@ -95,6 +95,8 @@ easy_ls: list[LadderInfo] = [
     # East Forest
     # Entrance by the dancing fox holy cross spot
     LadderInfo("East Forest", "East Forest Redux, East Forest Redux Laddercave_upper"),
+    # Entrance to grave path upper, only relevant with enemy shuffle
+    LadderInfo("East Forest", "East Forest Redux, Sword Access_upper"),
 
     # From the west side of Guard House 1 to the east side
     LadderInfo("Guard House 1 West", "East Forest Redux Laddercave, East Forest Redux_gate"),
@@ -135,6 +137,7 @@ easy_ls: list[LadderInfo] = [
 medium_ls: list[LadderInfo] = [
     # region-destination versions of easy ls spots
     LadderInfo("East Forest", "East Forest Dance Fox Spot", enemy_req=(EnemySouls.hedgehogs,)),
+    LadderInfo("East Forest", "East Forest above Guard House 2", enemy_req=(EnemySouls.rudelings, EnemySouls.envoy)),
     # fortress courtyard knockdowns are never logically relevant, the fuse requires upper
     LadderInfo("Back of Swamp", "Swamp Mid", enemy_req=(EnemySouls.gunslinger, EnemySouls.fleemers, EnemySouls.lost_echo)),
     LadderInfo("Back of Swamp", "Swamp Front", enemy_req=(EnemySouls.gunslinger, EnemySouls.fleemers)),
