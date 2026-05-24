@@ -425,8 +425,8 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     regions["Forest Belltower Main behind bushes"].connect(
         connecting_region=regions["Forest Belltower Main"],
         rule=lambda state: can_get_past_bushes(state, world)
-        or has_ice_grapple_logic(False, IceGrappling.option_easy, state, world, [EnemySouls.blobs]))
-    # you can use the slimes to break the bushes
+        # you can grapple the slime over to help you break the bushes
+        or (has_enemy_soul(EnemySouls.blobs, state, world) and state.has(grapple, player)))
     regions["Forest Belltower Main"].connect(
         connecting_region=regions["Forest Belltower Main behind bushes"],
         rule=lambda state: has_enemy_soul(EnemySouls.blobs, state, world) or can_get_past_bushes(state, world))
@@ -439,7 +439,20 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     regions["East Forest Dance Fox Spot"].connect(
         connecting_region=regions["East Forest"],
         rule=lambda state: state.has(laurels, player)
-        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world, [EnemySouls.blobs, EnemySouls.hedgehogs, EnemySouls.rudelings]))
+        or has_ice_grapple_logic(True, IceGrappling.option_easy, state, world,
+                                 [EnemySouls.blobs, EnemySouls.hedgehogs, EnemySouls.rudelings]))
+
+    regions["East Forest"].connect(
+        connecting_region=regions["East Forest above Guard House 2"],
+        rule=lambda state: can_get_past_bushes(state, world)
+        or has_any_enemy_souls([EnemySouls.blobs, EnemySouls.hedgehogs], state, world)
+        # can grapple a rudeling down to help, envoy just wants to go home and won't help you
+        or (has_enemy_soul(EnemySouls.rudelings, state, world) and state.has(grapple, player)))
+    regions["East Forest above Guard House 2"].connect(
+        connecting_region=regions["East Forest"],
+        rule=lambda state: can_get_past_bushes(state, world)
+        or has_enemy_soul(EnemySouls.rudelings, state, world)
+    )
 
     regions["East Forest"].connect(
         connecting_region=regions["East Forest Portal"],
@@ -583,13 +596,11 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
     wg_checkpoint_to_dagger = regions["West Garden South Checkpoint"].connect(
         connecting_region=regions["West Garden at Dagger House"],
         rule=lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
-        or can_get_past_bushes(state, world)
-    )
+        or can_get_past_bushes(state, world))
     regions["West Garden at Dagger House"].connect(
         connecting_region=regions["West Garden South Checkpoint"],
-        rule = lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
-        or can_get_past_bushes(state, world)
-    )
+        rule=lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
+        or can_get_past_bushes(state, world))
 
     wg_checkpoint_to_before_boss = regions["West Garden South Checkpoint"].connect(
         connecting_region=regions["West Garden before Boss"])
@@ -1865,23 +1876,26 @@ def set_er_location_rules(world: "TunicWorld") -> None:
     if world.options.combat_logic >= CombatLogic.option_bosses_only:
         # garden knight is in the regions part above
         combat_logic_to_loc("Fortress Arena - Siege Engine/Vault Key Pickup", "Siege Engine", set_instead=True)
-        add_rule(world.get_location("Fortress Arena - Siege Engine/Vault Key Pickup"), lambda state: has_enemy_soul(EnemySouls.siege_engine, state, world))
+        add_rule(world.get_location("Fortress Arena - Siege Engine/Vault Key Pickup"),
+                 lambda state: has_enemy_soul(EnemySouls.siege_engine, state, world))
         set_rule(world.get_location("Librarian - Hexagon Green"),
                  rule=lambda state: has_combat_reqs("The Librarian", state, player)
                  and has_ladder("Ladders in Library", state, world)
                  and has_enemy_soul(EnemySouls.librarian, state, world))
         combat_logic_to_loc("Rooted Ziggurat Lower - Hexagon Blue", "Boss Scavenger", set_instead=True)
-        add_rule(world.get_location("Rooted Ziggurat Lower - Hexagon Blue"), lambda state: has_enemy_soul(EnemySouls.boss_scavenger, state, world))
+        add_rule(world.get_location("Rooted Ziggurat Lower - Hexagon Blue"),
+                 lambda state: has_enemy_soul(EnemySouls.boss_scavenger, state, world))
         if world.options.ice_grappling >= IceGrappling.option_medium:
             add_rule(world.get_location("Rooted Ziggurat Lower - Hexagon Blue"),
                      lambda state: has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.boss_scavenger]))
         combat_logic_to_loc("Cathedral Gauntlet - Gauntlet Reward", "Gauntlet", set_instead=True)
-        add_rule(world.get_location("Cathedral Gauntlet - Gauntlet Reward"), lambda state: has_enemy_soul(EnemySouls.fairies, state, world)
-             and has_enemy_soul(EnemySouls.fleemers, state, world)
-             and has_enemy_soul(EnemySouls.custodians, state, world)
-             and has_enemy_soul(EnemySouls.garden_knight, state, world)
-             and has_enemy_soul(EnemySouls.frogs, state, world)
-             and has_enemy_soul(EnemySouls.rudelings, state, world))
+        add_rule(world.get_location("Cathedral Gauntlet - Gauntlet Reward"),
+                 lambda state: has_enemy_soul(EnemySouls.fairies, state, world)
+                 and has_enemy_soul(EnemySouls.fleemers, state, world)
+                 and has_enemy_soul(EnemySouls.custodians, state, world)
+                 and has_enemy_soul(EnemySouls.garden_knight, state, world)
+                 and has_enemy_soul(EnemySouls.frogs, state, world)
+                 and has_enemy_soul(EnemySouls.rudelings, state, world))
 
     if world.options.combat_logic == CombatLogic.option_on:
         combat_logic_to_loc("Overworld - [Northeast] Flowers Holy Cross", "Garden Knight")
