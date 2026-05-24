@@ -581,9 +581,15 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         rule=lambda state: state.has(laurels, player))
 
     wg_checkpoint_to_dagger = regions["West Garden South Checkpoint"].connect(
-        connecting_region=regions["West Garden at Dagger House"])
+        connecting_region=regions["West Garden at Dagger House"],
+        rule=lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
+        or can_get_past_bushes(state, world)
+    )
     regions["West Garden at Dagger House"].connect(
-        connecting_region=regions["West Garden South Checkpoint"])
+        connecting_region=regions["West Garden South Checkpoint"],
+        rule = lambda state: has_any_enemy_souls([EnemySouls.rudelings, EnemySouls.chompignom], state, world)
+        or can_get_past_bushes(state, world)
+    )
 
     wg_checkpoint_to_before_boss = regions["West Garden South Checkpoint"].connect(
         connecting_region=regions["West Garden before Boss"])
