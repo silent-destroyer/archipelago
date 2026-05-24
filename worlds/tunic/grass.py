@@ -7764,6 +7764,8 @@ excluded_grass_locations = {
     "Overworld - East Overworld Bush (58) (58.0, 44.0, -109.0)",
     "Overworld - East Overworld Bush (62) (66.5, 44.0, -111.0)",
     "Overworld - East Overworld Bush (64) (56.0, 44.0, -107.0)",
+    "East Forest - East Forest Bush (16) (151.0, 8.0, 7.0)",
+    "East Forest - East Forest Bush (17) (153.0, 8.0, 7.0)"
 }
 
 grass_base_id = base_id + 302
