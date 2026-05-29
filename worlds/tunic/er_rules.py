@@ -1385,7 +1385,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         set_rule(wg_to_after_gk,
                  lambda state: state.has(laurels, player)
                  or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.garden_knight])
-                 or has_combat_reqs("Garden Knight", state, player))
+                 or (has_combat_reqs("Garden Knight", state, player) and has_enemy_soul(EnemySouls.garden_knight, state, world)))
         # laurels past, or ice grapple it off, or ice grapple to it and fight
         set_rule(after_gk_to_wg,
                  lambda state: state.has(laurels, player)
