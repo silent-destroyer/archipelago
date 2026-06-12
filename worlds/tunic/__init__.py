@@ -229,7 +229,7 @@ class TunicWorld(World):
             else:
                 self.options.local_fill.value = 0
 
-        if self.options.local_fill > 0 and self.settings.limit_local_fill:
+        if self.options.local_fill => 0 and self.settings.limit_local_fill:
             # discard grass from non_local if it's meant to be limited
             self.options.non_local_items.value.discard("Grass")
             if self.multiworld.players > 1:
