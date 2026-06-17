@@ -387,6 +387,7 @@ breakable_location_groups: dict[str, set[str]] = {}
 for location_name, location_data in breakable_location_table.items():
     group_name = loc_group_convert.get(location_data.er_region, location_data.er_region)
     breakable_location_groups.setdefault(group_name, set()).add(location_name)
+    breakable_location_groups.setdefault("Breakables", set()).add(location_name)
 
 
 def create_breakable_exclusive_regions(world: "TunicWorld") -> list[Region]:

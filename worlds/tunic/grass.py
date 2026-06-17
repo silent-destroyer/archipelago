@@ -7777,6 +7777,7 @@ for loc_name, loc_data in grass_location_table.items():
     # adding it to the normal location group and a grass-only one
     grass_location_name_groups.setdefault(area_name, set()).add(loc_name)
     grass_location_name_groups.setdefault(area_name + " Grass", set()).add(loc_name)
+    grass_location_name_groups.setdefault("Grass", set()).add(loc_name)
 
 
 def can_break_grass(state: CollectionState, world: "TunicWorld") -> bool:
