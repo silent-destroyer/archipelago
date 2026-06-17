@@ -231,10 +231,8 @@ class TunicWorld(World):
                     limit = 40 if self.options.breakable_shuffle else 30
                 if self.options.local_fill < limit:
                     raise OptionError(f"TUNIC: Player {self.player_name} has their Local Fill option set too low. "
-                                      f"They must either bring it above {limit}% or the host needs to disable limit_local_fill "
-                                      f"in their host.yaml settings")
-            # discard grass from non_local if it's meant to be limited
-            self.options.non_local_items.value.discard("Grass")
+                                      f"They must either bring it above {limit}% or the host needs to disable "
+                                      f"limit_local_fill in their host.yaml settings.")
 
         if self.options.grass_randomizer:
             self.player_location_table.update(grass_location_name_to_id)
