@@ -228,11 +228,11 @@ class TunicWorld(World):
                 self.options.local_fill.value = 40
             else:
                 self.options.local_fill.value = 0
-
-        if self.options.local_fill > 0 and self.settings.limit_local_fill:
-            # discard grass from non_local if it's meant to be limited
-            self.options.non_local_items.value.discard("Grass")
-            if self.multiworld.players > 1:
+        else:
+            if self.options.local_fill > 0:
+                # discard grass from non_local if it's meant to be limited
+                self.options.non_local_items.value.discard("Grass")
+            if self.settings.limit_local_fill and self.multiworld.players > 1:
                 limit = -1
                 if self.options.grass_randomizer:
                     limit = 95
@@ -240,8 +240,8 @@ class TunicWorld(World):
                     limit = 40 if self.options.breakable_shuffle else 30
                 if self.options.local_fill < limit:
                     raise OptionError(f"TUNIC: Player {self.player_name} has their Local Fill option set too low. "
-                                      f"They must either bring it above {limit}% or the host needs to disable limit_local_fill "
-                                      f"in their host.yaml settings")
+                                      f"They must either bring it above {limit}% or the host needs to disable "
+                                      f"limit_local_fill in their host.yaml settings.")
 
         if self.options.grass_randomizer:
             self.player_location_table.update(grass_location_name_to_id)

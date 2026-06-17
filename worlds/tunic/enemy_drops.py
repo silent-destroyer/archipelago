@@ -772,6 +772,7 @@ for location_name, location_data in enemy_location_table.items():
     enemy_location_groups.setdefault(f'{loc_group_name} Enemies', set()).add(location_name)
     if location_data.extra_group:
         enemy_location_groups.setdefault(location_data.extra_group, set()).add(location_name)
+    enemy_location_groups.setdefault("Enemies", set()).add(location_name)
 
 enemy_item_fill_quantities: dict[str, int] = {
     "Firecracker": 20,
