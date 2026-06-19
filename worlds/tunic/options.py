@@ -494,6 +494,8 @@ def check_options(world: "TunicWorld"):
             logging.warning(f"TUNIC: Not enough Gold Hexagons in {world.player_name}'s item pool for Hexagon Ability "
                             "Shuffle with the selected options. Ability Shuffle mode will be switched to Pages.")
             options.hexagon_quest_ability_type.value = HexagonQuestAbilityUnlockType.option_pages
+    if not options.shuffle_enemy_drops:
+        options.shuffle_enemy_souls.value = ShuffleEnemySouls.option_false
 
 
 def get_hexagons_in_pool(world: "TunicWorld"):

@@ -509,7 +509,7 @@ def set_er_region_rules(world: "TunicWorld", regions: dict[str, Region], portal_
         connecting_region=regions["Forest Grave Path Main"],
         rule=lambda state: has_ice_grapple_logic(False, IceGrappling.option_easy, state, world, [EnemySouls.rudelings])
         or has_ice_grapple_logic(False, IceGrappling.option_medium, state, world, [EnemySouls.hedgehogs])
-        or (has_ice_grapple_logic(False, IceGrappling.option_easy, state, world, [EnemySouls.scavengers]) and options.shuffle_enemy_souls == ShuffleEnemyDrops.option_extra)
+        or (has_ice_grapple_logic(False, IceGrappling.option_easy, state, world, [EnemySouls.scavengers]) and options.shuffle_enemy_drops == ShuffleEnemyDrops.option_extra)
         or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, [EnemySouls.blobs])
         or laurels_zip(state, world))
 
