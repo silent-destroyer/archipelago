@@ -34,10 +34,6 @@ from Utils import env_cleared_lib_path, init_logging, is_linux, is_macos, is_win
 if __name__ == "__main__":
     init_logging('Launcher')
 
-from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
-from worlds import failed_world_loads
-
-
 def open_host_yaml():
     s = settings.get_settings()
     file = s.filename
@@ -224,7 +220,7 @@ def run_gui(launch_components: list["Component"], args: Any) -> None:
         search_box: MDTextField = ObjectProperty(None)
         cards: list[LauncherCard]
         current_filter: Sequence[str, "Type"] | None
-        failed_worlds: bool = bool(failed_world_loads)
+        failed_worlds: bool = False
 
         def __init__(self, ctx=None, components=None, args=None):
             self.title = self.base_title + " " + Utils.__version__
@@ -390,7 +386,9 @@ def run_gui(launch_components: list["Component"], args: Any) -> None:
 
         def finish_loading(self, dt):
             from worlds.LauncherComponents import components
+            from worlds import failed_world_loads
             logger = logging.getLogger("Worlds")
+            self.failed_worlds = bool(failed_world_loads)
             for component in components:
                 self.cards.append(self.build_card(component))
             self._refresh_components(self.current_filter)
@@ -426,6 +424,7 @@ def run_gui(launch_components: list["Component"], args: Any) -> None:
                 return
             from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogContentContainer
             from kivymd.uix.divider import MDDivider
+            from worlds import failed_world_loads
             from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemSupportingText
             entries = []
             for world, reason in failed_world_loads.items():
