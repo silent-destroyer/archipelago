@@ -1850,13 +1850,13 @@ def set_er_location_rules(world: "TunicWorld") -> None:
 
     # Shop
     set_rule(world.get_location("Shop - Potion 1"),
-             lambda state: has_sword(state, player))
+             lambda state: has_sword(state, player) and has_enemy_soul(EnemySouls.rudelings, state, world))
     set_rule(world.get_location("Shop - Potion 2"),
-             lambda state: has_sword(state, player))
+             lambda state: has_sword(state, player) and has_enemy_soul(EnemySouls.rudelings, state, world))
     set_rule(world.get_location("Shop - Coin 1"),
-             lambda state: has_sword(state, player))
+             lambda state: has_sword(state, player) and has_enemy_soul(EnemySouls.rudelings, state, world))
     set_rule(world.get_location("Shop - Coin 2"),
-             lambda state: has_sword(state, player))
+             lambda state: has_sword(state, player) and has_enemy_soul(EnemySouls.rudelings, state, world))
 
     def combat_logic_to_loc(loc_name: str, combat_req_area: str, set_instead: bool = False,
                             dagger: bool = False, laurel: bool = False) -> None:
