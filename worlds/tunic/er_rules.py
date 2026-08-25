@@ -1839,11 +1839,11 @@ def set_er_location_rules(world: "TunicWorld") -> None:
                  lambda state: state.has_all((red_hexagon, blue_hexagon, green_hexagon), player))
 
     # Bombable Walls
-    for location_name in bomb_walls:
+    for location_name, enemy_souls in bomb_walls.items():
         set_rule(world.get_location(location_name),
-                 lambda state: state.has(gun, player)
+                 lambda state, souls=enemy_souls: state.has(gun, player)
                  or can_shop(state, world)
-                 or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, bomb_walls[location_name]))
+                 or has_ice_grapple_logic(False, IceGrappling.option_hard, state, world, souls))
     # not enough space to ice grapple into here
     set_rule(world.get_location("Quarry - [East] Bombable Wall"),
              lambda state: state.has(gun, player) or can_shop(state, world))
